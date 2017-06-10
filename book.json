@@ -1,0 +1,47 @@
+{
+    "title": "HTML-CSS",
+    "author": "Wang Yuanwei <now_way@126.com>",
+    "description": "HTML-CSS基础教程",
+    "language": "zh-hans",
+    "gitbook": ">=3.0.0",
+    "plugins": [
+        "disqus",
+        "anchors",
+        "multipart",
+        "-search",
+        "-lunr",
+        "search-plus",
+        "-sharing",
+        "splitter",
+        "sectionx",
+        "anchor-navigation-ex",
+        "3-ba",
+        "tbfed-pagefooter"
+    ],
+    "pluginsConfig": {
+        "disqus": {
+            "shortName": "https-imwyw-gitbooks-io-html-css-content"
+        },
+        "theme-default": {
+            "showLevel": false
+        },
+        "sectionx": {
+            "tag": "b"
+        },
+        "3-ba": {
+            "token": "39c0f24585ca7f4ca7e6d96c91c1d4a8"
+        },
+        "anchor-navigation-ex": {
+            "isRewritePageTitle": true,
+            "isShowTocTitleIcon": true,
+            "tocLevel1Icon": "fa fa-hand-o-right",
+            "tocLevel2Icon": "fa fa-hand-o-right",
+            "tocLevel3Icon": "fa fa-hand-o-right"
+        },
+        "tbfed-pagefooter": {
+            "copyright": "Copyright &copy imwyw",
+            "modify_label": "最后修改时间：",
+            "modify_format": "YYYY-MM-DD HH:mm:ss"
+        }
+    }
+}

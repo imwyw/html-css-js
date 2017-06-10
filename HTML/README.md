@@ -1,0 +1,12 @@
+# HTML
+## 什么是HTML
+- HTML 指的是超文本标记语言 (Hyper Text Markup Language)
+- HTML 不是一种编程语言，而是一种标记语言 (markup language)
+- 标记语言是一套标记标签 (markup tag)
+- HTML 使用标记标签来描述网页
+- 运行在浏览器，由浏览器进行解析
+
+## HTML5诞生
+一个典型的WEB页面包含头部、脚部、导航、中心区域、侧边栏。如果我们想在HTML4的页面中呈现这些内容，可能要使用DIV标签。但在HTML5中，通过为这些区域创建元素名称（如下图），使他们更加清晰，也使得HTML更加可读性。
+
+![](../assets/HTML/h4-h5.png)
