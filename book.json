@@ -20,7 +20,7 @@
     ],
     "pluginsConfig": {
         "disqus": {
-            "shortName": "https-imwyw-gitbooks-io-html-css-content"
+            "shortName": "html-css-js"
         },
         "theme-default": {
             "showLevel": false
@@ -29,7 +29,7 @@
             "tag": "b"
         },
         "3-ba": {
-            "token": "39c0f24585ca7f4ca7e6d96c91c1d4a8"
+            "token": "10e285d595f63da4ef7f5a4bedba944b"
         },
         "anchor-navigation-ex": {
             "isRewritePageTitle": true,
