@@ -19,6 +19,7 @@ HTML有自己固定的结构：
 ``` html
 <html>
     <head>...</head>
+    <!--body里的内容才会显示在页面-->
     <body>...</body>
 </html>
 ```
@@ -46,9 +47,9 @@ HTML有自己固定的结构：
 
 ## head标签
 文档的头部描述了文档的各种属性和信息，包括文档的标题等。绝大多数文档头部包含的数据都不会真正作为内容显示给读者。
-- title
-- meta
-- link
-- style
-- script
+- title (`<title>标题</title>`)
+- meta (`<meta http-equiv="Content-Type" content="text/html; charset=utf-8">`)
+- link (`<link rel="stylesheet" type="text/css" href="theme.css" /> `)
+- style (`<style></style>`)
+- script (`<script></script>`)
 

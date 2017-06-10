@@ -10,3 +10,18 @@
 一个典型的WEB页面包含头部、脚部、导航、中心区域、侧边栏。如果我们想在HTML4的页面中呈现这些内容，可能要使用DIV标签。但在HTML5中，通过为这些区域创建元素名称（如下图），使他们更加清晰，也使得HTML更加可读性。
 
 ![](../assets/HTML/h4-h5.png)
+
+## Hello World
+新建文本，修改扩展名为html，代码如下：
+``` html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Hello World</title>
+    </head>
+    <body>
+        Hello World!
+    </body>
+</html>
+```

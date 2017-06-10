@@ -8,4 +8,11 @@
 
 * [CSS](CSS/README.md)
     * [基础](CSS/css-base.md)
-    * [选择器](CSS/css-selector.md)
+    * [选择器和样式](CSS/css-selector.md)
+    * [布局](CSS/css-layout.md)
+
+* [JS](JS/README.md)
+    * [BOM](JS/js-bom.md)
+    * [DOM](JS/js-dom.md)
+    * [事件](JS/js-event.md)
+    * [jQuery](JS/js-jq.md)
