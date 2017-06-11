@@ -11,16 +11,16 @@
 - 便于团队开发和维护
 
 # HTML TAG（标签）
-## 标签
+## 标签tag
 - HTML 标签是由尖括号包围的关键词，比如 `<html>`
 - HTML 标签通常是成对出现的，比如 `<body> 和 </body>`
 - 标签对中的第一个标签是开始标签，第二个标签是结束标签
 - 开始和结束标签也被称为开放标签和闭合标签
 
-## 元素
+## 元素element
 从开始标签到结束标签的所有代码。
 
-## 标题
+## 标题h1-h6
 ``` html
 <h1>大娃</h1>
 <h2>二娃</h2>
@@ -30,7 +30,7 @@
 <h6>六娃</h6>
 ```
 
-## 段落
+## 段落p/换行br/空格nbsp
 ``` html
 <p>我是段落一，段落前后会自动添加"空行"</p>
 <p>我是段落二</p>
@@ -47,9 +47,40 @@
 ```
 
 对于 HTML，您无法通过在 HTML 代码中添加额外的空格或换行来改变输出的效果。
-当显示页面时，浏览器会移除源代码中多余的空格和空行。所有连续的空格或空行都会被算作一个空格。需要注意的是，HTML 代码中的所有连续的空行（换行）也被显示为一个空格。
+当显示页面时，浏览器会移除源代码中多余的空格和空行。
 
-## 无序/有序列表
+所有连续的空格或空行都会被算作一个空格。需要注意的是，
+HTML 代码中的所有连续的空行（换行）也被显示为一个空格。
+
+## 元素标注label/输入控件input
+`<label>` 标签为 input 元素定义标注（标记）。
+label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。如果您在 label 元素内点击文本，就会触发此控件。就是说，当用户选择该标签时，浏览器就会自动将焦点转到和标签相关的表单控件上。
+`<label>` 标签的 for 属性应当与相关元素的 id 属性相同。
+
+``` html
+<p>
+    <label for="txtFruit">你最喜欢吃啥水果？</label>
+    <input type="text" id="txtFruit" />
+</p>
+<p>
+    <label for="txtRice">你最喜欢吃什么盖浇饭？</label>
+    <input type="text" id="txtRice" />
+</p>
+```
+
+## 多行文本textarea
+`<textarea>` 标签定义多行的文本输入控件。
+文本区中可容纳无限数量的文本，其中的文本的默认字体是等宽字体（通常是 Courier）。
+可以通过 cols 和 rows 属性来规定 textarea 的尺寸，不过更好的办法是使用 CSS 的 height 和 width 属性。
+
+``` html
+<p>
+    <label for="txtPoem">写首诗吧</label>
+    <textarea id="txtPoem" cols="30" rows="5"></textarea>
+</p>
+```
+
+## 无序ul/有序ol列表
 ``` html
 <p>你爱吃什么水果？</p>
 <ul>
@@ -63,6 +94,18 @@
     <li>桃子</li>
     <li>菠萝</li>
 </ol>
+```
+
+## 选择列表select
+``` html
+<p>你爱吃什么水果？</p>
+<select name="Fruit" id="selFruit">
+    <option value="1">桃子</option>
+    <option value="1">西瓜</option>
+    <option value="1">菠萝</option>
+    <option value="1">橙子</option>
+    <option value="1">榴莲</option>
+</select>
 ```
 
 ## div
@@ -96,14 +139,81 @@
 
 ```
 
-## table
+## 超链接a
+标签定义超链接，用于从一张页面链接到另一张页面。
+
+属性href：链接的目标。
+
+属性target：规定在何处打开链接文档。常用的有_self,_blank
+
+``` html
+<p>你知道哪些搜索引擎？</p>
+<ul>
+    <li>
+        <a href="https://www.google.com">Google</a>
+    </li>
+    <li>
+        <a href="https://www.baidu.com" target="_blank">百度</a>
+    </li>
+    <li>
+        <a href="https://www.bing.com" target="_self">Bing</a>
+    </li>
+</ul>
+```
+
+## 图像img
+两个必要属性：src和alt
+
+属性|值|描述
+----|--|----
+src|url|规定显示图像的 URL。
+alt|text|规定图像的替代文本。
+
+## 表格table
 - table 表格以`<table>`开始，`</table>`结束
 - tr 表格行，几对tr代表有几行
 - th 表格表头
 - td 表格的单元格，tr中包含几对td，说明一行中有几列
 
+成绩表
+
+|班级|姓名|高数|数据结构|英语|计算机组成原理|
+|---|-----|----|--------|----|--------------|
+|1701|张三|88|88|88|88|
+|1702|赵小二|99|99|99|99|
+
+``` html
+<table>
+    <caption>成绩表</caption>
+    <tr>
+        <th>班级</th>
+        <th>姓名</th>
+        <th>高数</th>
+        <th>数据结构</th>
+        <th>英语</th>
+        <th>计算机组成原理</th>
+    </tr>
+    <tr>
+        <td>1701</td>
+        <td>张三</td>
+        <td>88</td>
+        <td>88</td>
+        <td>88</td>
+        <td>88</td>
+    </tr>
+    <tr>
+        <td>1701</td>
+        <td>赵小二</td>
+        <td>99</td>
+        <td>99</td>
+        <td>99</td>
+        <td>99</td>
+    </tr>
+</table>
+```
+
 课程表
-<b>
+
 ||周一|周二|周三|周四|周五
 |---|---|---|---|---|---
 |上午|高数|高数|高数|高数|高数
@@ -161,4 +271,11 @@
     </tr>
 </table>
 ```
-</b>
+
+Table 表格在没有添加 css 样式之前，是没有边框的。肉眼看上去很迷糊
+
+``` css
+table tr td,th{
+    border : 1px solid;
+}
+```
