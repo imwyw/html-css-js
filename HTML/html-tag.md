@@ -96,3 +96,64 @@
 
 ```
 
+## table
+- table 表格以`<table>`开始，`</table>`结束
+- tr 表格行，几对tr代表有几行
+- th 表格表头
+- td 表格的单元格，tr中包含几对td，说明一行中有几列
+
+课程表
+
+``` html
+<table>
+            <caption>课程表</caption>
+            <tr>
+                <th></th>
+                <th>周一</th>
+                <th>周二</th>
+                <th>周三</th>
+                <th>周四</th>
+                <th>周五</th>
+            </tr>
+            <tr>
+                <td colspan="6">上午</td>
+            </tr>
+            <tr>
+                <td>第一节 8:00-9:30</td>
+                <td>高数</td>
+                <td>英语</td>
+                <td>计算机导论</td>
+                <td>数据结构</td>
+                <td>高数</td>
+            </tr>
+            <tr>
+                <td>第二节 9:50-11:20</td>
+                <td>高数</td>
+                <td>英语</td>
+                <td>计算机导论</td>
+                <td>数据结构</td>
+                <td>高数</td>
+            </tr>
+            <tr>
+                <td colspan="6">下午</td>
+            </tr>
+            <tr>
+                <td>第一节 14:30-16:00</td>
+                <td>高数</td>
+                <td>英语</td>
+                <td>计算机导论</td>
+                <td>数据结构</td>
+                <td>高数</td>
+            </tr>
+            <tr>
+                <td>第二节 16:20-17:50</td>
+                <td>高数</td>
+                <td>英语</td>
+                <td>计算机导论</td>
+                <td>数据结构</td>
+                <td>高数</td>
+            </tr>
+        </table>
+```
+
+<br/>
