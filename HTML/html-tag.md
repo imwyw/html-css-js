@@ -101,10 +101,10 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 <p>你爱吃什么水果？</p>
 <select name="Fruit" id="selFruit">
     <option value="1">桃子</option>
-    <option value="1">西瓜</option>
-    <option value="1">菠萝</option>
-    <option value="1">橙子</option>
-    <option value="1">榴莲</option>
+    <option value="2">西瓜</option>
+    <option value="3">菠萝</option>
+    <option value="4">橙子</option>
+    <option value="5">榴莲</option>
 </select>
 ```
 
@@ -278,4 +278,26 @@ Table 表格在没有添加 css 样式之前，是没有边框的。肉眼看上
 table tr td,th{
     border : 1px solid;
 }
+```
+
+## 表单form
+当我们在网页上进行登录、注册、查询、保存等操作的时候，需要将用户填入的数据传到服务器端，
+这时候需要用到html表单form，借助form我们可以把浏览器端数据传到服务器端并实现页面的刷新。
+
+**form的两个重要属性：**
+
+action：规定当提交表单时向何处发送表单数据。
+
+method：规定用于发送 form-data 的 HTTP 方法。get/post
+
+``` html
+<form id="loginForm" action="/UserMgr/LoginVerify" method="post">
+    <label for="txtID">用户名：</label>
+    <input type="text" id="txtID" />
+    <br/>
+    <label for="txtPassword">密码：</label>
+    <input type="password" id="txtPassword" />
+    <br/>
+    <input type="submit" value="登录" />
+</form>
 ```
