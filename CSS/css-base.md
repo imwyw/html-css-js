@@ -95,3 +95,107 @@ ul>span {
 ## 最高优先级Important
 
 # 盒子模型
+## 元素分类
+### 块状元素
+`display:block;`
+
+**块级元素特点：**
+
+1. 每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）
+2. 元素的高度、宽度、行高以及顶和底边距都可设置。
+3. 元素宽度在不设置的情况下，是它本身父容器的100%（和父元素的宽度一致），除非设定一个宽度。
+
+常用的有：
+`<div>、<p>、<h1>...<h6>、<ol>、<ul>、<dl>、<table>、<form>`
+
+### 内联元素（行内元素）
+`display:inline`
+
+**内联元素特点：**
+1. 和其他元素都在一行上；
+2. 元素的高度、宽度及顶部和底部边距不可设置；
+3. 元素的宽度就是它包含的文字或图片的宽度，不可改变。
+
+常用的有：
+`<a>、<span>、<br>、<label>`
+
+### 内联块元素
+`display:inline-block;`同时具备内联、块状元素特点。
+
+**inline-block 元素特点：**
+1. 和其他元素都在一行上；
+2. 元素的高度、宽度、行高以及顶和底边距都可设置。
+
+常用的有：
+`<img>、<input>`
+
+## 边框border
+`border:1px solid red;`
+
+等价于
+
+``` style
+<style>
+    border-width:1px;
+    border-style:solid;
+    border-color:red;
+</style>
+```
+
+其中border宽度也可以分开设置：
+border-top，border-right，border-bottom，border-left
+
+## 内边距padding
+元素边框和内容的距离，记住设置的顺序！
+
+`padding: 1px;`
+
+`padding: 1px 10px;`
+
+`padding: 1px 10px 20px 30px;`
+
+## 外边距margin
+元素之间的距离，也叫边界。
+设置同padding
+
+## 宽度
+一个元素的宽度究竟该怎么计算？
+
+对于下面的示例中#divBox元素的实际宽度为
+500(width)+10x2(padding)+5x2(border) = 530
+但是该元素实际占用宽度为530+50x2(margin) = 630
+``` html
+<style>
+    #divBoxLeft {
+        display: inline-block;
+        width: 500px;
+        height: 300px;
+        border: 5px solid red;
+        padding: 10px;
+        margin: 50px;
+    }
+    
+    #divSub {
+        width: 100%;
+        height: 100%;
+        background-color: blue;
+    }
+
+    #divBoxRight {
+        display: inline-block;
+        width: 50px;
+        height: 300px;
+        background-color: black;
+    }
+</style>
+
+<div id="divBoxLeft">
+    <div id="divSub"></div>
+</div>
+<div id="divBoxRight"></div>
+```
+
+chrome调试工具提示我们该元素宽度为530px，并不表示该元素只占用了530px的宽度，
+实际用截图工具量出的宽度为630px，如下图：
+
+![](../assets/CSS/css-box-width.png)

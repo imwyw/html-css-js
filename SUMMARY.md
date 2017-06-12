@@ -7,7 +7,6 @@
 
 * [CSS](CSS/README.md)
     * [基础](CSS/css-base.md)
-    * [选择器和样式](CSS/css-selector.md)
     * [布局](CSS/css-layout.md)
 
 * [JS](JS/README.md)
