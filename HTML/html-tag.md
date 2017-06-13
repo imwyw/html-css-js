@@ -294,9 +294,9 @@ table tr td,th{
 
 **form的两个重要属性：**
 
-action：规定当提交表单时向何处发送表单数据。
-
-method：规定用于发送 form-data 的 HTTP 方法。get/post
+常用属性：
+- action：规定当提交表单时向何处发送表单数据。
+- method：规定用于发送 form-data 的 HTTP 方法。get/post
 
 ``` html
 <form id="loginForm" action="/UserMgr/LoginVerify" method="post">
@@ -313,3 +313,7 @@ method：规定用于发送 form-data 的 HTTP 方法。get/post
 ## 内联框架iframe
 iframe 元素会创建包含另外一个文档的内联框架（即行内框架）。
 
+常用属性：
+- src：规定在 iframe 中显示的文档的 URL。
+- scrolling：yes/no/auto，规定是否在 iframe 中显示滚动条。
+- frameborder：1/0，规定是否显示框架周围的边框。

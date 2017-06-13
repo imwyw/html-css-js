@@ -1,4 +1,5 @@
 # 布局
+
 ## 基本类型
 1. 流动模型 Flow
 2. 浮动模型 Float
@@ -136,3 +137,6 @@ position:fixed，表示固定定位，与absolute类似，不同的是fixed相�
 </div>
 ```
 
+参考资料：
+
+> http://zh.learnlayout.com/
