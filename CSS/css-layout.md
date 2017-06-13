@@ -100,3 +100,39 @@ position:absolute，将元素从原先的文档流中独立出来，然后使用
 ```
 
 ### relative
+position:relative，通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置，相对定位完成的过程是首先按static(float)方式生成一个元素(并且元素像层一样浮动了起来)，然后相对于以前的位置移动，移动的方向和幅度由left、right、top、bottom属性确定，偏移前的位置保留不动。
+
+``` html
+<style>
+    #divRelative {
+        width: 300px;
+        height: 300px;
+        background-color: red;
+        position: relative;
+        left: 100px;
+    }
+</style>
+<div id="divRelative"></div>
+<span>偏移前的位置还保留不动，覆盖不了前面的div没有偏移前的位置</span>
+```
+
+### fixed
+position:fixed，表示固定定位，与absolute类似，不同的是fixed相对于屏幕内的网页窗口，不会收滚动的影响。
+
+``` html
+<style>
+    #divFixed {
+        width: 200px;
+        height: 100px;
+        background-color: yellow;
+        position: fixed;
+        right: 0px;
+        bottom: 0px;
+    }
+</style>
+
+<div id="divFixed">
+    <p>我是fixed，在浏览器窗口的右下角，不会动</p>
+</div>
+```
+

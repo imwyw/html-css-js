@@ -301,3 +301,7 @@ method：规定用于发送 form-data 的 HTTP 方法。get/post
     <input type="submit" value="登录" />
 </form>
 ```
+
+## 内联框架iframe
+iframe 元素会创建包含另外一个文档的内联框架（即行内框架）。
+
