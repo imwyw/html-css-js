@@ -161,6 +161,14 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 </ul>
 ```
 
+锚点的设置
+``` html
+<a name="top"></a>
+<div style="height: 1000px;width: 200px;background-color: blue;"></div>
+<a href="#top">跳转到顶部</a>
+<a href="other.html#top">跳转到其他页面的锚点</a>
+```
+
 ## 图像img
 两个必要属性：src和alt
 
