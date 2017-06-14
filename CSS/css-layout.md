@@ -57,6 +57,40 @@
 </style>
 ```
 
+设置左右布局的结构，如下：
+``` html
+<style>
+    header {
+        height: 70px;
+    }
+    ul {
+        float: left;
+    }
+    iframe {
+        width: 600px;
+        height: 400px;
+        float: left;
+    }
+    footer {
+        height: 50px;
+    }
+</style>
+<body>
+    <header>头部</header>
+    <ul>
+        <li><a href="" target="frmContent">菜单一</a></li>
+        <li><a href="" target="frmContent">菜单二</a></li>
+        <li><a href="" target="frmContent">菜单三</a></li>
+    </ul>
+    <iframe id="frmContent" name="frmContent" src="" frameborder="0"></iframe>
+    <footer>底部</footer>
+</body>
+```
+但是会有一个问题，底部的footer位置并不是在ul和iframe的下面。因为浮动的缘故，
+body并没有被撑开。我们可以通过给footer标签增加clear属性设置不允许浮动元素,将浮动元素重新拉回文档中。
+
+`footer{clear:both;}`
+
 ## 层模型
 将元素理解成层的概念，类似于ps中的图层，定位层与层之间的位置。
 
