@@ -35,4 +35,5 @@ sayHello('薛之谦')
 ```
 
 参考引用：
-> http://javascript.ruanyifeng.com/
+
+[阮一峰 JavaScript 标准参考教程](http://javascript.ruanyifeng.com/)
