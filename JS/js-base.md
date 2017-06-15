@@ -101,6 +101,57 @@ typeof "华安";//string
 typeof true;//boolean
 ```
 
+### null和undefined
+
+null和undefin都可以表示"没有"的意思，if(null)和if(undefined)的结果也是一致的，它们都会被转化为false假值。
+
+null：即是一个不存在的对象的占位符，通过`typeof(null);`测试返回值为object，null还是一个对象，可以理解为一个特殊的对象。
+**null表示"没有对象"，即该处不应该有值。**
+典型用法：
+
+1. 作为函数的参数，表示该函数的参数不是对象。
+2. 作为对象原型链的终点。
+
+**undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义**
+典型用法：
+
+1. 变量被声明了，但没有赋值时，就等于undefined。
+2. 调用函数时，应该提供的参数没有提供，该参数等于undefined。
+3. 对象没有赋值的属性，该属性的值为undefined。
+4. 函数没有返回值时，默认返回undefined。
+
+### 布尔值boolean
+
+布尔值只有两种值，分别是true和false，代表真和假。
+
+可以返回boolean值的运算符：
+
+- 两元逻辑运算符： && (And)，|| (Or)
+- 前置逻辑运算符： ! (Not)
+- 相等运算符：===，!==，==，!=
+- 比较运算符：>，>=，<，<=
+
+如果JavaScript预期某个位置应该是布尔值，会将该位置上现有的值自动转为布尔值。转换规则是除了下面六个值被转为false，其他值都视为true。
+
+```js
+undefined
+null
+false
+0
+NaN
+""//（空字符串）
+```
+
+### 其他
+
+其他情况都是返回object
+
+```js
+typeof [];
+typeof {};
+typeof null;
+```
+
 #### 数值
 
 JavaScript内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，1与1.0是相同的，是同一个数。
@@ -282,56 +333,98 @@ var marsMan = {
 - saveEarth 方法
 - marsWife 对象
 
-### 其他
+##### 对象属性
+对象属性访问有两种方法，点语法(.)和方括号([])。
 
-其他情况都是返回object
-
-```js
-typeof [];
-typeof {};
-typeof null;
-```
-
-### null和undefined
-
-null和undefin都可以表示"没有"的意思，if(null)和if(undefined)的结果也是一致的，它们都会被转化为false假值。
-
-null：即是一个不存在的对象的占位符，通过`typeof(null);`测试返回值为object，null还是一个对象，可以理解为一个特殊的对象。
-**null表示"没有对象"，即该处不应该有值。**
-典型用法：
-
-1. 作为函数的参数，表示该函数的参数不是对象。
-2. 作为对象原型链的终点。
-
-**undefined表示"缺少值"，就是此处应该有一个值，但是还没有定义**
-典型用法：
-
-1. 变量被声明了，但没有赋值时，就等于undefined。
-2. 调用函数时，应该提供的参数没有提供，该参数等于undefined。
-3. 对象没有赋值的属性，该属性的值为undefined。
-4. 函数没有返回值时，默认返回undefined。
-
-### 布尔值boolean
-
-布尔值只有两种值，分别是true和false，代表真和假。
-
-可以返回boolean值的运算符：
-
-- 两元逻辑运算符： && (And)，|| (Or)
-- 前置逻辑运算符： ! (Not)
-- 相等运算符：===，!==，==，!=
-- 比较运算符：>，>=，<，<=
-
-如果JavaScript预期某个位置应该是布尔值，会将该位置上现有的值自动转为布尔值。转换规则是除了下面六个值被转为false，其他值都视为true。
+请注意，如果使用方括号运算符，属性名必须放在引号里面，否则会被当作变量处理。但是，数字键可以不加引号，因为会被当作字符串处理。
 
 ```js
-undefined
-null
-false
-0
-NaN
-""//（空字符串）
+var earthMan = {
+    name : 'Javascript'
+};
+//对于name属性的获取，以下两种语法效果是一样的
+earthMan.name;//Javascript
+earthMan['name'];//Javascript
+
+//对于新属性newName的设置也是类似的
+earthMan.newName = 'JS';
+earthMan['newName'] = 'JS';
+
+//使用方括号运算符可以使用数值或者包含空格的字符串作为属性名称
+earthMan[1.2] = '小数属性';
+earthMan['空 格'] = '我的属性名称有空格';
+
+//方括号运算符中可以是表达式，对于上例中两个特殊属性名称
+earthMan[1+0.2];//小数属性
+earthMan['空 '+'格'];//我的属性名称有空格
+
+//访问一个不存在的属性会返回undefined
+earthMan.Count;//undefined
+
 ```
+
+#### in运算符
+in运算符用于检查对象是否包含某个属性（注意，检查的是属性名称，不是属性的值），如果包含就返回true，否则返回false。
+
+注意！！！ in运算符并不会区分属性是否是继承的属性。例如，toString方法不是对象o自身的属性，而是继承的属性，hasOwnProperty方法可以说明这一点。但是，in运算符不能识别，对继承的属性也返回true。
+```js
+var o = new Object();
+o.hasOwnProperty('toString') // false
+
+'toString' in o // true
+```
+
+#### for...in
+for...in循环用来遍历一个对象的全部属性。
+
+有两个使用注意点：
+- 它遍历的是对象所有可遍历（enumerable）的属性，会跳过不可遍历的属性
+- 它不仅遍历对象自身的属性，还遍历继承的属性。
+
+```js
+// name 是 Person 本身的属性
+function Person(name) {
+  this.name = name;
+}
+
+// describe是Person.prototype的属性
+Person.prototype.describe = function () {
+  return 'Name: '+this.name;
+};
+
+var person = new Person('Jane');
+
+// for...in循环会遍历实例自身的属性（name），
+// 以及继承的属性（describe）
+for (var key in person) {
+  console.log(key);
+}
+// name
+// describe
+```
+上面代码中，name是对象本身的属性，describe是对象继承的属性，for...in循环的遍历会包括这两者。
+
+如果只想遍历对象本身的属性，可以使用hasOwnProperty方法，在循环内部判断一下是不是自身的属性。
+
+```js
+for (var key in person) {
+  if (person.hasOwnProperty(key)) {
+    console.log(key);
+  }
+}
+// name
+```
+对象person其实还有其他继承的属性，比如toString。
+
+```js
+person.toString()
+// "[object Object]"
+```
+这个toString属性不会被for...in循环遍历到，因为它默认设置为“不可遍历”，详见《标准库》一章的Object对象部分。
+
+一般情况下，都是只想遍历对象自身的属性，所以不推荐使用for...in循环。
+
+
 
 ### 条件语句
 
