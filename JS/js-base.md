@@ -591,6 +591,8 @@ do {
 - 不同点：break跳出后不再执行循环体；continue只结束本轮循环，还会继续循环下去。。。
 
 
+
+
 参考引用：
 
 [阮一峰 JavaScript 标准参考教程](http://javascript.ruanyifeng.com/)
