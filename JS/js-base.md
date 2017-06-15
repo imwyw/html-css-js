@@ -122,10 +122,6 @@ typeof {};
 
 ```
 
-
-
-
-
 ### 数值
 
 JavaScript内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，1与1.0是相同的，是同一个数。
@@ -257,12 +253,78 @@ str.length;//7
 上面这些字符前面加上反斜杠，都表示特殊含义。
 
 ### 函数function
+函数就是一段可以反复调用的代码块。函数还能接受输入的参数，不同的参数会返回不同的值。
 
+声明一个函数常用的两种方法：
+1. function命令
+function命令声明的代码区块，就是一个函数。function命令后面是函数名，函数名后面是一对圆括号，里面是传入函数的参数。函数体放在大括号里面。
 ```js
-function sayHello(){}
-typeof sayHello;//function
+function print(s) {
+  alert(s);
+}
+```
+上面的代码命名了一个print函数，以后使用print()这种形式，就可以调用相应的代码。这叫做函数的声明（Function Declaration）。
+
+2. 函数表达式
+除了用function命令声明函数，还可以采用变量赋值的写法。
+```js
+var print = function(s){
+    alert(s);
+}
+```
+这种写法将一个匿名函数赋值给变量。这时，这个匿名函数又称函数表达式（Function Expression），因为赋值语句的等号右侧只能放表达式。
+
+#### 调用函数时的括号()
+调用函数时，要使用圆括号运算符。圆括号之中，可以加入函数的参数。
+```js
+function add(x, y) {
+  return x + y;
+}
+add(1, 1) // 2
+```
+上面代码中，函数名后面紧跟一对圆括号，就会调用这个函数。
+
+#### return
+函数体内部的return语句，表示返回。
+JavaScript引擎遇到return语句，就直接返回return后面的那个表达式的值，后面即使还有语句，也不会得到执行。
+也就是说，return语句所带的那个表达式，就是函数的返回值。
+return语句不是必需的，如果没有的话，该函数就不返回任何值，或者说返回undefined。
+```js
+funciton getBookName(){
+    return '男人来自火星，女人来自金星';
+    //因为return的关系，后面的语句无效
+    return '再写啥也没用了';
+}
 ```
 
+#### 作用域
+作用域（scope）指的是变量存在的范围。
+Javascript只有两种作用域：一种是全局作用域，变量在整个程序中一直存在，所有地方都可以读取；另一种是函数作用域，变量只在函数内部存在。
+
+在函数外部声明的变量就是全局变量（global variable），它可以在函数内部读取。
+
+```js
+var v = 1;
+
+function f(){
+  console.log(v);
+}
+
+f()
+// 1
+```
+
+上面的代码表明，函数f内部可以读取全局变量v。
+
+在函数内部定义的变量，外部无法读取，称为“局部变量”（local variable）。
+```js
+function f(){
+  var v = 1;
+}
+
+v // ReferenceError: v is not defined
+```
+上面代码中，变量v在函数内部定义，所以是一个局部变量，函数之外就无法读取。
 
 ### 对象object
 
