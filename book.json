@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "tbfed-pagefooter"
+        "page-footer-ex"
     ],
     "pluginsConfig": {
         "disqus": {
@@ -38,10 +38,10 @@
             "tocLevel2Icon": "fa fa-hand-o-right",
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
-        "tbfed-pagefooter": {
-            "copyright": "Copyright &copy imwyw qq:415638908",
-            "modify_label": "最后修改时间：",
-            "modify_format": "YYYY-MM-DD"
+        "page-footer-ex":{
+            "copyright":"imwyw qq:415638908",
+            "update_label":"update:",
+            "update_format":"YYYY-MM-DD"
         }
     }
 }
