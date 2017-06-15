@@ -42,7 +42,7 @@
             "copyright": "Copyright &copy imwyw qq:415638908",
             "utcOffset": "8",
             "update_label": "最后修改时间：",
-            "update_format": "YYYY-MM-DD HH:mm:ss"
+            "update_format": "YYYY-MM-DD"
         }
     }
 }
