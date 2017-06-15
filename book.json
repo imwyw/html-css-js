@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "local-pagefooter"
+        "page-footer"
     ],
     "pluginsConfig": {
         "disqus": {
@@ -38,9 +38,10 @@
             "tocLevel2Icon": "fa fa-hand-o-right",
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
-        "local-pagefooter": {
+        "page-footer": {
             "copyright": "Copyright &copy imwyw qq:415638908",
-            "islocal" : true,
+            "baseUri": "http://imwyw.gitbooks.io/html-css-js",
+            "utcOffset": "8",
             "modify_label": "最后修改时间：",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         }
