@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "tbfed-pagefooter"
+        "local-pagefooter"
     ],
     "pluginsConfig": {
         "disqus": {
@@ -38,8 +38,9 @@
             "tocLevel2Icon": "fa fa-hand-o-right",
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
-        "tbfed-pagefooter": {
-            "copyright": "Copyright &copy imwyw",
+        "local-pagefooter": {
+            "copyright": "Copyright &copy imwyw qq:415638908",
+            "islocal" : true,
             "modify_label": "最后修改时间：",
             "modify_format": "YYYY-MM-DD HH:mm:ss"
         }
