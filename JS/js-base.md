@@ -552,6 +552,10 @@ if(condition) {
 } else {
     expression2;
 }
+
+var age = 123;
+var remark = (age>100)? '大于100' : '小于等于100';
+remark//大于100
 ```
 
 ## 循环语句
