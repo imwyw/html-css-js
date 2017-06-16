@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "page-footer"
+        "page-footer-ex"
     ],
     "pluginsConfig": {
         "disqus": {
@@ -38,21 +38,10 @@
             "tocLevel2Icon": "fa fa-hand-o-right",
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
-        "page-footer": {
+        "page-footer-ex": {
             "copyright": "imwyw qq:415638908",
-            "description": "modified at",
-            "signature": "",
-            "format": "yyyy-MM-dd hh:mm:ss",
-            "timeColor": "#666",
-            "copyrightColor": "#666",
-            "utcOffset": "8",
-            "isShowQRCode": false,
-            "baseUri": "https://imwyw.gitbooks.io/html-css-js",
-            "isShowIssues": false,
-            "repo": "",
-            "issueNum": "0",
-            "token": "",
-            "style": "normal"
+            "update_label": "update:",
+            "update_format": "YYYY-MM-DD"
         }
     }
 }
