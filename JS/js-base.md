@@ -563,9 +563,35 @@ remark//大于100
 ### while
 
 ```js
-while (expression){
+while (condiiton){
   statement;
 }
+
+while (false) {
+    console.log('先奏后斩');
+}
+
+//使用console.log打印0-99
+var i = 0;
+while (i < 100) {
+    console.log(i);
+    i++;
+}
+
+//请尝试用while和console.log输出 1,3,5,7,9...99
+
+```
+
+### do...while
+
+```js
+do {
+    statement;
+} while(expression);
+
+do {
+    document.write('先斩后奏');
+} while (false);
 ```
 
 ### for
@@ -579,14 +605,6 @@ for (initialize; test; increment) {
 - 初始化表达式（initialize）：确定循环的初始值，只在循环开始时执行一次。
 - 测试表达式（test）：检查循环条件，只要为真就进行后续操作。
 - 递增表达式（increment）：完成后续操作，然后返回上一步，再一次检查循环条件。
-
-### do...while
-
-```js
-do {
-    statement;
-} while(expression);
-```
 
 ### break和continue
 
