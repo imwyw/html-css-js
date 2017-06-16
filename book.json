@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "page-footer"
+        "page-footer-ex"
     ],
     "pluginsConfig": {
         "disqus": {
@@ -39,21 +39,9 @@
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
         "page-footer-ex": {
-            "copyright": "imwyw",
-            "description": "",
-            "signature": "WangYuanwei",
-            "wisdom": "qq:415638908 ",
-            "format": "yyyy-MM-dd hh:mm:ss",
-            "timeColor": "#666",
-            "copyrightColor": "#666",
-            "utcOffset": "8",
-            "isShowQRCode": false,
-            "baseUri": "http://imwyw.gitbooks.io/html-css-js",
-            "isShowIssues": false,
-            "repo": "",
-            "issueNum": "8",
-            "token": "",
-            "style": "normal"
+            "copyright":"imwwy qq:415638908",
+            "update_label":"modified at",
+            "update_format":"YYYY-MM-DD"
         }
     }
 }
