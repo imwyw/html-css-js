@@ -12,4 +12,6 @@
 * [JS](JS/README.md)
     * [基础](JS/js-base.md)
     * [标准库](JS/js-standard.md)
-    * [jQuery](JS/js-jq.md)
+    * [BOM、DOM](JS/js-bomdom.md)
+    * [事件](JS/js-event.md)
+    * [jQuery](JS/js-jquery.md)

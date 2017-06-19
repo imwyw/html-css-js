@@ -428,6 +428,28 @@ var person = new Person('Jane');
 for (var key in person) {
   console.log(key);
 }
+
+var marsMan = {
+    name: '火星人', //字符串
+    age: 123, //数值
+    isSingle: false, //布尔值
+    ships: ['银河系飞船', '半人马飞船', '双子座飞船'], //数组
+    saveEarth: function () {
+        writeLine('地球要爆炸了，我来拯救地球了！');
+    },
+    marsWife: {
+        name: '火星人的老婆',
+        age: 321,
+        // ........
+    },
+};
+for (var key in marsMan) {
+    writeLine('for in遍历对象 属性名称：' + key + '，属性值:' + marsMan[key] );
+}
+        //封装方法，实现换行输出到页面
+function writeLine(content) {
+    document.write('<br/>' + content);
+}
 // name
 // describe
 ```
