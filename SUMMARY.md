@@ -15,3 +15,4 @@
     * [BOM、DOM](JS/js-bomdom.md)
     * [事件](JS/js-event.md)
     * [jQuery](JS/js-jquery.md)
+    * [提升](JS/js-middle.md)
