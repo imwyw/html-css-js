@@ -1,3 +1,20 @@
+<!-- TOC -->
+
+- [jQuery](#jquery)
+    - [加载](#加载)
+    - [基础](#基础)
+        - [jQuery对象](#jquery对象)
+        - [jQuery构造函数](#jquery构造函数)
+            - [CSS选择器作为参数](#css选择器作为参数)
+            - [DOM对象作为参数](#dom对象作为参数)
+            - [HTML字符串作为参数](#html字符串作为参数)
+            - [第二个参数](#第二个参数)
+        - [jQuery构造函数返回的结果集](#jquery构造函数返回的结果集)
+            - [length属性](#length属性)
+            - [下标运算符](#下标运算符)
+        - [$(document).ready()](#documentready)
+
+<!-- /TOC -->
 # jQuery
 jQuery是目前使用最广泛的JavaScript函数库。据统计，全世界57.5%的网站使用jQuery，在使用JavaScript函数库的网站中，93.0%使用jQuery。它已经成了开发者必须学会的技能。
 

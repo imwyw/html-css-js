@@ -1,3 +1,17 @@
+<!-- TOC -->
+
+- [提升](#提升)
+    - [HTML5 本地存储 localStorage](#html5-本地存储-localstorage)
+        - [什么是 HTML 本地存储？](#什么是-html-本地存储)
+        - [HTML 本地存储对象](#html-本地存储对象)
+        - [localStorage 对象](#localstorage-对象)
+            - [对象的保存](#对象的保存)
+        - [sessionStorage 对象](#sessionstorage-对象)
+    - [音频](#音频)
+        - [Web 上的音频](#web-上的音频)
+        - [如何工作](#如何工作)
+
+<!-- /TOC -->
 # 提升
 ## HTML5 本地存储 localStorage
 ### 什么是 HTML 本地存储？

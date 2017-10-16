@@ -1,3 +1,29 @@
+<!-- TOC -->
+
+- [标准库](#标准库)
+    - [Object](#object)
+        - [Object.keys()，Object.getOwnPropertyNames()](#objectkeysobjectgetownpropertynames)
+    - [Array](#array)
+        - [Array.isArray()](#arrayisarray)
+        - [valueof(),toString()](#valueoftostring)
+        - [push()](#push)
+        - [pop()](#pop)
+        - [join()](#join)
+        - [concat()](#concat)
+        - [shift()](#shift)
+        - [unshift()](#unshift)
+        - [reverse()](#reverse)
+        - [slice()](#slice)
+        - [splice()](#splice)
+        - [sort()](#sort)
+        - [map()](#map)
+        - [forEach()](#foreach)
+        - [filter()](#filter)
+        - [some()，every()](#someevery)
+        - [reduce()，reduceRight()](#reducereduceright)
+        - [indexOf()，lastIndexOf()](#indexoflastindexof)
+
+<!-- /TOC -->
 # 标准库
 ## Object
 javaScript 原生提供Object对象（注意起首的O是大写），所有其他对象都继承自这个对象。Object本身也是一个构造函数，可以直接通过它来生成新对象。

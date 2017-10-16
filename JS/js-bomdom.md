@@ -1,3 +1,22 @@
+<!-- TOC -->
+
+- [概述](#概述)
+    - [BOM(Browser Object Model)](#bombrowser-object-model)
+        - [window对象](#window对象)
+        - [Navigator对象](#navigator对象)
+        - [Screen 对象](#screen-对象)
+        - [location对象](#location对象)
+        - [History 对象](#history-对象)
+    - [DOM(Document Object Model)](#domdocument-object-model)
+        - [查找元素](#查找元素)
+        - [元素节点属性](#元素节点属性)
+        - [遍历节点树](#遍历节点树)
+        - [DOM操作](#dom操作)
+        - [属性操作](#属性操作)
+        - [innerText、innerHTML、outerHTML、outerText](#innertextinnerhtmlouterhtmloutertext)
+    - [BOM和DOM](#bom和dom)
+
+<!-- /TOC -->
 # 概述
 ## BOM(Browser Object Model)
 ECMAScirpt是JavaScript的核心，在Web中使用JavaScript，那么BOM无疑才是真正的核心。

@@ -1,3 +1,19 @@
+<!-- TOC -->
+
+- [事件](#事件)
+    - [前导](#前导)
+    - [简单事件](#简单事件)
+    - [监听函数](#监听函数)
+        - [HTML标签的on-属性](#html标签的on-属性)
+        - [Element节点的事件属性](#element节点的事件属性)
+        - [addEventListener方法](#addeventlistener方法)
+        - [总结](#总结)
+    - [事件传播](#事件传播)
+        - [冒泡](#冒泡)
+        - [捕获](#捕获)
+        - [Dom标准的事件模型](#dom标准的事件模型)
+
+<!-- /TOC -->
 # 事件
 JavaScript与HTML之间的交互是通过事件实现的。
 用户或浏览器自身执行操作而触发的某种动作。诸如click , dblclick, mouseover 等都是事件的名字，onclick，ondblclick，onmouseover等都是事件的触发方法。
