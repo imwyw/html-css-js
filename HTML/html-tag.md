@@ -1,3 +1,27 @@
+<!-- TOC -->
+
+- [语义化](#语义化)
+    - [什么是语义化](#什么是语义化)
+    - [好处](#好处)
+- [HTML TAG（标签）](#html-tag标签)
+    - [标签tag](#标签tag)
+    - [元素element](#元素element)
+    - [标题h1-h6](#标题h1-h6)
+    - [段落p/换行br/空格nbsp](#段落p换行br空格nbsp)
+    - [元素标注label/输入控件input](#元素标注label输入控件input)
+    - [多行文本textarea](#多行文本textarea)
+    - [无序ul/有序ol列表](#无序ul有序ol列表)
+    - [选择列表select](#选择列表select)
+    - [div](#div)
+    - [超链接a](#超链接a)
+    - [图像img](#图像img)
+    - [表格table](#表格table)
+    - [表单form](#表单form)
+    - [内联框架iframe](#内联框架iframe)
+- [其他](#其他)
+    - [相对路径](#相对路径)
+
+<!-- /TOC -->
 # 语义化
 ## 什么是语义化
 在HTML5出现前，满屏的div，不利于结构化。
@@ -317,3 +341,9 @@ iframe 元素会创建包含另外一个文档的内联框架（即行内框架�
 - src：规定在 iframe 中显示的文档的 URL。
 - scrolling：yes/no/auto，规定是否在 iframe 中显示滚动条。
 - frameborder：1/0，规定是否显示框架周围的边框。
+
+# 其他
+## 相对路径
+
+![](..\assets\HTML\relative_path.png)
+

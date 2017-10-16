@@ -1,3 +1,11 @@
+<!-- TOC -->
+
+- [结构](#结构)
+    - [声明](#声明)
+    - [结构](#结构-1)
+    - [head标签](#head标签)
+
+<!-- /TOC -->
 # 结构
 ## 声明
 <!DOCTYPE>声明有助于浏览器中正确显示网页。
@@ -52,4 +60,3 @@ HTML有自己固定的结构：
 - link (`<link rel="stylesheet" type="text/css" href="theme.css" /> `)
 - style (`<style></style>`)
 - script (`<script></script>`)
-
