@@ -122,6 +122,8 @@ ul>span {
 
 # 盒子模型
 ## 元素分类
+很重要的一个属性**display**
+
 ### 块状元素
 `display:block;`
 
