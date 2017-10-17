@@ -22,6 +22,18 @@
         - [some()，every()](#someevery)
         - [reduce()，reduceRight()](#reducereduceright)
         - [indexOf()，lastIndexOf()](#indexoflastindexof)
+    - [Date对象](#date对象)
+        - [new Date()](#new-date)
+        - [get和set类方法](#get和set类方法)
+    - [Math对象](#math对象)
+    - [RegExp对象](#regexp对象)
+        - [属性](#属性)
+        - [test()](#test)
+        - [exec()](#exec)
+        - [String.prototype.match()](#stringprototypematch)
+        - [String.prototype.search()](#stringprototypesearch)
+        - [String.prototype.replace()](#stringprototypereplace)
+        - [String.prototype.split()](#stringprototypesplit)
 
 <!-- /TOC -->
 # 标准库
@@ -185,6 +197,154 @@ reduce方法和reduceRight方法依次处理数组的每个成员，最终累计
 
 ### indexOf()，lastIndexOf()
 indexOf方法返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
+
+## Date对象
+### new Date()
+```js
+//返回当前时间字符串
+Date();//"Tue Oct 17 2017 22:14:40 GMT+0800 (中国标准时间)"
+
+//返回当前时间的对象
+new Date();//Tue Oct 17 2017 22:12:08 GMT+0800 (中国标准时间)
+
+new Date("2017-09-11");//....还有很多
+
+var curDate = new Date();
+```
+
+### get和set类方法
+方法 | 说明
+---|---
+getTime() | 返回距离1970年1月1日00:00:00的毫秒数，等同于valueOf方法。
+getDate() | 返回实例对象对应每个月的几号（从1开始）。
+getDay() | 返回星期几，星期日为0，星期一为1，以此类推。
+getYear() | 返回距离1900的年数。
+getFullYear() | 返回四位的年份。
+getMonth() | 返回月份（0表示1月，11表示12月）。
+getHours() | 返回小时（0-23）。
+getMilliseconds() | 返回毫秒（0-999）。
+getMinutes() | 返回分钟（0-59）。
+getSeconds() | 返回秒（0-59）。
+getTimezoneOffset() | 返回当前时间与UTC的时区差异，以分钟表示，返回结果考虑到了夏令时因素。
+setDate(date) | 设置实例对象对应的每个月的几号（1-31），返回改变后毫秒时间戳。
+setYear(year)  |   设置距离1900年的年数。
+`setFullYear(year [, month, date])` | 设置四位年份。
+`setHours(hour [, min, sec, ms])` | 设置小时（0-23）。
+setMilliseconds() | 设置毫秒（0-999）。
+`setMinutes(min [, sec, ms])` | 设置分钟（0-59）。
+`setMonth(month [, date])` | 设置月份（0-11）。
+`setSeconds(sec [, ms])` | 设置秒（0-59）。
+`setTime(milliseconds)` | 设置毫秒时间戳。
+
+## Math对象
+* Math.abs()：绝对值
+* Math.ceil()：向上取整
+* Math.floor()：向下取整
+* Math.max()：最大值
+* Math.min()：最小值
+* Math.pow()：指数运算
+* Math.sqrt()：平方根
+* Math.log()：自然对数
+* Math.exp()：e的指数
+* Math.round()：四舍五入
+* Math.random()：随机数
+
+## RegExp对象
+正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。
+比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。
+
+新建正则表达式有两种方法:
+```js
+//字面量，以斜杠表示开始和结束。特别强调，此处没有引号包含
+var regex = /xyz/;
+
+//RegExp 构造函数
+var regex = new RegExp('xyz');
+```
+
+### 属性
+
+一类是修饰符相关，返回一个布尔值，表示对应的修饰符是否设置。
+
+* ignoreCase：返回一个布尔值，表示是否设置了i修饰符，该属性只读。
+* global：返回一个布尔值，表示是否设置了g修饰符，该属性只读。
+* multiline：返回一个布尔值，表示是否设置了m修饰符，该属性只读。
+
+另一类是与修饰符无关的属性，主要是下面两个。
+
+* lastIndex：返回下一次开始搜索的位置。该属性可读写，但是只在设置了g修饰符时有意义。
+* source：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。
+
+### test()
+正则对象的test方法返回一个布尔值，表示当前模式是否能匹配参数字符串。
+```js
+//验证参数字符串之中是否包含cat
+/cat/.test('cats and dogs') // true
+```
+
+### exec()
+正则对象的exec方法，可以返回匹配结果。如果发现匹配，就返回一个数组，成员是每一个匹配成功的子字符串，否则返回null。
+
+exec方法的返回数组还包含以下两个属性：
+
+input：整个原字符串。
+
+index：整个模式匹配成功的开始位置（从0开始计数）。
+```js
+var reg = new RegExp("a");
+reg.exec("abca");//["a", index: 0, input: "abca"]
+```
+
+### String.prototype.match()
+字符串对象的match方法对字符串进行正则匹配，返回匹配结果。
+
+从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。
+
+如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会一次性返回所有匹配成功的结果。
+```js
+var str = "abca";
+str.match(/a/g);
+str.match(/a/);
+/a/g.exec(str);
+```
+
+### String.prototype.search()
+字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。该方法会忽略g修饰符。
+```js
+"abc".search(/a/);//0
+```
+
+### String.prototype.replace()
+字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是搜索模式，第二个是替换的内容。
+```js
+var str = "abca";
+str.replace("a","w");//wbca
+str.replace(/a/,"w");//wbca
+str.replace(/a/g,"w");//wbcw
+```
+更多高级用法课下研究。
+
+### String.prototype.split()
+字符串对象的split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。
+```js
+/*
+str.split(separator, [limit])
+该方法接受两个参数，第一个参数是分隔规则，第二个参数是返回数组的最大成员数。
+*/
+
+var str = "a,  b,c, d";
+// 非正则分隔
+str.split(',');
+// [ 'a', '  b', 'c', ' d' ]
+
+// 正则分隔，去除多余的空格
+str.split(/, */);
+// [ 'a', 'b', 'c', 'd' ]
+
+// 指定返回数组的最大成员
+str.split(/, */, 2);
+//[ 'a', 'b' ]
+```
 
 参考引用：
 

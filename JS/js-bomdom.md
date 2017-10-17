@@ -231,6 +231,13 @@ setAttribute() | 设置属性值，对所有属性适用
 hasAttribute() | 返回一个布尔值，表示当前元素节点是否包含指定属性。
 removeAttribute() | 用于从当前元素节点移除属性。
 
+使用dom操作在html文档中添加一个红色的，宽500px，高200px，id为divContent的div
+```js
+var child = document.createElement("div");
+child.setAttribute("id","divContent");
+child.setAttribute("style","background-color:red;width:500px;height:200px;");
+document.getElementsByTagName("body")[0].appendChild(child);
+```
 ### innerText、innerHTML、outerHTML、outerText
 ![](../assets/JS/inner_outer.gif)
 

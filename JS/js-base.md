@@ -865,3 +865,4 @@ for (initialize; test; increment) {
 [阮一峰 JavaScript 标准参考教程](http://javascript.ruanyifeng.com/)
 
 [阮一峰 undefined与null的区别](http://www.ruanyifeng.com/blog/2014/03/undefined-vs-null.html)
+
