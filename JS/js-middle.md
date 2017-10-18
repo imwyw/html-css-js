@@ -1,6 +1,10 @@
 <!-- TOC -->
 
 - [提升](#提升)
+    - [定时器](#定时器)
+        - [setTimeout()](#settimeout)
+        - [setInterval()](#setinterval)
+        - [clearTimeout()，clearInterval()](#cleartimeoutclearinterval)
     - [HTML5 本地存储 localStorage](#html5-本地存储-localstorage)
         - [什么是 HTML 本地存储？](#什么是-html-本地存储)
         - [HTML 本地存储对象](#html-本地存储对象)
@@ -13,6 +17,51 @@
 
 <!-- /TOC -->
 # 提升
+## 定时器
+JavaScript提供定时执行代码的功能，叫做定时器（timer），主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。
+
+### setTimeout()
+setTimeout函数用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。
+
+```js
+//setTimeout函数接受两个参数，第一个参数func|code是将要推迟执行的函数名或者一段代码，第二个参数delay是推迟执行的毫秒数。
+var timerId = setTimeout(func|code, delay);
+```
+
+```js
+//语句需要以字符串形式出现，因为引擎内部使用eval函数，将字符串转为代码。此方式不做推荐
+setTimeout('alert("TimeOut")', 2000);
+
+//推荐这种方式，以函数名方式传参
+setTimeout(f, 2000);
+
+function f() {
+    alert('TimeOut');
+}
+```
+
+### setInterval()
+setInterval函数的用法与setTimeout完全一致，区别仅仅在于setInterval指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行。
+```js
+//每隔2s打印一次当前时间
+setInterval(f, 2000);
+
+function f() {
+    console.log(new Date());
+}
+```
+
+### clearTimeout()，clearInterval()
+setTimeout和setInterval函数，都返回一个表示计数器编号的整数值，将该整数传入clearTimeout和clearInterval函数，就可以取消对应的定时器。
+
+```js
+var id1 = setTimeout(f,1000);
+var id2 = setInterval(f,1000);
+
+clearTimeout(id1);
+clearInterval(id2);
+```
+
 ## HTML5 本地存储 localStorage
 ### 什么是 HTML 本地存储？
 通过本地存储（Local Storage），web 应用程序能够在用户浏览器中对数据进行本地的存储。
