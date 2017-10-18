@@ -6,11 +6,13 @@
     - [监听函数](#监听函数)
         - [HTML标签的on-属性](#html标签的on-属性)
         - [Element节点的事件属性](#element节点的事件属性)
-        - [addEventListener方法](#addeventlistener方法)
+        - [addEventListener()](#addeventlistener)
+        - [removeEventListener()](#removeeventlistener)
+        - [dispatchEvent()](#dispatchevent)
         - [总结](#总结)
     - [事件传播](#事件传播)
-        - [冒泡](#冒泡)
         - [捕获](#捕获)
+        - [冒泡](#冒泡)
         - [Dom标准的事件模型](#dom标准的事件模型)
 
 <!-- /TOC -->
@@ -109,7 +111,7 @@ div.onclick = function(event){
 };
 ```
 
-### addEventListener方法
+### addEventListener()
 通过Element节点、document节点、window对象的addEventListener方法，也可以定义事件的监听函数。
 
 用法如下：
@@ -128,6 +130,65 @@ function hello() {
 var button = document.getElementById('btn');
 button.addEventListener('click', hello, false);
 ```
+
+addEventListener方法可以为当前对象的同一个事件，添加多个监听函数。这些函数按照添加顺序触发，即先添加先触发。如果为同一个事件多次添加同一个监听函数，该函数只会执行一次，多余的添加将自动被去除（不必使用removeEventListener方法手动去除）。
+
+```js
+function hello() {
+  console.log('Hello world');
+}
+
+//重复绑定hello函数，click只会触发一次
+document.addEventListener('click', hello, false);
+document.addEventListener('click', hello, false);
+```
+
+如果希望向监听函数传递参数，可以用匿名函数包装一下监听函数。
+
+```js
+function print(x) {
+  console.log(x);
+}
+
+var el = document.getElementById('div1');
+el.addEventListener('click', function () { print('Hello'); }, false);
+```
+
+### removeEventListener()
+removeEventListener方法用来移除addEventListener方法添加的事件监听函数。
+
+removeEventListener方法的参数，与addEventListener方法完全一致。它的第一个参数“事件类型”，大小写敏感。
+
+注意，removeEventListener方法移除的监听函数，必须与对应的addEventListener方法的参数完全一致，而且必须在同一个元素节点，否则无效。
+```js
+function first() {
+    alert('first function');
+}
+
+function second() {
+    alert('second function');
+}
+
+document.getElementById('btn').addEventListener('click', first, false);
+document.getElementById('btn').addEventListener('click', second, false);
+
+//移除first函数的绑定，按钮事件只会出发second函数
+document.getElementById('btn').removeEventListener('click', first, false);
+```
+
+### dispatchEvent()
+dispatchEvent方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了Event.preventDefault()，则返回值为false，否则为true。
+```js
+function first() {
+    alert('first function');
+}
+
+document.getElementById('btn').addEventListener('click', first, false);
+
+//加载js时即进行触发click事件，绑定了几个函数则触发几个函数
+document.getElementById('btn').dispatchEvent(new Event('click'));
+```
+
 
 ### 总结
 在上面三种方法中，第一种“HTML标签的on-属性”，违反了HTML与JavaScript代码相分离的原则；第二种“Element节点的事件属性”的缺点是，同一个事件只能定义一个监听函数，也就是说，如果定义两次onclick属性，后一次定义会覆盖前一次。因此，这两种方法都不推荐使用，除非是为了程序的兼容问题，因为所有浏览器都支持这两种方法。
@@ -149,13 +210,13 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 
 若要了解DOM事件流，我们需要先了解两种事件顺序类型：事件捕捉和事件冒泡。
 
-### 冒泡
-顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；从浏览器界 面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
-![](../assets/JS/eventBubbling.png)
-
 ### 捕获
 捕获型事件与冒泡型刚好相反，由DOM树最顶层元素一直到最精确的元素。
 ![](../assets/JS/eventCapturing.png)
+
+### 冒泡
+顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；从浏览器界 面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
+![](../assets/JS/eventBubbling.png)
 
 ### Dom标准的事件模型
 DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶段和冒泡阶段。
@@ -185,15 +246,10 @@ DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶�
     //addEventListener最后一个参数修改为true再试试效果
     document.getElementById("btn").addEventListener("click", myclick1, false);
     document.getElementById("_div").addEventListener("click", myclick2, false);
-    document.getElementById("_body").addEventListener("click", myclick3, false);
+    //document.getElementById("_body").addEventListener("click", myclick3, false);
   </script>
 </body>
 ```
-
-
-
-
-
 
 参考引用：
 
