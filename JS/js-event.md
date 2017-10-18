@@ -50,36 +50,36 @@ window.onload方法会在DOM节点树加载完成后触发，此时DOM文档树�
   <br />
   <br />
   <input type="button"value="按下键盘按键触发事件"/>
+  <script type="text/javascript">
+    function on_Click() {
+      alert("你点击了按钮，通过onclick方法触发了click事件");
+    }
+
+    function on_Dblclick() {
+      alert("你双击了按钮，通过ondblclick方法触发了dblclick事件");
+    }
+
+    function on_Mousedown() {
+      alert("你按下了按钮，通过onmousedown方法触发了mousedown事件");
+    }
+
+    function on_Mouseup() {
+      alert("你按下鼠标并松开了，通过onmouseup方法触发了mouseup事件");
+    }
+
+    function on_Mouseover() {
+      alert("鼠标移动到了按钮，通过onmouseover方法触发了mouseover事件");
+    }
+
+    function on_Mouseout() {
+      alert("鼠标移出了按钮，通过onmouseout方法触发了mouseout事件");
+    }
+
+    function on_Keypress() {
+      alert("你按下按键了，通过onkeypress方法触发了keypress事件");
+    }
+  </script>
 </body>
-<script type="text/javascript">
-  function on_Click() {
-    alert("你点击了按钮，通过onclick方法触发了click事件");
-  }
-
-  function on_Dblclick() {
-    alert("你双击了按钮，通过ondblclick方法触发了dblclick事件");
-  }
-
-  function on_Mousedown() {
-    alert("你按下了按钮，通过onmousedown方法触发了mousedown事件");
-  }
-
-  function on_Mouseup() {
-    alert("你按下鼠标并松开了，通过onmouseup方法触发了mouseup事件");
-  }
-
-  function on_Mouseover() {
-    alert("鼠标移动到了按钮，通过onmouseover方法触发了mouseover事件");
-  }
-
-  function on_Mouseout() {
-    alert("鼠标移出了按钮，通过onmouseout方法触发了mouseout事件");
-  }
-
-  function on_Keypress() {
-    alert("你按下按键了，通过onkeypress方法触发了keypress事件");
-  }
-</script>
 ```
 
 ## 监听函数
