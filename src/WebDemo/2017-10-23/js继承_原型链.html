@@ -51,10 +51,13 @@
 
         //三角形
         var Triangle = function (a, b, c) {
+            //先冒充对象
+            Polygon.call(this,3);
             this.A = a;
             this.B = b;
             this.C = c;
         }
+        //原型继承
         Triangle.prototype = new Polygon(3);
         Triangle.prototype.getAreas = function () {
             //海伦公式求面积

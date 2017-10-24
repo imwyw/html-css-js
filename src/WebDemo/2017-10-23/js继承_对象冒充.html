@@ -28,7 +28,7 @@
 
         //矩形
         var Rectangle = function (width, height) {
-            //冒充对象
+            //冒充对象，无法冒充原型对象属性和方法
             this.con = Polygon;
             this.con(4);
             //删除冒充对象，防止修改父类的结构
