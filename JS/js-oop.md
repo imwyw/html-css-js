@@ -12,8 +12,8 @@
         - [作用域链](#作用域链)
         - [没有块级作用域](#没有块级作用域)
         - [未使用var的声明](#未使用var的声明)
-    - [闭包](#闭包)
     - [this](#this)
+    - [闭包](#闭包)
 
 <!-- /TOC -->
 # JavaScript面向对象
@@ -320,6 +320,37 @@ console.log(name);
 
 未使用var关键字定义的变量都是全局变量，这种方式会造成变量污染，容易造成冲突。
 
+## this
+```js
+//全局范围 this->window
+console.log(this);
+
+//函数的直接调用 this->window
+function foo() {
+    console.log(this);
+}
+foo();
+
+//对象方法的调用，指向当前的对象
+var obj = {
+    test: function () {
+        console.log(this);
+    }
+};
+obj.test();
+
+//构造函数，函数内部的this指向新创建的实例
+function Student() {
+    this.name = '';
+    this.test = function () {
+        console.log(this);
+    }
+}
+var stu = new Student();
+stu.test();
+
+```
+
 ## 闭包
 首先看懂这个demo，返回的并不是一个结果值，而是一个函数
 ```js
@@ -406,33 +437,3 @@ arr[2]();//2
 arr[3]();//3
 ```
 
-## this
-```js
-//全局范围 this->window
-console.log(this);
-
-//函数的直接调用 this->window
-function foo() {
-    console.log(this);
-}
-foo();
-
-//对象方法的调用，指向当前的对象
-var obj = {
-    test: function () {
-        console.log(this);
-    }
-};
-obj.test();
-
-//构造函数，函数内部的this指向新创建的实例
-function Student() {
-    this.name = '';
-    this.test = function () {
-        console.log(this);
-    }
-}
-var stu = new Student();
-stu.test();
-
-```
