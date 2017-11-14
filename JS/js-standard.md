@@ -36,7 +36,9 @@
         - [String.prototype.split()](#stringprototypesplit)
 
 <!-- /TOC -->
+<a id="markdown-标准库" name="标准库"></a>
 # 标准库
+<a id="markdown-object" name="object"></a>
 ## Object
 javaScript 原生提供Object对象（注意起首的O是大写），所有其他对象都继承自这个对象。Object本身也是一个构造函数，可以直接通过它来生成新对象。
 
@@ -47,6 +49,7 @@ var obj = {};//和上面的效果一样，更推荐花括号{}的方式
 
 Object作为构造函数使用时，可以接受一个参数。如果该参数是一个对象，则直接返回这个对象；如果是一个原始类型的值，则返回该值对应的包装对象。
 
+<a id="markdown-objectkeysobjectgetownpropertynames" name="objectkeysobjectgetownpropertynames"></a>
 ### Object.keys()，Object.getOwnPropertyNames()
 Object.keys方法和Object.getOwnPropertyNames方法很相似，一般用来遍历对象的属性。它们的参数都是一个对象，都返回一个数组，该数组的成员都是对象自身的（而不是继承的）所有属性名。它们的区别在于，Object.keys方法只返回可枚举的属性（关于可枚举性的详细解释见后文），Object.getOwnPropertyNames方法还返回不可枚举的属性名。
 ```js
@@ -70,6 +73,7 @@ Object.getOwnPropertyNames(a)
 // ["0", "1", "length"]
 ```
 
+<a id="markdown-array" name="array"></a>
 ## Array
 Array是JavaScript的内置对象，同时也是一个构造函数，可以用它生成新的数组。
 ```js
@@ -77,6 +81,7 @@ var obj = new Array();
 var obj = [];//和上面的效果一样，更推荐中括号[]的方式
 ```
 
+<a id="markdown-arrayisarray" name="arrayisarray"></a>
 ### Array.isArray()
 Array.isArray方法用来判断一个值是否为数组。它可以弥补typeof运算符的不足。
 ```js
@@ -87,42 +92,53 @@ Array.isArray(a) // true
 ```
 上面代码中，typeof运算符只能显示数组的类型是Object，而Array.isArray方法可以对数组返回true。
 
+<a id="markdown-valueoftostring" name="valueoftostring"></a>
 ### valueof(),toString()
 valueOf方法返回数组本身。
 
 toString方法返回数组的字符串形式。
 
+<a id="markdown-push" name="push"></a>
 ### push()
 push方法用于在数组的末端添加一个或多个元素，并返回添加新元素后的数组长度。注意，该方法会改变原数组。
 
+<a id="markdown-pop" name="pop"></a>
 ### pop()
 pop方法用于删除数组的最后一个元素，并返回该元素。注意，该方法会改变原数组。
 
+<a id="markdown-join" name="join"></a>
 ### join()
 join方法以参数作为分隔符，将所有数组成员组成一个字符串返回。如果不提供参数，默认用逗号分隔。
 
+<a id="markdown-concat" name="concat"></a>
 ### concat()
 concat方法用于多个数组的合并。它将新数组的成员，添加到原数组的尾部，然后返回一个新数组，原数组不变。
 
+<a id="markdown-shift" name="shift"></a>
 ### shift()
 shift方法用于删除数组的第一个元素，并返回该元素。注意，该方法会改变原数组。
 
+<a id="markdown-unshift" name="unshift"></a>
 ### unshift()
 unshift方法用于在数组的第一个位置添加元素，并返回添加新元素后的数组长度。注意，该方法会改变原数组。
 
+<a id="markdown-reverse" name="reverse"></a>
 ### reverse()
 reverse方法用于颠倒数组中元素的顺序，返回改变后的数组。注意，该方法将改变原数组。
 
+<a id="markdown-slice" name="slice"></a>
 ### slice()
 slice方法用于提取原数组的一部分，返回一个新数组，原数组不变。
 
 它的第一个参数为起始位置（从0开始），第二个参数为终止位置（但该位置的元素本身不包括在内）。如果省略第二个参数，则一直返回到原数组的最后一个成员。
 
+<a id="markdown-splice" name="splice"></a>
 ### splice()
 splice方法用于删除原数组的一部分成员，并可以在被删除的位置添加入新的数组成员，返回值是被删除的元素。注意，该方法会改变原数组。
 
 splice的第一个参数是删除的起始位置，第二个参数是被删除的元素个数。如果后面还有更多的参数，则表示这些就是要被插入数组的新元素。
 
+<a id="markdown-sort" name="sort"></a>
 ### sort()
 sort方法对数组成员进行排序，默认是按照字典顺序排序。排序后，原数组将被改变。
 ```js
@@ -161,6 +177,7 @@ sort方法对数组成员进行排序，默认是按照字典顺序排序。排�
 // ]
 ```
 
+<a id="markdown-map" name="map"></a>
 ### map()
 map方法对数组的所有成员依次调用一个函数，根据函数结果返回一个新数组。
 ```js
@@ -175,14 +192,17 @@ numbers
 // [1, 2, 3]
 ```
 
+<a id="markdown-foreach" name="foreach"></a>
 ### forEach()
 forEach方法与map方法很相似，也是遍历数组的所有成员，执行某种操作，但是forEach方法一般不返回值，只用来操作数据。如果需要有返回值，一般使用map方法。
 
 forEach方法的参数与map方法一致，也是一个函数，数组的所有成员会依次执行该函数。它接受三个参数，分别是当前位置的值、当前位置的编号和整个数组。
 
+<a id="markdown-filter" name="filter"></a>
 ### filter()
 filter方法的参数是一个函数，所有数组成员依次执行该函数，返回结果为true的成员组成一个新数组返回。该方法不会改变原数组。
 
+<a id="markdown-someevery" name="someevery"></a>
 ### some()，every()
 这两个方法类似“断言”（assert），用来判断数组成员是否符合某种条件。
 
@@ -190,15 +210,19 @@ filter方法的参数是一个函数，所有数组成员依次执行该函数�
 
 some方法是只要有一个数组成员的返回值是true，则整个some方法的返回值就是true，否则false。
 
+<a id="markdown-reducereduceright" name="reducereduceright"></a>
 ### reduce()，reduceRight()
 reduce方法和reduceRight方法依次处理数组的每个成员，最终累计为一个值。
 
 它们的差别是，reduce是从左到右处理（从第一个成员到最后一个成员），reduceRight则是从右到左（从最后一个成员到第一个成员），其他完全一样。
 
+<a id="markdown-indexoflastindexof" name="indexoflastindexof"></a>
 ### indexOf()，lastIndexOf()
 indexOf方法返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
 
+<a id="markdown-date对象" name="date对象"></a>
 ## Date对象
+<a id="markdown-new-date" name="new-date"></a>
 ### new Date()
 ```js
 //返回当前时间字符串
@@ -212,6 +236,7 @@ new Date("2017-09-11");//....还有很多
 var curDate = new Date();
 ```
 
+<a id="markdown-get和set类方法" name="get和set类方法"></a>
 ### get和set类方法
 方法 | 说明
 ---|---
@@ -236,6 +261,7 @@ setMilliseconds() | 设置毫秒（0-999）。
 `setSeconds(sec [, ms])` | 设置秒（0-59）。
 `setTime(milliseconds)` | 设置毫秒时间戳。
 
+<a id="markdown-math对象" name="math对象"></a>
 ## Math对象
 * Math.abs()：绝对值
 * Math.ceil()：向上取整
@@ -249,6 +275,7 @@ setMilliseconds() | 设置毫秒（0-999）。
 * Math.round()：四舍五入
 * Math.random()：随机数
 
+<a id="markdown-regexp对象" name="regexp对象"></a>
 ## RegExp对象
 正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。
 比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。
@@ -262,6 +289,7 @@ var regex = /xyz/;
 var regex = new RegExp('xyz');
 ```
 
+<a id="markdown-属性" name="属性"></a>
 ### 属性
 
 一类是修饰符相关，返回一个布尔值，表示对应的修饰符是否设置。
@@ -275,6 +303,7 @@ var regex = new RegExp('xyz');
 * lastIndex：返回下一次开始搜索的位置。该属性可读写，但是只在设置了g修饰符时有意义。
 * source：返回正则表达式的字符串形式（不包括反斜杠），该属性只读。
 
+<a id="markdown-test" name="test"></a>
 ### test()
 正则对象的test方法返回一个布尔值，表示当前模式是否能匹配参数字符串。
 ```js
@@ -282,6 +311,7 @@ var regex = new RegExp('xyz');
 /cat/.test('cats and dogs') // true
 ```
 
+<a id="markdown-exec" name="exec"></a>
 ### exec()
 正则对象的exec方法，可以返回匹配结果。如果发现匹配，就返回一个数组，成员是每一个匹配成功的子字符串，否则返回null。
 
@@ -295,6 +325,7 @@ var reg = new RegExp("a");
 reg.exec("abca");//["a", index: 0, input: "abca"]
 ```
 
+<a id="markdown-stringprototypematch" name="stringprototypematch"></a>
 ### String.prototype.match()
 字符串对象的match方法对字符串进行正则匹配，返回匹配结果。
 
@@ -308,12 +339,14 @@ str.match(/a/);
 /a/g.exec(str);
 ```
 
+<a id="markdown-stringprototypesearch" name="stringprototypesearch"></a>
 ### String.prototype.search()
 字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。该方法会忽略g修饰符。
 ```js
 "abc".search(/a/);//0
 ```
 
+<a id="markdown-stringprototypereplace" name="stringprototypereplace"></a>
 ### String.prototype.replace()
 字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是搜索模式，第二个是替换的内容。
 ```js
@@ -324,6 +357,7 @@ str.replace(/a/g,"w");//wbcw
 ```
 更多高级用法课下研究。
 
+<a id="markdown-stringprototypesplit" name="stringprototypesplit"></a>
 ### String.prototype.split()
 字符串对象的split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。
 ```js

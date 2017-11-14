@@ -16,10 +16,13 @@
         - [如何工作](#如何工作)
 
 <!-- /TOC -->
+<a id="markdown-提升" name="提升"></a>
 # 提升
+<a id="markdown-定时器" name="定时器"></a>
 ## 定时器
 JavaScript提供定时执行代码的功能，叫做定时器（timer），主要由setTimeout()和setInterval()这两个函数来完成。它们向任务队列添加定时任务。
 
+<a id="markdown-settimeout" name="settimeout"></a>
 ### setTimeout()
 setTimeout函数用来指定某个函数或某段代码，在多少毫秒之后执行。它返回一个整数，表示定时器的编号，以后可以用来取消这个定时器。
 
@@ -40,6 +43,7 @@ function f() {
 }
 ```
 
+<a id="markdown-setinterval" name="setinterval"></a>
 ### setInterval()
 setInterval函数的用法与setTimeout完全一致，区别仅仅在于setInterval指定某个任务每隔一段时间就执行一次，也就是无限次的定时执行。
 ```js
@@ -51,6 +55,7 @@ function f() {
 }
 ```
 
+<a id="markdown-cleartimeoutclearinterval" name="cleartimeoutclearinterval"></a>
 ### clearTimeout()，clearInterval()
 setTimeout和setInterval函数，都返回一个表示计数器编号的整数值，将该整数传入clearTimeout和clearInterval函数，就可以取消对应的定时器。
 
@@ -62,7 +67,9 @@ clearTimeout(id1);
 clearInterval(id2);
 ```
 
+<a id="markdown-html5-本地存储-localstorage" name="html5-本地存储-localstorage"></a>
 ## HTML5 本地存储 localStorage
+<a id="markdown-什么是-html-本地存储" name="什么是-html-本地存储"></a>
 ### 什么是 HTML 本地存储？
 通过本地存储（Local Storage），web 应用程序能够在用户浏览器中对数据进行本地的存储。
 在 HTML5 之前，应用程序数据只能存储在 cookie 中，包括每个服务器请求。
@@ -70,11 +77,13 @@ clearInterval(id2);
 与 cookie 不同，存储限制要大得多（至少5MB），并且信息不会被传输到服务器。
 本地存储经由起源地（origin）（经由域和协议）。所有页面，从起源地，能够存储和访问相同的数据。
 
+<a id="markdown-html-本地存储对象" name="html-本地存储对象"></a>
 ### HTML 本地存储对象
 HTML 本地存储提供了两个在客户端存储数据的对象：
 * window.localStorage - 存储没有截止日期的数据
 * window.sessionStorage - 针对一个 session 来存储数据（当关闭浏览器标签页时数据会丢失）
 
+<a id="markdown-localstorage-对象" name="localstorage-对象"></a>
 ### localStorage 对象
 localStorage 对象存储的是没有截止日期的数据。
 当浏览器被关闭时数据不会被删除，在下一天、周或年中，都是可用的。
@@ -105,6 +114,7 @@ document.getElementById("result").innerHTML = "您已经点击这个按钮 " +
 localStorage.clickcount + " 次。";
 ```
 
+<a id="markdown-对象的保存" name="对象的保存"></a>
 #### 对象的保存
 由于只能保存字符串的关系，在保存对象需要进行一步转换，转换为json字符串
 ```js
@@ -124,6 +134,7 @@ localStorage.dog = JSON.stringify(obj);
 var newObj = JSON.parse(localStorage.dog);
 ```
 
+<a id="markdown-sessionstorage-对象" name="sessionstorage-对象"></a>
 ### sessionStorage 对象
 sessionStorage 对象等同 localStorage 对象，不同之处在于只对一个 session 存储数据。
 如果用户关闭具体的浏览器标签页，数据也会被删除。
@@ -143,13 +154,16 @@ sessionStorage.clickcount + " 次。";
 
 [w3school HTML 本地存储](http://www.w3school.com.cn/html/html5_webstorage.asp)
 
+<a id="markdown-音频" name="音频"></a>
 ## 音频
+<a id="markdown-web-上的音频" name="web-上的音频"></a>
 ### Web 上的音频
 直到现在，仍然不存在一项旨在网页上播放音频的标准。
 今天，大多数音频是通过插件（比如 Flash）来播放的。然而，并非所有浏览器都拥有同样的插件。
 HTML5 规定了一种通过 audio 元素来包含音频的标准方法。
 audio 元素能够播放声音文件或者音频流。
 
+<a id="markdown-如何工作" name="如何工作"></a>
 ### 如何工作
 ```html
 <audio src="song.ogg" controls="controls">

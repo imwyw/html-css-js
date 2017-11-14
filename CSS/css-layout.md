@@ -10,18 +10,22 @@
         - [fixed](#fixed)
 
 <!-- /TOC -->
+<a id="markdown-布局" name="布局"></a>
 # 布局
 
+<a id="markdown-基本类型" name="基本类型"></a>
 ## 基本类型
 1. 流动模型 Flow
 2. 浮动模型 Float
 3. 层模型 Layer
 
+<a id="markdown-flow" name="flow"></a>
 ## Flow
 流动模型是网页默认的布局模式，典型特征有：
 1. 块状元素在容器内自上而下的按顺序分布，块状元素默认都占据一行，默认宽度为100%；
 2. 内联元素在行内从左到右按顺序分布，内联元素不会占据一行，不到南墙不换行。
 
+<a id="markdown-float" name="float"></a>
 ## Float
 难道两个div就不能和谐的在一行吗？
 
@@ -103,6 +107,7 @@ body并没有被撑开。我们可以通过给footer标签增加clear属性设�
 
 `footer{clear:both;}`
 
+<a id="markdown-层模型" name="层模型"></a>
 ## 层模型
 将元素理解成层的概念，类似于ps中的图层，定位层与层之间的位置。
 
@@ -118,6 +123,7 @@ body并没有被撑开。我们可以通过给footer标签增加clear属性设�
 2. 相对定位(position: relative)
 3. 固定定位(position: fixed)
 
+<a id="markdown-absolute" name="absolute"></a>
 ### absolute
 position:absolute，将元素从原先的文档流中独立出来，然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。
 
@@ -153,6 +159,7 @@ position:absolute，将元素从原先的文档流中独立出来，然后使用
 </div>
 ```
 
+<a id="markdown-relative" name="relative"></a>
 ### relative
 position:relative，通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置，相对定位完成的过程是首先按static(float)方式生成一个元素(并且元素像层一样浮动了起来)，然后相对于以前的位置移动，移动的方向和幅度由left、right、top、bottom属性确定，偏移前的位置保留不动。
 
@@ -170,6 +177,7 @@ position:relative，通过left、right、top、bottom属性确定元素在正常
 <span>偏移前的位置还保留不动，覆盖不了前面的div没有偏移前的位置</span>
 ```
 
+<a id="markdown-fixed" name="fixed"></a>
 ### fixed
 position:fixed，表示固定定位，与absolute类似，不同的是fixed相对于屏幕内的网页窗口，不会收滚动的影响。
 

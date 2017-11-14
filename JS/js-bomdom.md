@@ -17,7 +17,9 @@
     - [BOM和DOM](#bom和dom)
 
 <!-- /TOC -->
+<a id="markdown-概述" name="概述"></a>
 # 概述
+<a id="markdown-bombrowser-object-model" name="bombrowser-object-model"></a>
 ## BOM(Browser Object Model)
 ECMAScirpt是JavaScript的核心，在Web中使用JavaScript，那么BOM无疑才是真正的核心。
 BOM的核心是window，而window对象又具有双重角色，它既是通过js访问浏览器窗口的一个接口，又是一个Global（全局）对象。
@@ -39,6 +41,7 @@ window的主对象主要有如下几个：
 
 ![](../assets/JS/js_window.png)
 
+<a id="markdown-window对象" name="window对象"></a>
 ### window对象
 Window 对象表示浏览器中打开的窗口。
 如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档创建一个 window 对象，并为每个框架创建一个额外的 window 对象。
@@ -97,6 +100,7 @@ setTimeout() | 在指定的毫秒数后调用函数或计算表达式。
 
 参考：[Window对象](http://www.w3school.com.cn/jsref/dom_obj_window.asp)
 
+<a id="markdown-navigator对象" name="navigator对象"></a>
 ### Navigator对象
 简单来说，Navigator对象是获取使用者浏览器信息的对象。
 虽然没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象。
@@ -117,6 +121,7 @@ systemLanguage | 返回 OS 使用的默认语言。
 userAgent | 返回由客户机发送服务器的 user-agent 头部的值。
 userLanguage | 返回 OS 的自然语言设置。
 
+<a id="markdown-screen-对象" name="screen-对象"></a>
 ### Screen 对象
 属性 | 描述
 ---|---
@@ -134,6 +139,7 @@ pixelDepth | 返回显示屏幕的颜色分辨率（比特每像素）。
 updateInterval | 设置或返回屏幕的刷新率。
 width | 返回显示器屏幕的宽度。
 
+<a id="markdown-location对象" name="location对象"></a>
 ### location对象
 表示载入窗口的URL，也可用window.location引用它  
 
@@ -154,6 +160,7 @@ assign() | 加载新的文档。
 reload() | 重新加载当前文档。
 replace() | 用新的文档替换当前文档。
 
+<a id="markdown-history-对象" name="history-对象"></a>
 ### History 对象
 History 对象包含用户（在浏览器窗口中）访问过的 URL。
 History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
@@ -169,6 +176,7 @@ forward() | 加载 history 列表中的下一个 URL。
 go() | 加载 history 列表中的某个具体页面。
 
 
+<a id="markdown-domdocument-object-model" name="domdocument-object-model"></a>
 ## DOM(Document Object Model)
 DOM是JavaScript操作网页的接口，全称为“文档对象模型”（Document Object Model）。它的作用是将网页转为一个JavaScript对象，从而可以用脚本进行各种操作（比如增删内容）。
 
@@ -176,6 +184,7 @@ DOM是JavaScript操作网页的接口，全称为“文档对象模型”（Docu
 
 严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。本章介绍的就是JavaScript对DOM标准的实现和用法。
 
+<a id="markdown-查找元素" name="查找元素"></a>
 ### 查找元素
 W3C提供了比较方便的定位节点的方法和属性，如下所示：
 
@@ -188,6 +197,7 @@ W3C提供了比较方便的定位节点的方法和属性，如下所示：
 | setAttribute() | 设置特定元素节点属性的值 | 
 | removeAttribute() | 移除特定元素节点属性 |
 
+<a id="markdown-元素节点属性" name="元素节点属性"></a>
 ### 元素节点属性
 
 节点属性 | 说明
@@ -198,6 +208,7 @@ nodeValue | 返回给定节点的当前值
 tagName | 获取元素节点的标签名
 innerHTML | 获取元素节点的内容
 
+<a id="markdown-遍历节点树" name="遍历节点树"></a>
 ### 遍历节点树
 
 遍历节点树 | 说明
@@ -209,6 +220,7 @@ parentNode | 返回一个给定节点的父节点
 nextSibling | 返回给定节点的下一个子节点
 previousSibling | 返回给定节点的上一个子节点
 
+<a id="markdown-dom操作" name="dom操作"></a>
 ### DOM操作
 DOM通过创建树来表示文档，描述了处理网页内容的方法和接口，从而使开发者对文档的内容和结构具有空前的控制力，用DOM API可以轻松地删除、添加和替换节点。
 
@@ -221,6 +233,7 @@ insertBefore() | 将一个给定节点插入到一个给定元素节点的给定
 removeChild() | 从一个给定元素中删除子节点
 replaceChild() | 把一个给定父元素里的一个子节点替换为另外一个节点
 
+<a id="markdown-属性操作" name="属性操作"></a>
 ### 属性操作
 元素节点提供四个方法，用来操作属性。
 
@@ -238,9 +251,11 @@ child.setAttribute("id","divContent");
 child.setAttribute("style","background-color:red;width:500px;height:200px;");
 document.getElementsByTagName("body")[0].appendChild(child);
 ```
+<a id="markdown-innertextinnerhtmlouterhtmloutertext" name="innertextinnerhtmlouterhtmloutertext"></a>
 ### innerText、innerHTML、outerHTML、outerText
 ![](../assets/JS/inner_outer.gif)
 
+<a id="markdown-bom和dom" name="bom和dom"></a>
 ## BOM和DOM
 DOM描述了处理网页内容的方法和接口，BOM描述了与浏览器进行交互的方法和接口。
 

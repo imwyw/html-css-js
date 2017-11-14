@@ -16,10 +16,12 @@
         - [Dom标准的事件模型](#dom标准的事件模型)
 
 <!-- /TOC -->
+<a id="markdown-事件" name="事件"></a>
 # 事件
 JavaScript与HTML之间的交互是通过事件实现的。
 用户或浏览器自身执行操作而触发的某种动作。诸如click , dblclick, mouseover 等都是事件的名字，onclick，ondblclick，onmouseover等都是事件的触发方法。
 
+<a id="markdown-前导" name="前导"></a>
 ## 前导
 我们需要了解一下html文档在网页上的运行顺序。当我们打开一个html文档时，网页会从上到下依次读取文档，构建DOM文档树，并将内容显示出来。若遇到链接或图片等内容时，html中的DOM文档树继续构建，网页在后台并行下载链接中的内容。
 
@@ -29,6 +31,7 @@ JavaScript与HTML之间的交互是通过事件实现的。
 
 window.onload方法会在DOM节点树加载完成后触发，此时DOM文档树加载完成，可以通过js代码随意操作。
 
+<a id="markdown-简单事件" name="简单事件"></a>
 ## 简单事件
 ```html
 <body onkeypress="on_Keypress();">
@@ -84,11 +87,13 @@ window.onload方法会在DOM节点树加载完成后触发，此时DOM文档树�
 </body>
 ```
 
+<a id="markdown-监听函数" name="监听函数"></a>
 ## 监听函数
 监听函数（listener）是事件发生时，程序所要执行的函数。它是事件驱动编程模式的主要编程方式。
 
 DOM提供三种方法，可以用来为事件绑定监听函数。
 
+<a id="markdown-html标签的on-属性" name="html标签的on-属性"></a>
 ### HTML标签的on-属性
 HTML语言允许在元素标签的属性中，直接定义某些事件的监听代码。
 
@@ -101,6 +106,7 @@ HTML语言允许在元素标签的属性中，直接定义某些事件的监听�
 <body onload="doSomething">
 ```
 
+<a id="markdown-element节点的事件属性" name="element节点的事件属性"></a>
 ### Element节点的事件属性
 Element节点对象有事件属性，同样可以指定监听函数。
 ```js
@@ -111,6 +117,7 @@ div.onclick = function(event){
 };
 ```
 
+<a id="markdown-addeventlistener" name="addeventlistener"></a>
 ### addEventListener()
 通过Element节点、document节点、window对象的addEventListener方法，也可以定义事件的监听函数。
 
@@ -154,6 +161,7 @@ var el = document.getElementById('div1');
 el.addEventListener('click', function () { print('Hello'); }, false);
 ```
 
+<a id="markdown-removeeventlistener" name="removeeventlistener"></a>
 ### removeEventListener()
 removeEventListener方法用来移除addEventListener方法添加的事件监听函数。
 
@@ -176,6 +184,7 @@ document.getElementById('btn').addEventListener('click', second, false);
 document.getElementById('btn').removeEventListener('click', first, false);
 ```
 
+<a id="markdown-dispatchevent" name="dispatchevent"></a>
 ### dispatchEvent()
 dispatchEvent方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了Event.preventDefault()，则返回值为false，否则为true。
 ```js
@@ -190,6 +199,7 @@ document.getElementById('btn').dispatchEvent(new Event('click'));
 ```
 
 
+<a id="markdown-总结" name="总结"></a>
 ### 总结
 在上面三种方法中，第一种“HTML标签的on-属性”，违反了HTML与JavaScript代码相分离的原则；第二种“Element节点的事件属性”的缺点是，同一个事件只能定义一个监听函数，也就是说，如果定义两次onclick属性，后一次定义会覆盖前一次。因此，这两种方法都不推荐使用，除非是为了程序的兼容问题，因为所有浏览器都支持这两种方法。
 
@@ -199,6 +209,7 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 * 能够指定在哪个阶段（捕获阶段还是冒泡阶段）触发回监听函数。
 * 除了DOM节点，还可以部署在window、XMLHttpRequest等对象上面，等于统一了整个JavaScript的监听函数接口。
 
+<a id="markdown-事件传播" name="事件传播"></a>
 ## 事件传播
 当一个事件发生以后，它会在不同的DOM节点之间传播（propagation）。这种传播分成三个阶段：
 
@@ -210,14 +221,17 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 
 若要了解DOM事件流，我们需要先了解两种事件顺序类型：事件捕捉和事件冒泡。
 
+<a id="markdown-捕获" name="捕获"></a>
 ### 捕获
 捕获型事件与冒泡型刚好相反，由DOM树最顶层元素一直到最精确的元素。
 ![](../assets/JS/eventCapturing.png)
 
+<a id="markdown-冒泡" name="冒泡"></a>
 ### 冒泡
 顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；从浏览器界 面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
 ![](../assets/JS/eventBubbling.png)
 
+<a id="markdown-dom标准的事件模型" name="dom标准的事件模型"></a>
 ### Dom标准的事件模型
 DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶段和冒泡阶段。
 首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是 冒泡阶段，可以在这个阶段对事件作出响应。

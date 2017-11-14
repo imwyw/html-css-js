@@ -47,10 +47,13 @@
         - [break和continue](#break和continue)
 
 <!-- /TOC -->
+<a id="markdown-基础" name="基础"></a>
 # 基础
 
+<a id="markdown-语法" name="语法"></a>
 ## 语法
 
+<a id="markdown-声明-var" name="声明-var"></a>
 ### 声明 var
 
 语句(statement)以分号结尾，一个分号就表示一个语句结束。
@@ -66,6 +69,7 @@ var age = 123;
 
 关键字var是声明变量，变量名称叫name，等号后面的"华安"是一个字符串，将一个字符串赋值给name变量。
 
+<a id="markdown-变量" name="变量"></a>
 ### 变量
 
 `var name = "华安";`
@@ -92,6 +96,7 @@ a = null;
 a = function(){};
 ```
 
+<a id="markdown-标识符" name="标识符"></a>
 ### 标识符
 
 标识符（identifier）是用来识别具体对象的一个名称。最常见的标识符就是变量名，以及后面要提到的函数名。JavaScript语言的标识符对大小写敏感，所以a和A是两个不同的标识符。
@@ -125,6 +130,7 @@ a+b  // 标识符不能包含加号
 > JavaScript有一些保留字，不能用作标识符：arguments、break、case、catch、class、const、continue、debugger、default、delete、do、else、enum、eval、export、extends、false、finally、for、function、if、implements、import、in、instanceof、interface、let、new、null、package、private、protected、public、return、static、super、switch、this、throw、true、try、typeof、var、void、while、with、yield。
 
 
+<a id="markdown-数据类型" name="数据类型"></a>
 ## 数据类型
 
 JavaScript 语言的每一个值，都属于某一种数据类型。JavaScript的数据类型，共有六种。前三种：数值、字符串和布尔值属于**原始类型**，意味不可再细分。
@@ -171,10 +177,12 @@ typeof {};
 
 ```
 
+<a id="markdown-数值" name="数值"></a>
 ### 数值
 
 JavaScript内部，所有数字都是以64位浮点数形式储存，即使整数也是如此。所以，1与1.0是相同的，是同一个数。
 
+<a id="markdown-精度问题" name="精度问题"></a>
 #### 精度问题
 
 ** 由于浮点数不是精确的值，所以涉及小数的比较和运算要特别小心。**
@@ -184,6 +192,7 @@ var a = 0.3 / 0.1;
 var b = (0.3 - 0.2) == (0.2 - 0.1);
 ```
 
+<a id="markdown-一个特殊的值-nan" name="一个特殊的值-nan"></a>
 #### 一个特殊的值 NaN
 
 NaN：特殊值，表示非数字，主要出现字符串转换为数值和非法的计算时。
@@ -211,6 +220,7 @@ function extIsNaN(value) {
 }
 ```
 
+<a id="markdown-parseint" name="parseint"></a>
 #### parseInt()
 
 parseInt方法用于将字符串转为整数。
@@ -228,12 +238,14 @@ parseInt("123abc");
 parseInt("");
 ```
 
+<a id="markdown-parsefloat" name="parsefloat"></a>
 #### parseFloat()
 
 parseFloat方法用于将一个字符串转为浮点数。
 
 同parseInt类似，过滤字符串前导空格后，按照科学计数法进行转换，如果字符串包含不能转为浮点数的字符，则不再进行往后转换，返回已经转好的部分。
 
+<a id="markdown-number" name="number"></a>
 #### Number()
 
 Number方法用于将字符串转换为数值，不同是过滤前导空格后，如果发生无法转换的情况直接返回NaN，而不是像parseInt/parseFloat一样返回已经转换好的部分。
@@ -252,6 +264,7 @@ parseFloat('123.45#') // 123.45
 Number('123.45#') // NaN
 ```
 
+<a id="markdown-字符串" name="字符串"></a>
 ### 字符串
 
 字符串就是零个或多个排在一起的字符，放在单引号或双引号之中。
@@ -274,6 +287,7 @@ var str = '你关心的，' + '才是头条。'
     + '头条有你更精彩!';
 ```
 
+<a id="markdown-length" name="length"></a>
 #### length
 ```js
 var str = 'amazing';
@@ -282,6 +296,7 @@ str.length = 0;
 str.length;//7
 ```
 
+<a id="markdown-转义字符\" name="转义字符\"></a>
 #### 转义字符(`\`)
 
 反斜杠（\）在字符串内有特殊含义，用来表示一些特殊字符，所以又称为转义符。
@@ -301,6 +316,7 @@ str.length;//7
 
 上面这些字符前面加上反斜杠，都表示特殊含义。
 
+<a id="markdown-函数function" name="函数function"></a>
 ### 函数function
 函数就是一段可以反复调用的代码块。函数还能接受输入的参数，不同的参数会返回不同的值。
 
@@ -323,6 +339,7 @@ var print = function(s){
 ```
 这种写法将一个匿名函数赋值给变量。这时，这个匿名函数又称函数表达式（Function Expression），因为赋值语句的等号右侧只能放表达式。
 
+<a id="markdown-调用函数时的括号" name="调用函数时的括号"></a>
 #### 调用函数时的括号()
 调用函数时，要使用圆括号运算符。圆括号之中，可以加入函数的参数。
 ```js
@@ -333,6 +350,7 @@ add(1, 1) // 2
 ```
 上面代码中，函数名后面紧跟一对圆括号，就会调用这个函数。
 
+<a id="markdown-return" name="return"></a>
 #### return
 函数体内部的return语句，表示返回。
 JavaScript引擎遇到return语句，就直接返回return后面的那个表达式的值，后面即使还有语句，也不会得到执行。
@@ -346,6 +364,7 @@ funciton getBookName(){
 }
 ```
 
+<a id="markdown-作用域" name="作用域"></a>
 #### 作用域
 作用域（scope）指的是变量存在的范围。
 Javascript只有两种作用域：一种是全局作用域，变量在整个程序中一直存在，所有地方都可以读取；另一种是函数作用域，变量只在函数内部存在。
@@ -375,6 +394,7 @@ v // ReferenceError: v is not defined
 ```
 上面代码中，变量v在函数内部定义，所以是一个局部变量，函数之外就无法读取。
 
+<a id="markdown-对象object" name="对象object"></a>
 ### 对象object
 
 一个最简单的对象
@@ -384,6 +404,7 @@ var obj = {};
 typeof obj;//object
 ```
 
+<a id="markdown-属性property" name="属性property"></a>
 #### 属性(property)
 
 ```js
@@ -411,6 +432,7 @@ var marsMan = {
 - saveEarth 方法
 - marsWife 对象
 
+<a id="markdown-对象属性" name="对象属性"></a>
 #### 对象属性
 对象属性访问有两种方法，点语法(.)和方括号([])。
 
@@ -441,6 +463,7 @@ earthMan.Count;//undefined
 
 ```
 
+<a id="markdown-in运算符" name="in运算符"></a>
 #### in运算符
 in运算符用于检查对象是否包含某个属性（注意，检查的是属性名称，不是属性的值），如果包含就返回true，否则返回false。
 
@@ -452,6 +475,7 @@ o.hasOwnProperty('toString') // false
 'toString' in o // true
 ```
 
+<a id="markdown-forin" name="forin"></a>
 #### for...in
 for...in循环用来遍历一个对象的全部属性。
 
@@ -524,6 +548,7 @@ person.toString()
 
 一般情况下，都是只想遍历对象自身的属性，所以不推荐使用for...in循环。
 
+<a id="markdown-数组" name="数组"></a>
 #### 数组
 数组（array）是按次序排列的一组值。每个值的位置都有编号（从0开始），整个数组用方括号表示。其实也是一种特殊的对象。
 
@@ -564,6 +589,7 @@ while(l--){
 }
 ```
 
+<a id="markdown-布尔值boolean" name="布尔值boolean"></a>
 ### 布尔值boolean
 
 布尔值只有两种值，分别是true和false，代表真和假。
@@ -586,6 +612,7 @@ NaN
 ""//（空字符串）
 ```
 
+<a id="markdown-null和undefined" name="null和undefined"></a>
 ### null和undefined
 
 null和undefin都可以表示"没有"的意思，if(null)和if(undefined)的结果也是一致的，它们都会被转化为false假值。
@@ -605,9 +632,11 @@ null：即是一个不存在的对象的占位符，通过`typeof(null);`测试�
 3. 对象没有赋值的属性，该属性的值为undefined。
 4. 函数没有返回值时，默认返回undefined。
 
+<a id="markdown-数据类型-强制转换" name="数据类型-强制转换"></a>
 ### 数据类型-强制转换
 JavaScript 是一种动态类型语言，变量没有类型限制，可以随时赋予任意值。
 
+<a id="markdown-number" name="number"></a>
 #### Number
 使用Number函数，可以将任意类型的值转化成数值。
 
@@ -641,6 +670,7 @@ Number({a: 1}) // NaN
 Number([1, 2, 3]) // NaN
 Number([5]) // 5
 ```
+<a id="markdown-string" name="string"></a>
 #### String
 使用String函数，可以将任意类型的值转化成字符串。转换规则如下。
 ```js
@@ -656,6 +686,7 @@ String(null) // "null"
 String({a: 1}) // "[object Object]"
 String([1, 2, 3]) // "1,2,3"
 ```
+<a id="markdown-boolean" name="boolean"></a>
 #### Boolean
 使用Boolean函数，可以将任意类型的变量转为布尔值。
 
@@ -669,6 +700,7 @@ NaN
 ''/""（空字符串）
 ```
 
+<a id="markdown-数据类型-自动转换" name="数据类型-自动转换"></a>
 ### 数据类型-自动转换
 下面介绍自动转换，它是以强制转换为基础的。
 
@@ -688,6 +720,7 @@ if ('abc') {
 ```
 
 
+<a id="markdown-自动转换为布尔值" name="自动转换为布尔值"></a>
 #### 自动转换为布尔值
 当JavaScript遇到预期为布尔值的地方（比如if语句的条件部分），就会将非布尔值的参数自动转换为布尔值。系统内部会自动调用Boolean函数。
 
@@ -703,6 +736,7 @@ NaN
 if(undefined){}
 ```
 
+<a id="markdown-自动转换为字符串" name="自动转换为字符串"></a>
 #### 自动转换为字符串
 当JavaScript遇到预期为字符串的地方，就会将非字符串的数据自动转为字符串。系统内部会自动调用String函数。
 字符串的自动转换，主要发生在加法运算时。当一个值为字符串，另一个值为非字符串，则后者转为字符串。
@@ -725,6 +759,7 @@ var obj = {
 obj.width + 20 // "10020"
 ```
 
+<a id="markdown-自动转换为数值" name="自动转换为数值"></a>
 #### 自动转换为数值
 当JavaScript遇到预期为数值的地方，就会将参数值自动转换为数值。系统内部会自动调用Number函数。
 
@@ -740,6 +775,7 @@ false / '5' // 0
 'abc' - 1   // NaN
 ```
 
+<a id="markdown-自动转换规则" name="自动转换规则"></a>
 #### 自动转换规则
 在转换不同的数据类型时，相等和不相等操作符遵循下列基本规则：
 1. 如果有一个操作数是布尔值，则在比较相等性之前先将其转换为数值——false转换为0，而true转换为1；
@@ -765,8 +801,10 @@ NaN == 1;//应用规则2，将'true' -> NaN。NaN连自己都不相等，和数�
 
 由于自动转换具有不确定性，而且不易出错，建议在预期为布尔值、数值、字符串的地方，全部使用Boolean、Number和String函数进行显式转换或使用强等(===)进行判断。
 
+<a id="markdown-条件语句" name="条件语句"></a>
 ## 条件语句
 
+<a id="markdown-ifelse" name="ifelse"></a>
 ### if...else...
 
 ```js
@@ -798,6 +836,7 @@ if (expression1) {
 }
 ```
 
+<a id="markdown-switch" name="switch"></a>
 ### switch
 
 ```js
@@ -811,6 +850,7 @@ switch(value) {
 }
 ```
 
+<a id="markdown-三元运算符" name="三元运算符"></a>
 ### 三元运算符
 
 ```js
@@ -827,8 +867,10 @@ var remark = (age>100)? '大于100' : '小于等于100';
 remark//大于100
 ```
 
+<a id="markdown-循环语句" name="循环语句"></a>
 ## 循环语句
 
+<a id="markdown-while" name="while"></a>
 ### while
 
 ```js
@@ -851,6 +893,7 @@ while (i < 100) {
 
 ```
 
+<a id="markdown-dowhile" name="dowhile"></a>
 ### do...while
 
 ```js
@@ -863,6 +906,7 @@ do {
 } while (false);
 ```
 
+<a id="markdown-for" name="for"></a>
 ### for
 
 ```js
@@ -875,6 +919,7 @@ for (initialize; test; increment) {
 - 测试表达式（test）：检查循环条件，只要为真就进行后续操作。
 - 递增表达式（increment）：完成后续操作，然后返回上一步，再一次检查循环条件。
 
+<a id="markdown-break和continue" name="break和continue"></a>
 ### break和continue
 
 - 共同点：都是跳出循环

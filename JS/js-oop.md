@@ -16,7 +16,9 @@
     - [闭包](#闭包)
 
 <!-- /TOC -->
+<a id="markdown-javascript面向对象" name="javascript面向对象"></a>
 # JavaScript面向对象
+<a id="markdown-类" name="类"></a>
 ## 类
 所谓“类”就是对象的模板，对象就是“类”的实例。但是，JavaScript 语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）。
 
@@ -38,6 +40,7 @@ stu1.sayHi();
 stu2.sayHi();
 ```
 
+<a id="markdown-原型prototype" name="原型prototype"></a>
 ## 原型prototype
 JavaScript 的每个对象都继承另一个对象，后者称为“原型”（prototype）对象。只有null除外，它没有自己的原型对象。
 
@@ -72,7 +75,9 @@ console.log(stu1.__proto__.Name);//中国人
 
 如果对象自身和它的原型，都定义了一个同名属性，那么优先读取对象自身的属性，这叫做“覆盖”（overriding）。当原型属性和实例属性冲突时，会以当前实例的属性为主。如上例代码中的Name属性。
 
+<a id="markdown-继承" name="继承"></a>
 ## 继承
+<a id="markdown-对象冒充实现继承" name="对象冒充实现继承"></a>
 ### 对象冒充实现继承
 ```js
 //多边形类
@@ -104,6 +109,7 @@ var r = new Rectangle(3, 4);
 console.log(r.getAreas());
 ```
 
+<a id="markdown-call和apply" name="call和apply"></a>
 #### call()和apply()
 call方法: 
 语法：obj.call(thisObj, arg1, arg2, ...);
@@ -146,6 +152,7 @@ Polygon.prototype.getPerimeter = function () {
 }
 ```
 
+<a id="markdown-原型链实现继承" name="原型链实现继承"></a>
 ### 原型链实现继承
 利用了prototype或者说以某种方式覆盖了prototype，从而达到属性方法复制的目的。其实现方式有很多中，可能不同框架多少会有一点区别，但是我们把握住原理，就不会有任何不理解的地方了。
 
@@ -215,6 +222,7 @@ console.log(r.model);//{newProp: "新建属性"}
 console.log(r2.model);//{newProp: "新建属性"}
 ```
 
+<a id="markdown-组合继承" name="组合继承"></a>
 ### 组合继承
 综合上面两种继承方式，指就是原型链和借用构造函数的技术组合到一起。
 
@@ -269,7 +277,9 @@ console.log(r2.model); //{newProp: "新建属性"}
 
 组合继承避免了原型链和借用构造函数的缺点，融合了它们的优点，成为JavaScript中最常用的继承方式。而且instanceof和isPrototypeOf()也能够用于识别基于组合继承创建的对象。
 
+<a id="markdown-作用域" name="作用域"></a>
 ## 作用域
+<a id="markdown-作用域链" name="作用域链"></a>
 ### 作用域链
 JavaScript需要查询一个变量x时，首先会查找作用域链的第一个对象，如果以第一个对象没有定义x变量，JavaScript会继续查找有没有定义x变量，如果第二个对象没有定义则会继续查找，以此类推。
 
@@ -291,6 +301,7 @@ outer();
 
 上述例子中，实际查找过程为：inner->outer->window
 
+<a id="markdown-没有块级作用域" name="没有块级作用域"></a>
 ### 没有块级作用域
 在函数内部，变量是全局的
 ```js
@@ -301,6 +312,7 @@ function test() {
 test();//10
 ```
 
+<a id="markdown-未使用var的声明" name="未使用var的声明"></a>
 ### 未使用var的声明
 ```js
 function sayHi() {
@@ -320,6 +332,7 @@ console.log(name);
 
 未使用var关键字定义的变量都是全局变量，这种方式会造成变量污染，容易造成冲突。
 
+<a id="markdown-this" name="this"></a>
 ## this
 ```js
 //全局范围 this->window
@@ -351,6 +364,7 @@ stu.test();
 
 ```
 
+<a id="markdown-闭包" name="闭包"></a>
 ## 闭包
 首先看懂这个demo，返回的并不是一个结果值，而是一个函数
 ```js
