@@ -46,7 +46,9 @@
         - [jQuery中等效方法](#jquery中等效方法)
         - [on()/off()](#onoff)
         - [委托事件](#委托事件)
+        - [事件对象](#事件对象)
     - [$.ajax](#ajax)
+    - [工具](#工具)
 
 <!-- /TOC -->
 <a id="markdown-jquery" name="jquery"></a>
@@ -858,6 +860,10 @@ mouseleave |   | blur | unload
 </body>
 ```
 
+<a id="markdown-事件对象" name="事件对象"></a>
+### 事件对象
+`event.target` 触发事件的DOM元素。 
+
 <a id="markdown-ajax" name="ajax"></a>
 ## $.ajax
 ```js
@@ -878,6 +884,7 @@ $.ajax({
 - ` $.get( url [, data ] [, success ] [, dataType ] ) `使用一个HTTP GET请求从服务器加载数据。 
 - `$.post( url [, data ] [, success ] [, dataType ] ) `使用一个HTTP POST 请求从服务器加载数据。 
 
+<a id="markdown-工具" name="工具"></a>
 ## 工具
 - ` $.each( collection, callback(indexInArray, valueOfElement) ) ` 一个通用的迭代函数，它可以用来无缝迭代对象和数组。
 - ` $.extend([deep ,] target [, object1 ] [, objectN ] ) `将两个或更多对象的内容合并到第一个对象。 
