@@ -210,29 +210,7 @@ $('li')[0] instanceof Element // true
 ```
 上面代码表示，下标运算符取出的是Element节点的实例。所以，通常使用下标运算符将jQuery实例转回DOM对象。
 
-```html
-<body>
-    <h1>图片加载示例</h1>
-    <!--模拟显示一张图片-->
-    <img src="http://desk.fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/0D/02/ChMkJlnHOj2ICeciACiHxj33cI4AAgvowKUnYMAKIfe688.jpg" />
 
-    <script>
-        //等待dom加载，等待图片、音乐、视频、广告等加载完成才触发
-        window.onload = function () {
-            console.log('hello onload');
-        }
-
-        //dom文档结构加载完成后立即触发
-        $(document).ready(function () {
-            console.log('hello ready');
-        });
-        //此写法同上，推荐此用法
-        $(function () {
-
-        });
-    </script>
-</body>
-```
 
 <a id="markdown-选择器" name="选择器"></a>
 ## 选择器
@@ -320,8 +298,8 @@ jQuery构造函数的参数，主要是CSS选择器。常用的有：
 #### :not
 选择所有元素去除不匹配给定的选择器的元素。 
 ```html
-<input name="apple" />
-<input name="flower" checked="checked" />
+<input type="checkbox" name="apple" />
+<input  type="checkbox" name="flower" checked="checked" />
 <script>
     $("input:not(:checked)");//[ <input name="apple" /> ]
 </script>
@@ -329,7 +307,7 @@ jQuery构造函数的参数，主要是CSS选择器。常用的有：
 
 <a id="markdown-even和odd" name="even和odd"></a>
 #### :even和:odd
-:even选择所引值为偶数的元素，从 0 开始计数。:odd选择索引值为奇数元素，从 0 开始计数。
+:even选择索引值为偶数的元素，从 0 开始计数。:odd选择索引值为奇数元素，从 0 开始计数。
 ```html
 <table>
   <tr><td>Header 0</td></tr>
@@ -726,6 +704,30 @@ $(function() {
 ```
 
 **引申**：ready()与dom中window.onload方法并不一样，执行先后有区别。
+
+```html
+<body>
+    <h1>图片加载示例</h1>
+    <!--模拟显示一张图片-->
+    <img src="http://desk.fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/0D/02/ChMkJlnHOj2ICeciACiHxj33cI4AAgvowKUnYMAKIfe688.jpg" />
+
+    <script>
+        //等待dom加载，等待图片、音乐、视频、广告等加载完成才触发
+        window.onload = function () {
+            console.log('hello onload');
+        }
+
+        //dom文档结构加载完成后立即触发
+        $(document).ready(function () {
+            console.log('hello ready');
+        });
+        //此写法同上，推荐此用法
+        $(function () {
+
+        });
+    </script>
+</body>
+```
 
 $(document).ready()：加载完dom文档后立即执行，不再等图片、视频、广告等全部下载完成。
 
