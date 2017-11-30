@@ -28,7 +28,15 @@
     - [全局API](#全局api)
     - [依赖注入(Dependency Injection)](#依赖注入dependency-injection)
         - [DI简介](#di简介)
-        - [providers供应者](#providers供应者)
+        - [Using Dependency Injection](#using-dependency-injection)
+            - [Factory Methods](#factory-methods)
+            - [Module Methods](#module-methods)
+            - [Controllers](#controllers)
+        - [依赖注解](#依赖注解)
+            - [推断依赖](#推断依赖)
+            - [$inject 注解](#inject-注解)
+            - [行内注解](#行内注解)
+    - [Providers Recipe供应者](#providers-recipe供应者)
     - [路由](#路由)
     - [modules模块](#modules模块)
 
@@ -88,16 +96,20 @@ ng-app 指令告诉 AngularJS，`<div>` 元素是 AngularJS 应用程序 的"所
 
 上面实例中的 {{ firstName }} 表达式是一个 AngularJS 数据绑定表达式。AngularJS 中的数据绑定，同步了 AngularJS 表达式与 AngularJS 数据。{{ firstName }} 是通过 ng-model="firstName" 进行同步。
 
+![](..\assets\AngularJS\Two_Way_Data_Binding.png)
+
 ```html
-<!--定义了两个初始值，数量quantity为1，单价price为5-->
-<div ng-app="" ng-init="quantity=1;price=5">
+<!--定义了两个初始值，数量qty为1，单价cost为5-->
+<div ng-app="" ng-init="qty=1;cost=5">
     <h2>价格计算器</h2>
     <!--将两个变量绑定到两个文本框-->
-    数量： <input type="number" ng-model="quantity">
-    价格： <input type="number" ng-model="price">
-    <p><b>总价：</b> {{ quantity * price }}</p>
+    数量： <input type="number" ng-model="qty">
+    价格： <input type="number" ng-model="cost">
+    <p><b>总价：</b> {{ qty * cost }}</p>
 </div>
 ```
+
+![](..\assets\AngularJS\concepts-databinding1.png)
 
 PS:使用 ng-init 不是很常见。通常我们会使用控制器来代替它。
 
@@ -493,6 +505,59 @@ AngularJS 应用程序被控制器控制。ng-controller 指令定义了应用�
 </script>
 ```
 
+[略复杂的示例Adding UI Logic](https://docs.angularjs.org/guide/concepts)，商品单价及各币种金额之间的转换：
+```html
+<body ng-app="myApp">
+    <div ng-app="invoice1" ng-controller="InvoiceController as invoice">
+        <b>Invoice:</b>
+        <div>
+            Quantity: <input type="number" min="0" ng-model="invoice.qty" required>
+        </div>
+        <div>
+            Costs: <input type="number" min="0" ng-model="invoice.cost" required>
+            <select ng-model="invoice.inCurr">
+                <option ng-repeat="c in invoice.currencies">{{c}}</option>
+            </select>
+        </div>
+        <div>
+            <b>Total:</b>
+            <span ng-repeat="c in invoice.currencies">
+                {{invoice.total(c) | currency:c}}
+            </span><br>
+            <button class="btn" ng-click="invoice.pay()">Pay</button>
+        </div>
+    </div>
+
+    <script>
+        var myApp = angular.module('myApp', []);
+
+        myApp.controller('InvoiceController', function InvoiceController() {
+            this.qty = 1;
+            this.cost = 2;
+            this.inCurr = 'EUR';
+            this.currencies = ['USD', 'EUR', 'CNY'];
+            this.usdToForeignRates = {
+                USD: 1,
+                EUR: 0.74,
+                CNY: 6.09
+            };
+
+            this.total = function total(outCurr) {
+                return this.convertCurrency(this.qty * this.cost, this.inCurr, outCurr);
+            };
+            this.convertCurrency = function convertCurrency(amount, inCurr, outCurr) {
+                return amount * this.usdToForeignRates[outCurr] / this.usdToForeignRates[inCurr];
+            };
+            this.pay = function pay() {
+                window.alert('Thanks!');
+            };
+        });
+    </script>
+</body>
+```
+
+![](..\assets\AngularJS\concepts-databinding-controller.png)
+
 注意，下面的场合千万不要用控制器：
 * 任何形式的DOM操作：控制器只应该包含业务逻辑。DOM操作则属于应用程序的表现层逻辑操作，向来以测试难度之高闻名于业界。把任何表现层的逻辑放到控制器中将会大大增加业务逻辑的测试难度。ng 提供数据绑定 （数据绑定） 来实现自动化的DOM操作。如果需要手动进行DOM操作，那么最好将表现层的逻辑封装在 指令 中
 * 格式化输入：使用 angular表单控件 代替
@@ -797,16 +862,18 @@ angular.isNumber() | 判断给定的对象是否为数字，如果是返回 true
 第三种方式是最理想的，因为它免除了客户代码里定位相应的依赖这个负担，反过来，依赖总是能够很简单地被注入到需要它的组件中。
 
 为了分离“创建依赖”的职责，每个 Angular 应用都有一个 injector对象。这个 injector 是一个服务定位器，负责创建和查找依赖。（译注：当你的app的某处声明需要用到某个依赖时，Angular 会调用这个依赖注入器去查找或是创建你所需要的依赖，然后返回来给你用）
-下面是一个利用 injector 服务例子：
+下面是一个利用 injector 服务例子：(执行还有问题TODO)
 
-```js
-// Provide the wiring information in a module
-angular.module('myModule', []).
+```html
+<div ng-controller="MyController">
+    <button ng-click="sayHello()">Hello</button>
+</div>
 
-    // 下面是教 injector 如何构建一个 'greeter' 依赖
-    // 注意 greeter 本身依赖于 '$window'
-    factory('greeter', function ($window) {
-        // 这是一个 factory 函数，负责创建 'greeter' 服务
+<script>
+    // Provide the wiring information in a module
+    var myModule = angular.module('myModule', []);
+
+    myModule.factory('greeter', function ($window) {
         return {
             greet: function (text) {
                 $window.alert(text);
@@ -814,24 +881,272 @@ angular.module('myModule', []).
         };
     });
 
-// 从 module 创建的 injector
-// 这个常常是 Angular 启动时自动完成的
-var injector = angular.injector(['myModule', 'ng']);
+    var injector = angular.injector(['ng', 'myModule']);
+    var greeter = injector.get('greeter');
 
-// 通过 injector 请求任意的依赖
-var greeter = injector.get('greeter');
+    function MyController($scope, greeter) {
+        $scope.sayHello = function () {
+            greeter.greet('Hello World');
+        };
+    }
+
+    injector.instantiate(MyController);
+</script>
 ```
 
-<a id="markdown-providers供应者" name="providers供应者"></a>
-### providers供应者
+<a id="markdown-using-dependency-injection" name="using-dependency-injection"></a>
+### Using Dependency Injection
 
+<a id="markdown-factory-methods" name="factory-methods"></a>
+#### Factory Methods
+```js
+angular.module('myModule', [])
+.factory('serviceId', ['depService', function(depService) {
+  // ...
+}])
+.directive('directiveName', ['depService', function(depService) {
+  // ...
+}])
+.filter('filterName', ['depService', function(depService) {
+  // ...
+}]);
+```
+
+<a id="markdown-module-methods" name="module-methods"></a>
+#### Module Methods
+```js
+angular.module('myModule', [])
+.config(['depProvider', function(depProvider) {
+  // ...
+}])
+.run(['depService', function(depService) {
+  // ...
+}]);
+```
+
+<a id="markdown-controllers" name="controllers"></a>
+#### Controllers
+```js
+someModule.controller('MyController', ['$scope', 'dep1', 'dep2', function($scope, dep1, dep2) {
+  //...
+  $scope.aMethod = function() {
+    //...
+  }
+  //...
+}]);
+```
+
+<a id="markdown-依赖注解" name="依赖注解"></a>
+### 依赖注解
+
+那么，injector 是如何知道哪些服务需要被注入呢？
+
+应用开发者需要提供 injector 需要使用的注解信息来解析依赖。Angular 之中，按照API文档说明，某些 API 方法需要通过 injector 调用。这样，injector 要知道得往这个方法中注入什么服务。下面是用服务名信息来进行注解的三种等价的方式，它们可以互用，按照你觉得适合的情况选用相应的方式。
+
+<a id="markdown-推断依赖" name="推断依赖"></a>
+#### 推断依赖
+最简单的获取依赖的方法是让你的函数的参数名直接使用依赖名。
+```js
+function MyController($scope, greeter) {
+    //...
+}
+```
+给 injector 一个函数，它可以通过检查函数声明并抽取参数名可以推断需要注入的服务名。在上面的例子中，$scope 和 greeter 是两个需要被注入到函数中的服务。
+虽然这种方式很直观明了，但是它对于压缩的 JavaScript 代码来说是不起作用的，因为压缩过后的 JavaScript 代码重命名了函数的参数名。这就让这种注解方式只对 pretotyping 和 demo级应用有用。
+
+<a id="markdown-inject-注解" name="inject-注解"></a>
+#### $inject 注解
+为了让重命名了参数名的压缩版的 JavaScript 代码能够正确地注入相关的依赖服务。函数需要通过 $inject 属性进行标注，这个属性是一个存放需要注入的服务的数组。
+```js
+var MyController = function (renamed$scope, renamedGreeter) {
+    //...
+}
+MyController['$inject'] = ['$scope', 'greeter'];
+```
+在这种场合下，$inject 数组中的服务名顺序必须和函数参数名顺序一致。以上述代码段为例，$scope 将会被注入到 'renamed$scope'，而 greeter 则是注入到 'renamedGreeter'。需要注意 $inject 注解是和真实的函数声明中的参数保持同步的。
+这种注解方法对于控制器声明很有用处，因为它是把注解信息赋给了函数。
+
+<a id="markdown-行内注解" name="行内注解"></a>
+#### 行内注解
+有时候用 $inject 注解的方式不方便，比如标注指令的时候（译注：这里标注指令可以理解为告诉指令需要加载哪些服务依赖的说明）。
+
+```js
+//看下面的例子：
+someModule.factory('greeter', function ($window) {
+    //...
+});
+
+//由于需要一个临时的变量导致代码膨胀：
+var greeterFactory = function (renamed$window) {
+    //...
+};
+
+greeterFactory.$inject = ['$window'];
+
+someModule.factory('greeter', greeterFactory);
+
+//所以，第三种注解风格被引入，如下：
+someModule.factory('greeter', ['$window', function (renamed$window) {
+    //...
+}]);
+```
+
+<a id="markdown-providers-recipe供应者" name="providers-recipe供应者"></a>
+## Providers Recipe供应者
+你所构建的每个web应用都是由互相协作以达成特定目标的对象构成。为了让应用得以运行，这些对象还需要被实例化并绑定在一起。在基于Angular框架的应用里，这些对象大都是通过注入服务自动地实例化并绑定在一起。
+注入器创建两类对象，服务和专用对象。
+服务是对象，而这些对象的API是由编写服务的开发人员所决定的。
+专用对象遵循Angular框架特定的API。这些对象包括控制器，指令，过滤器或动画。
+注入器需要知道如何去创建这些对象。你应该通过注册一种“图纸”来告诉Angular如何创建你的对象。这里共有5种图纸。
+最冗长同时又最复杂的图纸是Provider Recipe图纸，其余4种分别是 —— Value，Factory，Service和Constant，这4种都只是基于Provider之上的语法糖。
+现在让我们看看通过不同图纸来创建和使用服务的场景。首先我们从最简单的例子开始 —— 你代码在很多地方都要使用同一个字符串，这个场景下，我们通过Value Recipe图纸来完成服务的创建。
+
+> https://docs.angularjs.org/guide/providers
 
 <a id="markdown-路由" name="路由"></a>
 ## 路由
 AngularJS 路由允许我们通过不同的 URL 访问不同的内容。
 通过 AngularJS 可以实现多视图的单页Web应用（single page web application，SPA）。
 
-通常我们的URL形式为 http://runoob.com/first/page，但在单页Web应用中 AngularJS 通过 # + 标记 实现，例如：
+
+通常我们的URL形式为 localhost:8080/index.html，但在单页Web应用中 AngularJS 通过 # + 标记 实现，例如：
+```
+localhost:8080/#/first
+localhost:8080/#/second
+localhost:8080/#/third
+```
+当我们点击以上的任意一个链接时，向服务端请的地址都是一样的。 因为 # 号之后的内容在向服务端请求时会被浏览器忽略掉。 所以我们就需要在客户端实现 # 号后面内容的功能实现。 
+
+AngularJS 路由 就通过 # + 标记 帮助我们区分不同的逻辑页面并将不同的页面绑定到对应的控制器上。
+
+**需要注意的是从1.6+版本以后，$locationProvider.hashPrefix()默认值变为了`!`，在跳转链接处也需要特殊处理，有两种方案：**
+1. 使用`#!`代替旧版本中的`#`，如修改为 `<li><a href="#!/about">About</a></li>`
+2. 针对$locationProvider配置恢复之前版本的hashPrefix 
+```js
+appModule.config(['$locationProvider', function($locationProvider) {
+        $locationProvider.hashPrefix('');
+}]);
+```
+
+综合案例如下：
+index.html文件
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+    <script src="//cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.6.6/angular-route.min.js"></script>
+    <script src="app.js"></script>
+</head>
+<body ng-app="myApp">
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">AngularJS路由示例</a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a href="#/about"><i class="fa fa-shield"></i> About</a></li>
+                    <li><a href="#/contact"><i class="fa fa-comment"></i> Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid">
+        <div ng-view></div>
+        <!-- angular templating -->
+        <!-- this is where content will be injected -->
+    </div>
+</body>
+</html>
+```
+
+app.js文件
+```js
+'use strict';
+var myApp = angular.module('myApp', ['ngRoute']);
+
+/*
+AngularJS GitHub Pull #14202 Changed default hashPrefix to '!' 从 1.6+版本以后。。。坑死了
+stackoverflow https://stackoverflow.com/questions/41211875/angularjs-1-6-0-latest-now-routes-not-working
+或者采用此写法 href="#!/about"
+*/
+myApp.config(['$locationProvider', function ($locationProvider) {
+    $locationProvider.hashPrefix('');
+}]);
+
+//配置路由  
+myApp.config(["$routeProvider", function ($routeProvider) {
+
+    $routeProvider
+
+      //home  
+      .when('/', {
+          templateUrl: '/Template/home.html',
+          controller: 'mainController'
+      })
+
+      //about  
+      .when('/about', {
+          templateUrl: '/Template/about.html',
+          controller: 'aboutController'
+      })
+
+      //contact  
+      .when('/contact', {
+          templateUrl: '/Template/contact.html',
+          controller: 'contactController'
+      });
+
+}]);
+//main控制器  
+myApp.controller('mainController', ["$scope", function ($scope) {
+    // create a message to display in our view  
+    $scope.message = 'Everyone come and see how good I look!';
+}]);
+//about控制器  
+myApp.controller('aboutController', ["$scope", function ($scope) {
+    $scope.message = 'Look! I am an about page.';
+}]);
+//contact控制器  
+myApp.controller('contactController', ["$scope", function ($scope) {
+    $scope.message = 'Contact us! JK. This is just a demo.';
+}]);
+```
+
+about.html文件
+```html
+<div class="text-center" ng-controller="aboutController">
+    <h1>About Page</h1>
+    <p>{{ message }}</p>
+</div>  
+```
+
+contact.html文件
+```html
+<div class="text-center" ng-controller="contactController">
+    <h1>Contact Page</h1>
+
+    <p>{{ message }}</p>
+</div>
+```
+
+home.html文件
+```html
+<div class="text-center" ng-controller="mainController">
+    <h1>Home Page</h1>
+
+    <p>{{ message }}</p>
+</div>  
+```
 
 
 <a id="markdown-modules模块" name="modules模块"></a>

@@ -11,13 +11,16 @@ AngularJS 是JavaScript的 一个框架。它是JavaScript 编写的一个库。
 
 - official site 
 > https://angularjs.org/
-> https://angular.cn/
-> http://www.ngnice.com/
 
 - docs
-> https://docs.angularjs.org/guide/introduction
-> http://www.cnblogs.com/lcllao/archive/2012/09/03/2668130.html
+
+> https://docs.angularjs.org/guide
+
+> http://www.ngnice.com/
+
 > http://www.angularjs.net.cn/tutorial/
+
+> https://angular.cn/
 
 - release
 > https://github.com/angular/angular.js/releases
