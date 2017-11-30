@@ -173,7 +173,7 @@ PS:使用 ng-init 不是很常见。通常我们会使用控制器来代替它�
 <a id="markdown-ng-include" name="ng-include"></a>
 ### ng-include
 可以用来包含html代码，其中的AngularJS代码也会被执行
-`<div ng-include="'runoob.htm'"></div>`
+`<div ng-include="'part.html'"></div>`
 
 <a id="markdown-ng-model模型" name="ng-model模型"></a>
 ## ng-model模型
@@ -833,6 +833,30 @@ and { "foo": "bar", "baz": "moe" }
 </script>
 ```
 
+AngularJS还提供了其他HTML事件的封装，有如下：
+* ng-blur
+* ng-change
+* ng-click
+* ng-copy
+* ng-cut
+* ng-dblclick
+* ng-focus
+* ng-keydown
+* ng-keypress
+* ng-keyup
+* ng-mousedown
+* ng-mouseenter
+* ng-mouseleave
+* ng-mousemove
+* ng-mouseover
+* ng-mouseup
+* ng-paste
+
+具体API说明和demo可参考：
+> https://docs.angularjs.org/api/ng/directive/ngClick#overview
+
+> https://segmentfault.com/a/1190000002634554
+
 <a id="markdown-全局api" name="全局api"></a>
 ## 全局API
 以下列出了一些通用的 API 函数：
@@ -1028,6 +1052,18 @@ appModule.config(['$locationProvider', function($locationProvider) {
 }]);
 ```
 
+路由设置对象：
+```js
+$routeProvider.when(url, {
+    template: string,//在 ng-view 中插入简单的 HTML 内容
+    templateUrl: string,//在 ng-view 中插入 HTML 模板文件 eg:views/about.html
+    controller: string, function 或 array,//在当前模板上执行的controller函数，对应处理的控制器名称
+    controllerAs: string,//为controller指定别名。
+    redirectTo: string, function,//重定向的地址。
+    resolve: object<key, function>//指定当前controller所依赖的其他模块。
+});
+```
+
 综合案例如下：
 index.html文件
 ```html
@@ -1041,6 +1077,12 @@ index.html文件
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
     <script src="//cdn.bootcss.com/angular.js/1.6.6/angular.min.js"></script>
     <script src="//cdn.bootcss.com/angular.js/1.6.6/angular-route.min.js"></script>
+    
+    <!-- 官网的太慢了。。。 -->
+    <!--
+    <script src="//code.angularjs.org/1.6.6/angular.min.js"></script>
+    <script src="//code.angularjs.org/1.6.6/angular-route.min.js"></script>
+    -->
     <script src="app.js"></script>
 </head>
 <body ng-app="myApp">
@@ -1054,7 +1096,7 @@ index.html文件
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
                     <li><a href="#/about"><i class="fa fa-shield"></i> About</a></li>
-                    <li><a href="#/contact"><i class="fa fa-comment"></i> Contact</a></li>
+                    <li><a href="#/contact/123/jackjones"><i class="fa fa-comment"></i> Contact</a></li>
                 </ul>
             </div>
         </nav>
@@ -1117,7 +1159,9 @@ myApp.controller('aboutController', ["$scope", function ($scope) {
     $scope.message = 'Look! I am an about page.';
 }]);
 //contact控制器  
-myApp.controller('contactController', ["$scope", function ($scope) {
+myApp.controller('contactController', ["$scope", "$routeParams", function ($scope, $routeParams) {
+    $scope.id = $routeParams.id;
+    $scope.name = $routeParams.name;
     $scope.message = 'Contact us! JK. This is just a demo.';
 }]);
 ```
@@ -1127,7 +1171,7 @@ about.html文件
 <div class="text-center" ng-controller="aboutController">
     <h1>About Page</h1>
     <p>{{ message }}</p>
-</div>  
+</div>
 ```
 
 contact.html文件
@@ -1136,6 +1180,9 @@ contact.html文件
     <h1>Contact Page</h1>
 
     <p>{{ message }}</p>
+    <!-- 接收传递的参数 -->
+    <p>ID-{{id}}</p>
+    <p>NAME-{{name}}</p>
 </div>
 ```
 
@@ -1143,9 +1190,8 @@ home.html文件
 ```html
 <div class="text-center" ng-controller="mainController">
     <h1>Home Page</h1>
-
     <p>{{ message }}</p>
-</div>  
+</div>
 ```
 
 
@@ -1178,6 +1224,8 @@ home.html文件
 ```
 
 参考引用：
+
+最推荐-[官方原版教程](https://docs.angularjs.org/guide)
 
 [AngularJS 教程](http://www.angularjs.net.cn/tutorial/)
 
