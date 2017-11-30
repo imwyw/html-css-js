@@ -853,6 +853,7 @@ AngularJS还提供了其他HTML事件的封装，有如下：
 * ng-paste
 
 具体API说明和demo可参考：
+
 > https://docs.angularjs.org/api/ng/directive/ngClick#overview
 
 > https://segmentfault.com/a/1190000002634554
