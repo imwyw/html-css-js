@@ -68,7 +68,7 @@ Angular的模板是一个声明式的视图，它指定信息从模型、控制�
 
 在Angular中有以下元素属性可以直接在模板中使用:
 * 指令(Directive) — 一个可扩展已有DOM元素或者代表可重复使用的DOM组件，用扩展属性(或者元素)标记。
-* 表达式(Expressions) — 用双括号 {{ }} 给元素绑定表达式。
+* 表达式(Expressions) — 用双花括号 给元素绑定表达式。
 * 过滤器(Filter) — 格式化数据显示在界面上。
 * 表单控件(Form Control) — 验证用户输入。
 
@@ -384,7 +384,7 @@ AngularJS 表达式 很像 JavaScript 表达式：它们可以包含文字、运
 
 ```html
 <div ng-app="" ng-init="quantity=1;cost=5">
-    <!-- {{}}和ng-bind 都可以显示结果值-->
+    <!-- 双花括号 和ng-bind 都可以显示结果值-->
     <p>总价： {{ quantity * cost }}</p>
     <p><span ng-bind="quantity*cost"></span></p>
 </div>
