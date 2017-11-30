@@ -14,7 +14,7 @@
         - [表单验证](#表单验证)
     - [Scope作用域](#scope作用域)
         - [作用范围](#作用范围)
-    - [表达式(Expressions) — 用双括号 {{ }} 给元素绑定表达式。](#表达式expressions--用双括号---给元素绑定表达式)
+    - [表达式(Expressions) — 用双括号 `{{ }}` 给元素绑定表达式。](#表达式expressions--用双括号---给元素绑定表达式)
     - [Html编译（HTML Compiler）](#html编译html-compiler)
     - [过滤器(Filter) — 格式化数据显示在界面上。](#过滤器filter--格式化数据显示在界面上)
     - [控制器](#控制器)
@@ -377,7 +377,7 @@ $rootScope 全局对象的属性可在所有子作用域中访问，子作用域
 ```
 
 <a id="markdown-表达式expressions--用双括号---给元素绑定表达式" name="表达式expressions--用双括号---给元素绑定表达式"></a>
-## 表达式(Expressions) — 用双括号 {{ }} 给元素绑定表达式。
+## 表达式(Expressions) — 用双括号 `{{ }}` 给元素绑定表达式。
 AngularJS 表达式写在双大括号内：{{ expression }}。
 
 AngularJS 表达式 很像 JavaScript 表达式：它们可以包含文字、运算符和变量。
