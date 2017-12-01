@@ -1144,7 +1144,7 @@ myApp.config(["$routeProvider", function ($routeProvider) {
       })
 
       //contact  
-      .when('/contact', {
+      .when('/contact/:id/:name', {
           templateUrl: '/Template/contact.html',
           controller: 'contactController'
       });
