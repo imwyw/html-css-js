@@ -16,7 +16,7 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "local-pagefooter",
+        "page-footer-ex",
         "copy-code-button"
     ],
     "pluginsConfig": {
@@ -39,11 +39,10 @@
             "tocLevel2Icon": "fa fa-hand-o-right",
             "tocLevel3Icon": "fa fa-hand-o-right"
         },
-        "local-pagefooter": {
+        "page-footer-ex": {
             "copyright":"imwyw qq:415638908",
-            "islocal":true,
             "update_label":"modified at:",
-            "update_format":"YYYY-MM-DD HH:mm:ss"
+            "update_format":"YYYY-MM-DD"
         }
     }
 }
