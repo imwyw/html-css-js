@@ -16,7 +16,8 @@
         "sectionx",
         "anchor-navigation-ex",
         "3-ba",
-        "page-footer-ex"
+        "page-footer-ex",
+        "copy-code-button"
     ],
     "pluginsConfig": {
         "disqus": {
