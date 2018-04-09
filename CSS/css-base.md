@@ -163,7 +163,7 @@ ul>span {
 3. 元素的宽度就是它包含的文字或图片的宽度，不可改变。
 
 常用的有：
-`<a>、<span>、<br>、<label>`
+`<a>、<span>、<br>、<label>、<select>、<em>`
 
 <a id="markdown-内联块元素" name="内联块元素"></a>
 ### 内联块元素
