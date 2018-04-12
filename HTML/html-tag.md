@@ -16,6 +16,7 @@
     - [超链接a](#超链接a)
     - [图像img](#图像img)
     - [表格table](#表格table)
+        - [跨行跨列的表格](#跨行跨列的表格)
     - [表单form](#表单form)
     - [input标签](#input标签)
     - [内联框架iframe](#内联框架iframe)
@@ -201,10 +202,17 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 锚点的设置
+- 建立锚点的元素必须要有id或name属性，最好两个都有
+- 锚点超链接一定包含井号"#",锚点超链接都在链接的最末端
+
+
 ``` html
-<a name="top"></a>
+<a name="top" id="top"></a>
 <div style="height: 1000px;width: 200px;background-color: blue;"></div>
+<!-- 同页面之间的跳转 -->
 <a href="#top">跳转到顶部</a>
+
+<!-- 不同页面之间的跳转 -->
 <a href="other.html#top">跳转到其他页面的锚点</a>
 ```
 
@@ -327,6 +335,40 @@ Table 表格在没有添加 css 样式之前，是没有边框的。肉眼看上
 table tr td,th{
     border : 1px solid;
 }
+```
+
+<a id="markdown-跨行跨列的表格" name="跨行跨列的表格"></a>
+### 跨行跨列的表格
+```html
+<h4>横跨两列的单元格：</h4>
+<table border="1">
+<tr>
+  <th>姓名</th>
+  <th colspan="2">电话</th>
+</tr>
+<tr>
+  <td>Bill Gates</td>
+  <td>555 77 854</td>
+  <td>555 77 855</td>
+</tr>
+</table>
+```
+
+```html
+<h4>横跨两行的单元格：</h4>
+<table border="1">
+<tr>
+  <th>姓名</th>
+  <td>Bill Gates</td>
+</tr>
+<tr>
+  <th rowspan="2">电话</th>
+  <td>555 77 854</td>
+</tr>
+<tr>
+  <td>555 77 855</td>
+</tr>
+</table>
 ```
 
 <a id="markdown-表单form" name="表单form"></a>

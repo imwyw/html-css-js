@@ -251,9 +251,30 @@ chrome调试工具提示我们该元素宽度为530px，并不表示该元素只
 
 ![](../assets/CSS/css-box-width.png)
 
-但是，**元素宽高的计算并不包含margin值**，想想如果margin为负值的话，那元素宽高岂不是会变成负数？
+但是，**元素宽高的计算并不包含margin值**，margin可以为负值，表示偏移，想想如果计算包含margin的话，那元素宽高岂不是会变成负数？
+
+```html
+<style>
+    #div1 {
+        width: 100px;
+        height: 100px;
+        padding: 5px;
+        border: 1px solid red;
+        background: bisque;
+        margin-right: -100px;
+    }
+</style>
+<div id="div1"></div>
+```
+
+针对如上html标记，我们可以看出div1的宽度为112，如果计算margin的话，是错误的。
+```js
+document.getElementById("div1").offsetWidth;//112
+```
 
 <a id="markdown-w3c和ie" name="w3c和ie"></a>
 ## W3C和IE
-TODO 待整理IE盒子
-盒子模型分为了w3c盒子和ie盒子,两者的区别在于w3c盒子的width和height仅指content部分，没有包含padding和border部分，但是ie盒子模型的width和height包含padding和border部分
+
+盒子模型分为了w3c盒子和ie盒子,两者的区别在于w3c盒子的width和height仅指content部分，没有包含padding和border部分
+
+但是ie盒子模型的width和height包含padding和border部分

@@ -4,6 +4,7 @@
     - [声明](#声明)
     - [结构](#结构-1)
     - [head标签](#head标签)
+    - [工具](#工具)
 
 <!-- /TOC -->
 <a id="markdown-结构" name="结构"></a>
@@ -64,3 +65,22 @@ HTML有自己固定的结构：
 - link (`<link rel="stylesheet" type="text/css" href="theme.css" /> `)
 - style (`<style></style>`)
 - script (`<script></script>`)
+
+<a id="markdown-工具" name="工具"></a>
+## 工具
+常用的纯前端开发工具有：
+
+免费开源 VSCODE，极力推荐，配置简单，插件丰富，内存优化极高，微软良心之作！
+>https://code.visualstudio.com/
+
+付费神器 Sublime，免费可用，但要经受弹窗干扰
+>http://www.sublimetext.com/
+
+Hbuilder，H5开发利器，但因提示很多可能会影响一定的性能
+>http://dcloud.io/
+
+后面的课程全部以VSCODE作为IDE，创建一个html文档非常的简单，新建html扩展文件，输入!，然后直接tab键快速插入html模板。如下图：
+
+![](..\assets\HTML\vscode-create-html.gif)
+
+其他犀利操作和插件自行百度研究

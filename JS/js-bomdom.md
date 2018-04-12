@@ -13,7 +13,8 @@
         - [遍历节点树](#遍历节点树)
         - [DOM操作](#dom操作)
         - [属性操作](#属性操作)
-        - [innerText、innerHTML、outerHTML、outerText](#innertextinnerhtmlouterhtmloutertext)
+        - [scrollWidth/clientWidth/offsetWidth](#scrollwidthclientwidthoffsetwidth)
+        - [innerText/innerHTML/outerHTML/outerText](#innertextinnerhtmlouterhtmloutertext)
     - [BOM和DOM](#bom和dom)
 
 <!-- /TOC -->
@@ -35,7 +36,7 @@ BOM的核心是window，而window对象又具有双重角色，它既是通过js
 ![](../assets/JS/bom.png)
 
 每当我们打开一个网页，都会弹出一个窗口，这个浏览器窗口就是window对象呈现的一种形态。window对象是JavaScript层级中的顶层对象。
-如果文档包含框架（<frame> 或 <iframe> 标签），浏览器会为 HTML 文档自动创建一个 window 对象，并为每个框架创建一个额外的 window 对象。所有 JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。
+如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档自动创建一个 window 对象，并为每个框架创建一个额外的 window 对象。所有 JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。
 
 window的主对象主要有如下几个：
 
@@ -180,7 +181,9 @@ go() | 加载 history 列表中的某个具体页面。
 ## DOM(Document Object Model)
 DOM是JavaScript操作网页的接口，全称为“文档对象模型”（Document Object Model）。它的作用是将网页转为一个JavaScript对象，从而可以用脚本进行各种操作（比如增删内容）。
 
-浏览器会根据DOM模型，将结构化文档（比如HTML和XML）解析成一系列的节点，再由这些节点组成一个树状结构（DOM Tree）。所有的节点和最终的树状结构，都有规范的对外接口。所以，DOM可以理解成网页的编程接口。DOM有自己的国际标准，目前的通用版本是DOM 3，下一代版本DOM 4正在拟定中。
+浏览器会根据DOM模型，将结构化文档（比如HTML和XML）解析成一系列的节点，再由这些节点组成一个树状结构（DOM Tree）。所有的节点和最终的树状结构，都有规范的对外接口。
+
+所以，DOM可以理解成网页的编程接口。DOM有自己的国际标准，目前的通用版本是DOM 3，下一代版本DOM 4正在拟定中。
 
 严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。本章介绍的就是JavaScript对DOM标准的实现和用法。
 
@@ -251,8 +254,56 @@ child.setAttribute("id","divContent");
 child.setAttribute("style","background-color:red;width:500px;height:200px;");
 document.getElementsByTagName("body")[0].appendChild(child);
 ```
+
+<a id="markdown-scrollwidthclientwidthoffsetwidth" name="scrollwidthclientwidthoffsetwidth"></a>
+### scrollWidth/clientWidth/offsetWidth
+document元素有三个宽度属性：
+
+属性 | 描述
+---|---
+element.scrollWidth | 返回元素的可见宽度，不包边线宽度，会随对象中内容超过可视区后而变大
+element.clientWidth | 返回元素的宽度，不包滚动条等边线，会随对象显示大小的变化而改变
+element.offsetWidth | 返回元素的整体宽度，包滚动条等边线，会随对象显示大小的变化而改变
+
+下面我们通过一个案例来进行区分说明：
+```html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script>
+        function getInfo() {
+            var str = "scrollWidth-" + document.getElementById("t1").scrollWidth + "\n";
+            str += "clientWidth-" + document.getElementById("t1").clientWidth + "\n";
+            str += "offsetWidth-" + document.getElementById("t1").offsetWidth + "\n";
+            alert(str);
+        }
+    </script>
+</head>
+
+<body>
+    <!-- wrap="off" 表示停用单词换行，若不设置无横向滚动条 -->
+    <textarea id="t1" wrap="off"></textarea>
+    <input type="button" onclick="getInfo()" value="显示宽度" />
+</body>
+
+</html>
+```
+
+上述案例中，默认的textarea的scrollWidth和clientWidth是相等的，而offsetWidth是包含边框的宽度，如图：
+
+![](..\assets\HTML\dom-width-1.jpg)
+
+当textarea内容超出元素宽度时，scrollWidth和clientWidth是不一样的，如图：
+
+![](..\assets\HTML\dom-width-2.jpg)
+
+同样的，scrollHeight、clientHeight、clientHeight高度也是一样的道理。
+
 <a id="markdown-innertextinnerhtmlouterhtmloutertext" name="innertextinnerhtmlouterhtmloutertext"></a>
-### innerText、innerHTML、outerHTML、outerText
+### innerText/innerHTML/outerHTML/outerText
 ![](../assets/JS/inner_outer.gif)
 
 <a id="markdown-bom和dom" name="bom和dom"></a>
@@ -266,3 +317,5 @@ DOM描述了处理网页内容的方法和接口，BOM描述了与浏览器进�
 参考引用：
 
 [BOM和DOM详解](https://segmentfault.com/a/1190000000654274)
+
+[HTML DOM Element 对象](http://www.w3school.com.cn/jsref/dom_obj_all.asp)
