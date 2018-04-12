@@ -13,7 +13,7 @@
         - [分组选择器](#分组选择器)
     - [样式优先级](#样式优先级)
         - [样式继承](#样式继承)
-        - [增加权重!important](#增加权重important)
+        - [增加权重important](#增加权重important)
     - [元素分类](#元素分类)
         - [块状元素](#块状元素)
         - [内联元素（行内元素）](#内联元素行内元素)
@@ -153,8 +153,37 @@ ul>span {
 > http://www.cnphp.info/css-style-inheritance.html
 
 <a id="markdown-增加权重important" name="增加权重important"></a>
-### 增加权重!important
+### 增加权重important
 !important为开发者提供了一个增加样式权重的方法。
+
+```html
+<body>
+    <style>
+        div {
+            width: 100px;
+            height: 100px;
+        }
+
+        #div1 {
+            background: red;
+        }
+
+        #div1 {
+            background: greenyellow;
+        }
+
+        #div2 {
+            background: red !important;
+        }
+
+        #div2 {
+            background: greenyellow;
+        }
+    </style>
+    <div id="div1">div1</div>
+    <div id="div2">div2</div>
+</body>
+```
 
 非到万不得已不要用!important。如果你是出于懒惰使用!important，为了避免例行的调试而滥用它，那么你（或者是那些后继开发你项目的人）将会深受其害。
 
@@ -392,10 +421,19 @@ border-box | Width = width(包含padding-left + padding-right + border-left + bo
             box-sizing: border-box;
         }
     </style>
+    <script>
+        function getInfo() {
+            var str = "div1-" + document.getElementById("div1").offsetWidth + "\n";
+            str += "div2-" + document.getElementById("div2").offsetWidth + "\n";
+            alert(str);
+        }
+    </script>
     <div id="div1">div1</div>
     <div id="div2">div2</div>
     <input type="button" onclick="getInfo()" value="显示宽度">
 </body>
 ```
+
+针对上例代码，通过宽度的显示，我们可以看出来两种box-size的区别，border-box的宽高是包含padding和border进行考虑的。
 
 ![](..\assets\HTML\box-size-1.jpg)
