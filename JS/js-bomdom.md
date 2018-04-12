@@ -300,7 +300,7 @@ element.offsetWidth | 返回元素的整体宽度，包滚动条等边线，会�
 
 ![](..\assets\HTML\dom-width-2.jpg)
 
-同样的，scrollHeight、clientHeight、clientHeight高度也是一样的道理。
+同样的，scrollHeight、clientHeight、offsetHeight高度也是一样的道理。
 
 <a id="markdown-innertextinnerhtmlouterhtmloutertext" name="innertextinnerhtmlouterhtmloutertext"></a>
 ### innerText/innerHTML/outerHTML/outerText
