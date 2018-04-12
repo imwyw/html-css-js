@@ -36,7 +36,7 @@
 由两部分构成：选择器，以及一条或多条声明。
 
 简单的可以看成：
-``` css
+```css
 选择器 {
     声明1;
     声明2;
@@ -240,7 +240,7 @@ CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：�
 
 等价于
 
-``` style
+```css
 <style>
     border-width:1px;
     border-style:solid;
