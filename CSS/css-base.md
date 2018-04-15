@@ -269,11 +269,11 @@ h3 {
 元素边框和内容的距离，记住设置的顺序！
 
 ```html
-padding: 1px solid red;
+padding: 1px;
 
-padding: 1px 10px solid red;
+padding: 1px 10px;
 
-padding: 1px 10px 20px 30px solid red;
+padding: 1px 10px 20px 30px;
 ```
 
 <a id="markdown-外边距margin" name="外边距margin"></a>
