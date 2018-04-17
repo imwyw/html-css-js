@@ -126,6 +126,7 @@ div.onclick = function(event){
 // 使用格式
 elementObject.addEventListener(eventName, handle[, useCapture]);
 ```
+
 ![](../assets/JS/addEventListener.png)
 
 值得注意的是：上图中的eventName，即事件名称，并没有“on”，例如鼠标单击事件click ，鼠标双击事件doubleclick ，鼠标移入事件mouseover，鼠标移出事件mouseout等。
@@ -224,17 +225,20 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 <a id="markdown-捕获" name="捕获"></a>
 ### 捕获
 捕获型事件与冒泡型刚好相反，由DOM树最顶层元素一直到最精确的元素。
+
 ![](../assets/JS/eventCapturing.png)
 
 <a id="markdown-冒泡" name="冒泡"></a>
 ### 冒泡
 顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；从浏览器界 面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
+
 ![](../assets/JS/eventBubbling.png)
 
 <a id="markdown-dom标准的事件模型" name="dom标准的事件模型"></a>
 ### Dom标准的事件模型
 DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶段和冒泡阶段。
 首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是 冒泡阶段，可以在这个阶段对事件作出响应。
+
 ![](../assets/JS/dom_event.png)
 
 我们可以通过一个简单的示例来模拟：
