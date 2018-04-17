@@ -11,9 +11,6 @@
         - [通用选择器](#通用选择器)
         - [伪类选择器](#伪类选择器)
         - [分组选择器](#分组选择器)
-    - [样式优先级](#样式优先级)
-        - [样式继承](#样式继承)
-        - [增加权重important](#增加权重important)
     - [元素分类](#元素分类)
         - [块状元素](#块状元素)
         - [内联元素（行内元素）](#内联元素行内元素)
@@ -131,62 +128,6 @@ ul>span {
 
 对h1，h3，h5标题的字体颜色修改：
 `h1,h3,h5{ color:red; }`
-
-<a id="markdown-样式优先级" name="样式优先级"></a>
-## 样式优先级
-当同一个 HTML 元素被不止一个样式定义时，会使用哪个样式呢？
-
-一般而言，所有的样式会根据下面的规则层叠于一个新的虚拟样式表中，其中数字 4 拥有最高的优先权。
-1. 浏览器缺省设置
-2. 外部样式表,如`<head><link rel="stylesheet" type="text/css" href="my.css" /></head>`
-3. 内部样式表(位于 <head> 标签内部),如`<head><style>div{width:100%;}</style></head>`
-4. 内联样式(在 HTML 元素内部),如`<div style="width:100%;"></div>`
-
-因此，内联样式(在 HTML 元素内部)拥有最高的优先权，这意味着它将优先于以下的样式声明：`<head>` 标签中的样式声明，外部样式表中的样式声明，或者浏览器中的样式声明(缺省值)。
-
-**简而言之，就近原则！**
-
-<a id="markdown-样式继承" name="样式继承"></a>
-### 样式继承
-所谓CSS的继承是指被包在内部的标签将拥有外部标签的样式性质。
-
-具体可参考：
-> http://www.cnphp.info/css-style-inheritance.html
-
-<a id="markdown-增加权重important" name="增加权重important"></a>
-### 增加权重important
-!important为开发者提供了一个增加样式权重的方法。
-
-```html
-<body>
-    <style>
-        div {
-            width: 100px;
-            height: 100px;
-        }
-
-        #div1 {
-            background: red;
-        }
-
-        #div1 {
-            background: greenyellow;
-        }
-
-        #div2 {
-            background: red !important;
-        }
-
-        #div2 {
-            background: greenyellow;
-        }
-    </style>
-    <div id="div1">div1</div>
-    <div id="div2">div2</div>
-</body>
-```
-
-非到万不得已不要用!important。如果你是出于懒惰使用!important，为了避免例行的调试而滥用它，那么你（或者是那些后继开发你项目的人）将会深受其害。
 
 <a id="markdown-元素分类" name="元素分类"></a>
 ## 元素分类
