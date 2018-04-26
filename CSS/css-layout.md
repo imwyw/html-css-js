@@ -4,10 +4,14 @@
     - [基本类型](#基本类型)
     - [Flow](#flow)
     - [Float](#float)
-    - [层模型](#层模型)
+    - [Position](#position)
         - [absolute](#absolute)
         - [relative](#relative)
         - [fixed](#fixed)
+    - [Flex](#flex)
+        - [弹性布局](#弹性布局)
+        - [基本概念](#基本概念)
+        - [容器的属性](#容器的属性)
 
 <!-- /TOC -->
 <a id="markdown-布局" name="布局"></a>
@@ -107,8 +111,8 @@ body并没有被撑开。我们可以通过给footer标签增加clear属性设�
 
 `footer{clear:both;}`
 
-<a id="markdown-层模型" name="层模型"></a>
-## 层模型
+<a id="markdown-position" name="position"></a>
+## Position
 将元素理解成层的概念，类似于ps中的图层，定位层与层之间的位置。
 
 定位方式 | 属性值 | 对应效果 | 标准文档流
@@ -201,3 +205,55 @@ position:fixed，表示固定定位，与absolute类似，不同的是fixed相�
 参考资料：
 
 > http://zh.learnlayout.com/
+
+<a id="markdown-flex" name="flex"></a>
+## Flex
+<a id="markdown-弹性布局" name="弹性布局"></a>
+### 弹性布局
+Flex 是 Flexible Box 的缩写，意为"弹性布局"，用来为盒状模型提供最大的灵活性。
+
+任何一个容器都可以指定为 Flex 布局。
+```css
+.box{
+  display: flex;
+}
+```
+
+行内元素也可以使用 Flex 布局。
+
+```css
+.box{
+  display: inline-flex;
+}
+```
+
+Webkit 内核的浏览器，必须加上-webkit前缀。
+
+```css
+.box{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+}
+```
+
+注意，设为 Flex 布局以后，子元素的float、clear和vertical-align属性将失效。
+
+<a id="markdown-基本概念" name="基本概念"></a>
+### 基本概念
+采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。
+
+![](..\assets\CSS\flex-1.png)
+
+容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。
+
+项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。
+
+<a id="markdown-容器的属性" name="容器的属性"></a>
+### 容器的属性
+
+
+参考引用：
+
+> http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+
+> http://static.vgee.cn/static/index.html

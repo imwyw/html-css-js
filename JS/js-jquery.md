@@ -785,6 +785,10 @@ mouseleave |   | blur | unload
 </body>
 ```
 
+当多个文本框切换时，blur失去焦点事件会陷入死循环，todo分析
+> https://blog.csdn.net/hzw2312/article/details/8177927
+
+
 <a id="markdown-onoff" name="onoff"></a>
 ### on()/off()
 同样，还可以使用on进行事件的绑定，需要注意，在jQuery 3+版本后删除了bind、delegate等方法。
