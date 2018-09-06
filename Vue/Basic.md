@@ -17,6 +17,8 @@
             - [缩写](#缩写)
     - [计算属性和侦听器](#计算属性和侦听器)
         - [基础例子](#基础例子)
+            - [计算属性缓存vs方法](#计算属性缓存vs方法)
+            - [计算属性和侦听属性](#计算属性和侦听属性)
 
 <!-- /TOC -->
 
@@ -281,14 +283,109 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 ### 基础例子
 ```html
 <div id="example">
-  <p>Original message: "{{ message }}"</p>
-  <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    <p>Original message: "{{ message }}"</p>
+    <p>Computed reversed message: "{{ reversedMessage }}"</p>
 </div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello'
+        },
+        //computed 表示计算
+        computed: {
+            // 计算属性的 getter
+            reversedMessage: function () {
+                // `this` 指向 vm 实例
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
 ```
 
+这里我们声明了一个计算属性 reversedMessage。我们提供的函数将用作属性 vm.reversedMessage 的 getter 函数：
+```js
+console.log(vm.reversedMessage) // => 'olleH'
+vm.message = 'Goodbye'
+console.log(vm.reversedMessage) // => 'eybdooG'
+```
+你可以打开浏览器的控制台，自行修改例子中的 vm。vm.reversedMessage 的值始终取决于 vm.message 的值。
 
+你可以像绑定普通属性一样在模板中绑定计算属性。
 
+Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。
 
+而且最妙的是我们已经以声明的方式创建了这种依赖关系：计算属性的 getter 函数是没有副作用 (side effect) 的，这使它更易于测试和理解。
+
+<a id="markdown-计算属性缓存vs方法" name="计算属性缓存vs方法"></a>
+#### 计算属性缓存vs方法
+你可能已经注意到我们可以通过在表达式中调用方法来达到同样的效果：
+
+```html
+<div id="example">
+    <p>Original message: "{{ message }}"</p>
+    <p>Reversed message: "{{ reversedMessage() }}"</p>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello'
+        },
+        // 在组件中
+        methods: {
+            reversedMessage: function () {
+                return this.message.split('').reverse().join('')
+            }
+        }
+    })
+</script>
+```
+同样的反转显示我们可以使用一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。
+
+然而，不同的是计算属性是基于它们的依赖进行缓存的。只在相关依赖发生改变时它们才会重新求值。
+
+这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而不必再次执行函数。
+
+在下面的案例中，计算属性和调用方法同样可以显示当前的时间
+```html
+<div id="example">
+    <p>计算属性: "{{ compuNow }}"</p>
+    <p>调用方法: "{{ metNow() }}"</p>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            message: 'Hello'
+        },
+        //computed 表示计算
+        computed: {
+            // 计算属性的 getter
+            compuNow: function () {
+                return (new Date()).toLocaleString();
+            }
+        },
+        // 方法
+        methods: {
+            metNow: function () {
+                return (new Date()).toLocaleString();
+            }
+        }
+    })
+</script>
+```
+
+在浏览器js控制台进行多次调用计算属性和方法发现，计算属性每次显示的为缓存，调用方法则会每次执行函数内容。
+
+![](..\assets\Vue\computed-function.png)
+
+<a id="markdown-计算属性和侦听属性" name="计算属性和侦听属性"></a>
+#### 计算属性和侦听属性
 
 
 
