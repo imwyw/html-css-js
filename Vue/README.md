@@ -1,6 +1,7 @@
 <!-- TOC -->
 
 - [Vue](#vue)
+    - [MVVM](#mvvm)
     - [Vue.js 是什么](#vuejs-是什么)
     - [引用](#引用)
     - [声明式渲染](#声明式渲染)
@@ -14,6 +15,16 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <a id="markdown-vue" name="vue"></a>
 # Vue
+
+<a id="markdown-mvvm" name="mvvm"></a>
+## MVVM
+与知名前端框架 Angular、 Ember 等一样， Vue.j s 在设计上也使用 MVVM (Model-View-ViewModel) 模式。
+
+MVVM 模式是由经典的软件架构 MVC 衍生来的 。当 View （视图层）变化时，会自动更新到ViewModel （视图模型），反之亦然。
+
+View 和 ViewModel 之间通过双向绑定（tdata-binding）建立联系，如下图所示：
+
+![](../assets/Vue/mvvm-bind.png)
 
 <a id="markdown-vuejs-是什么" name="vuejs-是什么"></a>
 ## Vue.js 是什么
