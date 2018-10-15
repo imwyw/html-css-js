@@ -6,6 +6,7 @@
     - [Hello World](#hello-world)
     - [其他工具](#其他工具)
         - [效率提升](#效率提升)
+        - [特殊字符](#特殊字符)
 
 <!-- /TOC -->
 <a id="markdown-html" name="html"></a>
@@ -47,3 +48,8 @@
 Emmet (前身为 Zen Coding) 是一个能大幅度提高前端开发效率的一个工具:著作权归作者所有。
 
 > https://www.w3cplus.com/tools/emmet-cheat-sheet.html
+
+<a id="markdown-特殊字符" name="特殊字符"></a>
+### 特殊字符
+
+> https://blog.csdn.net/realghost/article/details/11613649
