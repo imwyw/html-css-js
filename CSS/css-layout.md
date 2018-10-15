@@ -12,6 +12,19 @@
         - [弹性布局](#弹性布局)
         - [基本概念](#基本概念)
         - [容器的属性](#容器的属性)
+            - [flex-direction](#flex-direction)
+            - [flex-wrap属性](#flex-wrap属性)
+            - [flex-flow](#flex-flow)
+            - [justify-content](#justify-content)
+            - [align-items](#align-items)
+            - [align-content](#align-content)
+        - [项目的属性](#项目的属性)
+            - [order](#order)
+            - [flex-grow](#flex-grow)
+            - [flex-shrink](#flex-shrink)
+            - [flex-basis](#flex-basis)
+            - [flex](#flex)
+            - [align-self](#align-self)
 
 <!-- /TOC -->
 <a id="markdown-布局" name="布局"></a>
@@ -183,7 +196,7 @@ position:relative，通过left、right、top、bottom属性确定元素在正常
 
 <a id="markdown-fixed" name="fixed"></a>
 ### fixed
-position:fixed，表示固定定位，与absolute类似，不同的是fixed相对于屏幕内的网页窗口，不会收滚动的影响。
+position:fixed，表示固定定位，与absolute类似，不同的是fixed相对于屏幕内的网页窗口，不会受滚动的影响。
 
 ``` html
 <style>
@@ -244,16 +257,276 @@ Webkit 内核的浏览器，必须加上-webkit前缀。
 
 ![](..\assets\CSS\flex-1.png)
 
-容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；交叉轴的开始位置叫做cross start，结束位置叫做cross end。
+容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。
+
+主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；
+
+交叉轴的开始位置叫做cross start，结束位置叫做cross end。
 
 项目默认沿主轴排列。单个项目占据的主轴空间叫做main size，占据的交叉轴空间叫做cross size。
 
 <a id="markdown-容器的属性" name="容器的属性"></a>
 ### 容器的属性
+容器的六个属性：
+* flex-direction
+* flex-wrap
+* flex-flow
+* justify-content
+* align-items
+* align-content
 
+<a id="markdown-flex-direction" name="flex-direction"></a>
+#### flex-direction
+flex-direction属性决定主轴的方向（即项目的排列方向）。
+
+```css
+.box {
+  flex-direction: row | row-reverse | column | column-reverse;
+}
+```
+
+* row（默认值）：主轴为水平方向，起点在左端。
+* row-reverse：主轴为水平方向，起点在右端。
+* column：主轴为垂直方向，起点在上沿。
+* column-reverse：主轴为垂直方向，起点在下沿。
+
+```html
+<body>
+	<style>
+		div:not([class="box"]) {
+			background-color: pink;
+			width: 500px;
+			height: 100px;
+			margin: 5px;
+		}
+
+		div.box {
+			display: flex;
+			flex-direction: row;
+		}
+	</style>
+	<div class="box">
+		<div>div1</div>
+		<div>div2</div>
+		<div>div3</div>
+		<div>div4</div>
+		<div>div5</div>
+		<div>div6</div>
+		<div>div7</div>
+		<div>div8</div>
+	</div>
+</body>
+```
+
+![](..\assets\CSS\flex-direc-row.png)
+
+![](..\assets\CSS\flex-direc-all.png)
+
+<a id="markdown-flex-wrap属性" name="flex-wrap属性"></a>
+#### flex-wrap属性
+默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。
+
+![](..\assets\CSS\flex-wrap-show.png)
+
+```css
+.box{
+  flex-wrap: nowrap | wrap | wrap-reverse;
+}
+```
+
+* nowrap（默认）：不换行。
+
+![](..\assets\CSS\flex-wrap-nowrap.png)
+
+
+* wrap：换行，第一行在上方。
+
+![](..\assets\CSS\flex-wrap-wrap.png)
+
+* wrap-reverse：换行，第一行在下方。
+
+![](..\assets\CSS\flex-wrap-wrap-reserve.png)
+
+<a id="markdown-flex-flow" name="flex-flow"></a>
+#### flex-flow
+flex-flow属性是flex-direction属性和flex-wrap属性的简写形式，默认值为row nowrap。
+
+```css
+.box {
+  flex-flow: <flex-direction> || <flex-wrap>;
+}
+
+/* 例如 */
+.box {
+  flex-flow: row wrap;
+}
+```
+
+<a id="markdown-justify-content" name="justify-content"></a>
+#### justify-content
+justify-content属性定义了项目在主轴上的对齐方式。
+
+```css
+.box {
+  justify-content: flex-start | flex-end | center | space-between | space-around;
+}
+```
+
+![](..\assets\CSS\justify-content.png)
+
+* flex-start（默认值）：左对齐
+* flex-end：右对齐
+* center： 居中
+* space-between：两端对齐，项目之间的间隔都相等。
+* space-around：每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍。
+
+<a id="markdown-align-items" name="align-items"></a>
+#### align-items
+align-items属性定义项目在交叉轴上如何对齐。
+
+```css
+.box {
+  align-items: flex-start | flex-end | center | baseline | stretch;
+}
+```
+
+![](..\assets\CSS\align-items.png)
+
+* flex-start：交叉轴的起点对齐。
+* flex-end：交叉轴的终点对齐。
+* center：交叉轴的中点对齐。
+* baseline: 项目的第一行文字的基线对齐。
+* stretch（默认值）：如果项目未设置高度或设为auto，将占满整个容器的高度。
+
+<a id="markdown-align-content" name="align-content"></a>
+#### align-content
+align-content属性定义了多根轴线的对齐方式。如果项目只有一根轴线，该属性不起作用。
+
+```css
+.box {
+  align-content: flex-start | flex-end | center | space-between | space-around | stretch;
+}
+```
+
+![](..\assets\CSS\align-content.png)
+
+* flex-start：与交叉轴的起点对齐。
+* flex-end：与交叉轴的终点对齐。
+* center：与交叉轴的中点对齐。
+* space-between：与交叉轴两端对齐，轴线之间的间隔平均分布。
+* space-around：每根轴线两侧的间隔都相等。所以，轴线之间的间隔比轴线与边框的间隔大一倍。
+* stretch（默认值）：轴线占满整个交叉轴。
+
+
+<a id="markdown-项目的属性" name="项目的属性"></a>
+### 项目的属性
+* order
+* flex-grow
+* flex-shrink
+* flex-basis
+* flex
+* align-self
+
+<a id="markdown-order" name="order"></a>
+#### order
+order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。
+
+```css
+.item {
+  order: <integer>;
+}
+```
+
+![](..\assets\CSS\items-order.png)
+
+
+<a id="markdown-flex-grow" name="flex-grow"></a>
+#### flex-grow
+flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+
+```css
+.item {
+  flex-grow: <number>; /* default 0 */
+}
+```
+
+![](..\assets\CSS\flex-grow.png)
+
+如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。
+
+如果一个项目的flex-grow属性为2，其他项目都为1，则前者占据的剩余空间将比其他项多一倍。
+
+<a id="markdown-flex-shrink" name="flex-shrink"></a>
+#### flex-shrink
+flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
+
+```css
+.item {
+  flex-shrink: <number>; /* default 1 */
+}
+```
+
+![](..\assets\CSS\flex-shrink.jpg)
+
+
+如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。
+
+如果一个项目的flex-shrink属性为0，其他项目都为1，则空间不足时，前者不缩小。
+
+负值对该属性无效。
+
+<a id="markdown-flex-basis" name="flex-basis"></a>
+#### flex-basis
+
+flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间（main size）。
+
+浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小。
+
+```css
+.item {
+  flex-basis: <length> | auto; /* default auto */
+}
+```
+
+它可以设为跟width或height属性一样的值（比如350px），则项目将占据固定空间。
+
+<a id="markdown-flex" name="flex"></a>
+#### flex
+flex属性是flex-grow, flex-shrink 和 flex-basis的简写，默认值为0 1 auto。后两个属性可选。
+
+```css
+.item {
+  flex: none | [ <'flex-grow'> <'flex-shrink'>? || <'flex-basis'> ]
+}
+```
+
+该属性有两个快捷值：auto (1 1 auto) 和 none (0 0 auto)。
+
+建议优先使用这个属性，而不是单独写三个分离的属性，因为浏览器会推算相关值。
+
+
+<a id="markdown-align-self" name="align-self"></a>
+#### align-self
+align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。
+
+默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。
+
+```css
+.item {
+  align-self: auto | flex-start | flex-end | center | baseline | stretch;
+}
+```
+
+![](..\assets\CSS\align-self.png)
+
+
+
+---
 
 参考引用：
 
 > http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
 
 > http://static.vgee.cn/static/index.html
+
+
