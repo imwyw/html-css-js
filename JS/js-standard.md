@@ -27,13 +27,17 @@
         - [get和set类方法](#get和set类方法)
     - [Math对象](#math对象)
     - [RegExp对象](#regexp对象)
+        - [修饰符](#修饰符)
+        - [正则表达式创建](#正则表达式创建)
         - [属性](#属性)
         - [test()](#test)
         - [exec()](#exec)
-        - [String.prototype.match()](#stringprototypematch)
-        - [String.prototype.search()](#stringprototypesearch)
-        - [String.prototype.replace()](#stringprototypereplace)
-        - [String.prototype.split()](#stringprototypesplit)
+        - [字符串实例方法](#字符串实例方法)
+            - [String.prototype.match()](#stringprototypematch)
+            - [String.prototype.search()](#stringprototypesearch)
+            - [String.prototype.replace()](#stringprototypereplace)
+            - [String.prototype.split()](#stringprototypesplit)
+        - [常见正则表达式](#常见正则表达式)
 
 <!-- /TOC -->
 <a id="markdown-标准库" name="标准库"></a>
@@ -388,15 +392,32 @@ setMilliseconds() | 设置毫秒（0-999）。
 <a id="markdown-regexp对象" name="regexp对象"></a>
 ## RegExp对象
 正则表达式（regular expression）是一种表达文本模式（即字符串结构）的方法，有点像字符串的模板，常常用作按照“给定模式”匹配文本的工具。
+
 比如，正则表达式给出一个 Email 地址的模式，然后用它来确定一个字符串是否为 Email 地址。
+
+<a id="markdown-修饰符" name="修饰符"></a>
+### 修饰符
+
+参数 | 含义 | 备注
+---|----|---
+i | 忽略大小写
+g | 全局匹配
+m | 多行匹配
+u | 正确处理四个字节的UTF-16编码 | ES6新增
+y | 确保匹配必须从剩余的第一个位置开始 | ES6新增
+
+<a id="markdown-正则表达式创建" name="正则表达式创建"></a>
+### 正则表达式创建
 
 新建正则表达式有两种方法:
 ```js
-//字面量，以斜杠表示开始和结束。特别强调，此处没有引号包含
+//字面量，以斜杠表示开始和结束。特别强调，此处没有引号包含。推荐此方式，简单直接！
 var regex = /xyz/;
+var regex = /xyz/ig;
 
 //RegExp 构造函数
 var regex = new RegExp('xyz');
+var regex = new RegExp('xyz','ig');
 ```
 
 <a id="markdown-属性" name="属性"></a>
@@ -418,7 +439,13 @@ var regex = new RegExp('xyz');
 正则对象的test方法返回一个布尔值，表示当前模式是否能匹配参数字符串。
 ```js
 //验证参数字符串之中是否包含cat
-/cat/.test('cats and dogs') // true
+var str = 'Cats and dogs';
+var reg = /cat/ig;
+var reg1 = new RegExp('cat','i');
+reg.test(str);// true
+
+/cat/.test(str); // false
+reg1.test(str);// true
 ```
 
 <a id="markdown-exec" name="exec"></a>
@@ -435,8 +462,11 @@ var reg = new RegExp("a");
 reg.exec("abca");//["a", index: 0, input: "abca"]
 ```
 
+<a id="markdown-字符串实例方法" name="字符串实例方法"></a>
+### 字符串实例方法
+
 <a id="markdown-stringprototypematch" name="stringprototypematch"></a>
-### String.prototype.match()
+#### String.prototype.match()
 字符串对象的match方法对字符串进行正则匹配，返回匹配结果。
 
 从上面代码可以看到，字符串的match方法与正则对象的exec方法非常类似：匹配成功返回一个数组，匹配失败返回null。
@@ -444,20 +474,20 @@ reg.exec("abca");//["a", index: 0, input: "abca"]
 如果正则表达式带有g修饰符，则该方法与正则对象的exec方法行为不同，会一次性返回所有匹配成功的结果。
 ```js
 var str = "abca";
-str.match(/a/g);
-str.match(/a/);
-/a/g.exec(str);
+str.match(/a/g);// ["a","a"]
+str.match(/a/);// ["a", index: 0, input: "abca", groups: undefined]
+/a/g.exec(str);// ["a", index: 0, input: "abca", groups: undefined]
 ```
 
 <a id="markdown-stringprototypesearch" name="stringprototypesearch"></a>
-### String.prototype.search()
+#### String.prototype.search()
 字符串对象的search方法，返回第一个满足条件的匹配结果在整个字符串中的位置。如果没有任何匹配，则返回-1。该方法会忽略g修饰符。
 ```js
 "abc".search(/a/);//0
 ```
 
 <a id="markdown-stringprototypereplace" name="stringprototypereplace"></a>
-### String.prototype.replace()
+#### String.prototype.replace()
 字符串对象的replace方法可以替换匹配的值。它接受两个参数，第一个是搜索模式，第二个是替换的内容。
 ```js
 var str = "abca";
@@ -468,7 +498,7 @@ str.replace(/a/g,"w");//wbcw
 更多高级用法课下研究。
 
 <a id="markdown-stringprototypesplit" name="stringprototypesplit"></a>
-### String.prototype.split()
+#### String.prototype.split()
 字符串对象的split方法按照正则规则分割字符串，返回一个由分割后的各个部分组成的数组。
 ```js
 /*
@@ -488,6 +518,19 @@ str.split(/, */);
 // 指定返回数组的最大成员
 str.split(/, */, 2);
 //[ 'a', 'b' ]
+```
+
+<a id="markdown-常见正则表达式" name="常见正则表达式"></a>
+### 常见正则表达式
+```
+匹配中文字符： [\u4e00-\u9fa5]
+匹配Email地址：\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/
+去除首尾空白：/(^\s*)|(\s*$)/g
+去除多余空格：/\s/g
+身份证：\d{17}[\d|x]|\d{15}
+ip地址：\d+\.\d+\.\d+\.\d+
+网址URL： ^((https|http|ftp|rtsp|mms)?:\/\/)[^\s]+
+QQ号：[1-9]{4,}
 ```
 
 参考引用：
