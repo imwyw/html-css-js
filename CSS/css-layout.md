@@ -25,6 +25,12 @@
             - [flex-basis](#flex-basis)
             - [flex](#flex)
             - [align-self](#align-self)
+    - [布局实例](#布局实例)
+        - [基本网格布局](#基本网格布局)
+        - [百分比网格](#百分比网格)
+        - [圣杯布局](#圣杯布局)
+        - [输入框的布局](#输入框的布局)
+        - [固定底栏](#固定底栏)
 
 <!-- /TOC -->
 <a id="markdown-布局" name="布局"></a>
@@ -519,7 +525,249 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 
 ![](..\assets\CSS\align-self.png)
 
+<a id="markdown-布局实例" name="布局实例"></a>
+## 布局实例
 
+<a id="markdown-基本网格布局" name="基本网格布局"></a>
+### 基本网格布局
+最简单的网格布局，就是平均分布。在容器里面平均分配空间，跟上面的骰子布局很像，但是需要设置项目的自动缩放。
+
+![](..\assets\CSS\flex-demo-grid.png)
+
+```html
+<body>
+	<style>
+		div.grid {
+			display: flex;
+		}
+
+		.grid-cell {
+            /* flex-grow, flex-shrink 和 flex-basis的简写 */
+			flex: 1;
+			height: 100px;
+			background-color: skyblue;
+			margin: 5px;
+		}
+	</style>
+	<div class="grid">
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell"></div>
+	</div>
+</body>
+```
+
+<a id="markdown-百分比网格" name="百分比网格"></a>
+### 百分比网格
+某个网格的宽度为固定的百分比，其余网格平均分配剩余的空间。
+
+![](..\assets\CSS\flex-demo-grid-percent.png)
+
+```html
+<body>
+	<style>
+		div.grid {
+			display: flex;
+		}
+
+		.grid-cell {
+			flex: auto;
+			height: 100px;
+			background-color: skyblue;
+			margin: 5px;
+		}
+
+		.grid-cell.c-1-3 {
+			flex: 0 0 33.33%;
+		}
+
+		.grid-cell.c-1-2 {
+			flex: 0 0 50%;
+		}
+
+		.grid-cell.c-1-4 {
+			flex: 0 0 25%;
+		}
+	</style>
+	<div class="grid">
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell c-1-2"></div>
+		<div class="grid-cell"></div>
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell c-1-3"></div>
+		<div class="grid-cell"></div>
+	</div>
+	<div class="grid">
+		<div class="grid-cell c-1-4"></div>
+		<div class="grid-cell"></div>
+	</div>
+</body>
+```
+
+<a id="markdown-圣杯布局" name="圣杯布局"></a>
+### 圣杯布局
+圣杯布局（Holy Grail Layout）指的是一种最常见的网站布局。
+
+页面从上到下，分成三个部分：头部（header），躯干（body），尾部（footer）。
+
+其中躯干又水平分成三栏，从左到右为：导航、主栏、副栏。
+
+![](..\assets\CSS\flex-demo-holy.png)
+
+```html
+<body>
+    <style>
+        html,
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            /* 100% 屏幕高度，需要清除body margin值，否则会撑开滚动条 */
+            height: 100vh;
+            margin: 0;
+            font-size: 28px;
+            font-weight: bolder;
+        }
+
+        header,
+        footer {
+            height: 100px;
+            background-color: #666;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: none;
+        }
+
+        .content {
+            /* 高度自适应 */
+            flex: 1;
+            display: flex;
+        }
+
+        nav,
+        aside {
+            background-color: #eb6f43;
+            flex: 0 1 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 宽度自适应 */
+            flex: 1;
+            background-color: #d6d6d6;
+        }
+
+        nav {
+            /* 调整顺序在main前面 */
+            order: -1;
+        }
+    </style>
+    <header>
+        header
+    </header>
+    <div class="content">
+        <main>main</main>
+        <nav>nav</nav>
+        <aside>aside</aside>
+    </div>
+    <footer>
+        footer
+    </footer>
+</body>
+```
+
+还有淘宝的双飞翼布局，有兴趣可以进行研究！
+
+<a id="markdown-输入框的布局" name="输入框的布局"></a>
+### 输入框的布局
+我们常常需要在输入框的前方添加提示，后方添加按钮。
+
+![](..\assets\CSS\flex-demo-输入框布局.png)
+
+```html
+<body>
+    <style>
+        .field-container{
+            display: flex;
+            width: 250px;
+        }
+        .add-field{
+            flex:1;
+        }
+    </style>
+    <div class="field-container">
+        <span class="add-item">icon</span>
+        <input type="text" class="add-field">
+        <button class="add-item">查询</button>
+    </div>
+</body>
+```
+
+<a id="markdown-固定底栏" name="固定底栏"></a>
+### 固定底栏
+有时，页面内容太少，无法占满一屏的高度，底栏就会抬高到页面的中间。这时可以采用Flex布局，让底栏总是出现在页面的底部。
+
+![](..\assets\CSS\flex-demo-固定底栏.png)
+
+```html
+<body>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        #cont {
+            display: flex;
+            flex-direction: column;
+            /* 100% 屏幕高度，需要清除body margin值，否则会撑开滚动条 */
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        header,
+        footer {
+            background-color: lightblue;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+    <div id="cont">
+        <header>header</header>
+        <main></main>
+        <footer>footer</footer>
+    </div>
+</body>
+```
 
 ---
 
@@ -529,4 +777,4 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 
 > http://static.vgee.cn/static/index.html
 
-
+> http://www.ruanyifeng.com/blog/2015/07/flex-examples.html
