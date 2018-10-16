@@ -7,6 +7,7 @@
 <!-- /TOC -->
 <a id="markdown-javascript" name="javascript"></a>
 # Javascript
+
 <a id="markdown-什么是javascript" name="什么是javascript"></a>
 ## 什么是Javascript？
 JavaScript 是世界上最流行的编程语言。
@@ -22,6 +23,8 @@ JavaScript的核心语法部分相当精简，只包括两个部分：基本的�
 - Web类：实现互联网的各种功能
 
 如果宿主环境是服务器，则会提供各种操作系统的API，比如文件操作API、网络通信API等等。这些你都可以在Node环境中找到。
+
+![](..\assets\JS\js-java.jpg)
 
 <a id="markdown-实验环境" name="实验环境"></a>
 ## 实验环境
