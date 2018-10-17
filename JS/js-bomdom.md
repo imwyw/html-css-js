@@ -3,7 +3,7 @@
 - [概述](#概述)
     - [BOM(Browser Object Model)](#bombrowser-object-model)
         - [window对象](#window对象)
-        - [Navigator对象](#navigator对象)
+        - [navigator对象](#navigator对象)
         - [Screen 对象](#screen-对象)
         - [location对象](#location对象)
         - [History 对象](#history-对象)
@@ -23,7 +23,9 @@
 <a id="markdown-bombrowser-object-model" name="bombrowser-object-model"></a>
 ## BOM(Browser Object Model)
 ECMAScirpt是JavaScript的核心，在Web中使用JavaScript，那么BOM无疑才是真正的核心。
+
 BOM的核心是window，而window对象又具有双重角色，它既是通过js访问浏览器窗口的一个接口，又是一个Global（全局）对象。
+
 这意味着在网页中定义的任何对象，变量和函数，都以window作为其global对象。
 
 * BOM是browser object model的缩写，简称浏览器对象模型
@@ -36,7 +38,10 @@ BOM的核心是window，而window对象又具有双重角色，它既是通过js
 ![](../assets/JS/bom.png)
 
 每当我们打开一个网页，都会弹出一个窗口，这个浏览器窗口就是window对象呈现的一种形态。window对象是JavaScript层级中的顶层对象。
-如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档自动创建一个 window 对象，并为每个框架创建一个额外的 window 对象。所有 JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。
+
+如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档自动创建一个 window 对象，并为每个框架创建一个额外的 window 对象。
+
+所有 JavaScript 全局对象、函数以及变量均自动成为 window 对象的成员。
 
 window的主对象主要有如下几个：
 
@@ -47,10 +52,19 @@ window的主对象主要有如下几个：
 Window 对象表示浏览器中打开的窗口。
 如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档创建一个 window 对象，并为每个框架创建一个额外的 window 对象。
 
-Window 对象表示一个浏览器窗口或一个框架。在客户端 JavaScript 中，Window 对象是全局对象，所有的表达式都在当前的环境中计算。也就是说，要引用当前窗口根本不需要特殊的语法，可以把那个窗口的属性作为全局变量来使用。例如，可以只写 document，而不必写 window.document。
+Window 对象表示一个浏览器窗口或一个框架。在客户端 JavaScript 中，Window 对象是全局对象，所有的表达式都在当前的环境中计算。
+
+也就是说，要引用当前窗口根本不需要特殊的语法，可以把那个窗口的属性作为全局变量来使用。
+
+例如，可以只写 document，而不必写 window.document。
+
 同样，可以把当前窗口对象的方法当作函数来使用，如只写 alert()，而不必写 Window.alert()。
+
 除了上面列出的属性和方法，Window 对象还实现了核心 JavaScript 所定义的所有全局属性和方法。
-Window 对象的 window 属性和 self 属性引用的都是它自己。当你想明确地引用当前窗口，而不仅仅是隐式地引用它时，可以使用这两个属性。除了这两个属性之外，parent 属性、top 属性以及 frame[] 数组都引用了与当前 Window 对象相关的其他 Window 对象。
+
+Window 对象的 window 属性和 self 属性引用的都是它自己。当你想明确地引用当前窗口，而不仅仅是隐式地引用它时，可以使用这两个属性。
+
+除了这两个属性之外，parent 属性、top 属性以及 frame[] 数组都引用了与当前 Window 对象相关的其他 Window 对象。
 
 属性 | 描述
 ---|---
@@ -102,9 +116,11 @@ setTimeout() | 在指定的毫秒数后调用函数或计算表达式。
 参考：[Window对象](http://www.w3school.com.cn/jsref/dom_obj_window.asp)
 
 <a id="markdown-navigator对象" name="navigator对象"></a>
-### Navigator对象
+### navigator对象
 简单来说，Navigator对象是获取使用者浏览器信息的对象。
+
 虽然没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象。
+
 下面列举了关于 Navigator 对象的属性与方法，有兴趣可以了解一下。
 
 属性 | 描述
@@ -164,6 +180,7 @@ replace() | 用新的文档替换当前文档。
 <a id="markdown-history-对象" name="history-对象"></a>
 ### History 对象
 History 对象包含用户（在浏览器窗口中）访问过的 URL。
+
 History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
 
 属性 | 描述
@@ -248,6 +265,7 @@ hasAttribute() | 返回一个布尔值，表示当前元素节点是否包含指
 removeAttribute() | 用于从当前元素节点移除属性。
 
 使用dom操作在html文档中添加一个红色的，宽500px，高200px，id为divContent的div
+
 ```js
 var child = document.createElement("div");
 child.setAttribute("id","divContent");
@@ -309,10 +327,6 @@ element.offsetWidth | 返回元素的整体宽度，包滚动条等边线，会�
 <a id="markdown-bom和dom" name="bom和dom"></a>
 ## BOM和DOM
 DOM描述了处理网页内容的方法和接口，BOM描述了与浏览器进行交互的方法和接口。
-
-
-
-
 
 参考引用：
 
