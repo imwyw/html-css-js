@@ -19,15 +19,20 @@
 <a id="markdown-事件" name="事件"></a>
 # 事件
 JavaScript与HTML之间的交互是通过事件实现的。
+
 用户或浏览器自身执行操作而触发的某种动作。诸如click , dblclick, mouseover 等都是事件的名字，onclick，ondblclick，onmouseover等都是事件的触发方法。
 
 <a id="markdown-前导" name="前导"></a>
 ## 前导
-我们需要了解一下html文档在网页上的运行顺序。当我们打开一个html文档时，网页会从上到下依次读取文档，构建DOM文档树，并将内容显示出来。若遇到链接或图片等内容时，html中的DOM文档树继续构建，网页在后台并行下载链接中的内容。
+我们需要了解一下html文档在网页上的运行顺序。当我们打开一个html文档时，网页会从上到下依次读取文档，构建DOM文档树，并将内容显示出来。
+
+若遇到链接或图片等内容时，html中的DOM文档树继续构建，网页在后台并行下载链接中的内容。
 
 但是当网页读取到js代码时，所有构建及下载暂停，需要将js代码全部加载完成后才能继续构建网页。
 
-那么回归正题，我们可以在js代码中改变页面DOM文档树，但是在页面加载时，若加载的js代码改变了一个还构造完成的节点，页面就会报错。所以我们需要确保DOM文档树加载完成后，才执行js代码。
+那么回归正题，我们可以在js代码中改变页面DOM文档树，但是在页面加载时，若加载的js代码改变了一个还构造完成的节点，页面就会报错。
+
+所以我们需要确保DOM文档树加载完成后，才执行js代码。
 
 window.onload方法会在DOM节点树加载完成后触发，此时DOM文档树加载完成，可以通过js代码随意操作。
 
@@ -139,7 +144,9 @@ var button = document.getElementById('btn');
 button.addEventListener('click', hello, false);
 ```
 
-addEventListener方法可以为当前对象的同一个事件，添加多个监听函数。这些函数按照添加顺序触发，即先添加先触发。如果为同一个事件多次添加同一个监听函数，该函数只会执行一次，多余的添加将自动被去除（不必使用removeEventListener方法手动去除）。
+addEventListener方法可以为当前对象的同一个事件，添加多个监听函数。这些函数按照添加顺序触发，即先添加先触发。
+
+如果为同一个事件多次添加同一个监听函数，该函数只会执行一次，多余的添加将自动被去除（不必使用removeEventListener方法手动去除）。
 
 ```js
 function hello() {
@@ -187,7 +194,9 @@ document.getElementById('btn').removeEventListener('click', first, false);
 
 <a id="markdown-dispatchevent" name="dispatchevent"></a>
 ### dispatchEvent()
-dispatchEvent方法在当前节点上触发指定事件，从而触发监听函数的执行。该方法返回一个布尔值，只要有一个监听函数调用了Event.preventDefault()，则返回值为false，否则为true。
+dispatchEvent方法在当前节点上触发指定事件，从而触发监听函数的执行。
+
+该方法返回一个布尔值，只要有一个监听函数调用了Event.preventDefault()，则返回值为false，否则为true。
 ```js
 function first() {
     alert('first function');
@@ -202,7 +211,11 @@ document.getElementById('btn').dispatchEvent(new Event('click'));
 
 <a id="markdown-总结" name="总结"></a>
 ### 总结
-在上面三种方法中，第一种“HTML标签的on-属性”，违反了HTML与JavaScript代码相分离的原则；第二种“Element节点的事件属性”的缺点是，同一个事件只能定义一个监听函数，也就是说，如果定义两次onclick属性，后一次定义会覆盖前一次。因此，这两种方法都不推荐使用，除非是为了程序的兼容问题，因为所有浏览器都支持这两种方法。
+在上面三种方法中，第一种“HTML标签的on-属性”，违反了HTML与JavaScript代码相分离的原则；
+
+第二种“Element节点的事件属性”的缺点是，同一个事件只能定义一个监听函数，也就是说，如果定义两次onclick属性，后一次定义会覆盖前一次。
+
+因此，这两种方法都不推荐使用，除非是为了程序的兼容问题，因为所有浏览器都支持这两种方法。
 
 addEventListener是推荐的指定监听函数的方法。它有如下优点：
 
@@ -237,6 +250,7 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 <a id="markdown-dom标准的事件模型" name="dom标准的事件模型"></a>
 ### Dom标准的事件模型
 DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶段和冒泡阶段。
+
 首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是 冒泡阶段，可以在这个阶段对事件作出响应。
 
 ![](../assets/JS/dom_event.png)
@@ -261,7 +275,7 @@ DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶�
       alert("body被点击了");
     }
 
-    //addEventListener最后一个参数修改为true再试试效果
+    // 将addEventListener方法最后一个参数全部修改为true再试试效果
     document.getElementById("btn").addEventListener("click", myclick1, false);
     document.getElementById("_div").addEventListener("click", myclick2, false);
     //document.getElementById("_body").addEventListener("click", myclick3, false);

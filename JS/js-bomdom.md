@@ -4,9 +4,9 @@
     - [BOM(Browser Object Model)](#bombrowser-object-model)
         - [window对象](#window对象)
         - [navigator对象](#navigator对象)
-        - [Screen 对象](#screen-对象)
+        - [screen 对象](#screen-对象)
         - [location对象](#location对象)
-        - [History 对象](#history-对象)
+        - [history 对象](#history-对象)
     - [DOM(Document Object Model)](#domdocument-object-model)
         - [查找元素](#查找元素)
         - [元素节点属性](#元素节点属性)
@@ -121,7 +121,7 @@ setTimeout() | 在指定的毫秒数后调用函数或计算表达式。
 
 虽然没有应用于 navigator 对象的公开标准，不过所有浏览器都支持该对象。
 
-下面列举了关于 Navigator 对象的属性与方法，有兴趣可以了解一下。
+下面列举了关于 navigator 对象的属性与方法，有兴趣可以了解一下。
 
 属性 | 描述
 ---|---
@@ -139,7 +139,7 @@ userAgent | 返回由客户机发送服务器的 user-agent 头部的值。
 userLanguage | 返回 OS 的自然语言设置。
 
 <a id="markdown-screen-对象" name="screen-对象"></a>
-### Screen 对象
+### screen 对象
 属性 | 描述
 ---|---
 availHeight | 返回显示屏幕的高度 (除 Windows 任务栏之外)。
@@ -178,10 +178,10 @@ reload() | 重新加载当前文档。
 replace() | 用新的文档替换当前文档。
 
 <a id="markdown-history-对象" name="history-对象"></a>
-### History 对象
-History 对象包含用户（在浏览器窗口中）访问过的 URL。
+### history 对象
+history 对象包含用户（在浏览器窗口中）访问过的 URL。
 
-History 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
+history 对象是 window 对象的一部分，可通过 window.history 属性对其进行访问。
 
 属性 | 描述
 ---|---

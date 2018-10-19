@@ -96,7 +96,7 @@ var Rectangle = function (width, height) {
     this.p = Polygon;
     this.p(4);
     //删除p属性，防止通过p属性修改父类结构
-    //delete this.p;
+    delete this.p;
     
     this.width = width;
     this.height = height;
@@ -117,8 +117,8 @@ call方法:
 apply方法： 
 语法：obj.apply(thisObj, [arg1, arg2, ...]);
 
-相同点：都是把obj(即this)绑定到thisObj，这时候thisObj具备了obj的属性和方法。或者说thisObj继承了obj的属性和方法。
-区别：apply接收的是数组参数，call接收的是连续参数。
+* 相同点：都是把obj(即this)绑定到thisObj，这时候thisObj具备了obj的属性和方法。或者说thisObj继承了obj的属性和方法。
+* 区别：apply接收的是数组参数，call接收的是连续参数。
 
 ```js
 //三角形
@@ -142,7 +142,9 @@ console.log(t.getAreas());
 
 关于对象冒充实现继承：
 
-所有的成员方法都是针对this而创建的，也就是所所有的实例都会拥有一份成员方法的副本，这是对内存资源的一种极度浪费。其它的缺陷比如说对象冒充无法继承prototype域的变量和方法就不用提了。
+所有的成员方法都是针对this而创建的，也就是所所有的实例都会拥有一份成员方法的副本，这是对内存资源的一种极度浪费。
+
+其它的缺陷比如说对象冒充无法继承prototype域的变量和方法就不用提了。
 
 针对上面的例子中，给多边形类Polygon增加原型方法，子类无法继承到原型上的属性。。。
 ```js
