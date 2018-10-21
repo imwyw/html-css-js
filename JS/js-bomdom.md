@@ -204,6 +204,8 @@ DOM是JavaScript操作网页的接口，全称为“文档对象模型”（Docu
 
 严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。本章介绍的就是JavaScript对DOM标准的实现和用法。
 
+//todo dom操作需要增加简单案例
+
 <a id="markdown-查找元素" name="查找元素"></a>
 ### 查找元素
 W3C提供了比较方便的定位节点的方法和属性，如下所示：
