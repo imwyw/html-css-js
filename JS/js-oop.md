@@ -26,11 +26,11 @@
 //Student类构造函数
 var Student = function (name) {
     //this指向类的实例，及对象本身，每一个对象都有Name属性
-    this.Name = name;
+    this.name = name;
 
     //每一个对象都有sayHi方法
     this.sayHi = function () {
-        console.log('hello world,' + this.Name);
+        console.log('hello world,' + this.name);
     }
 }
 
@@ -51,14 +51,14 @@ JavaScript 的每个对象都继承另一个对象，后者称为“原型”（
 // Student类构造函数
 var Student = function (name) {
     // this指向类的实例，及对象本身，每一个对象都有Name属性
-    this.Name = name;
+    this.name = name;
 
     // 实例共享的方法
     Student.prototype.sayHi = function () {
-        console.log('hello world,' + this.Name);
+        console.log('hello world,' + this.name);
     }
     // 实例共享属性
-    Student.prototype.Name = '中国人';
+    Student.prototype.name = '中国人';
 }
 
 var stu1 = new Student('jack');//hello world,jack
@@ -67,9 +67,9 @@ stu1.sayHi();
 stu2.sayHi();
 
 // 打印实例属性，如当前类没有该属性，则按照原型链
-console.log(stu1.Name);//jack
+console.log(stu1.name);//jack
 // __proto__ 原型对象
-console.log(stu1.__proto__.Name);//中国人
+console.log(stu1.__proto__.name);//中国人
 ```
 
 对象的属性和方法，有可能是定义在自身，也有可能是定义在它的原型对象。由于原型本身也是对象，又有自己的原型，所以形成了一条原型链（prototype chain）。
@@ -144,13 +144,13 @@ var Triangle = function (a, b, c) {
     // 在当前实例this的基础上调用Polygon的构造函数
     Polygon.call(this, 3);
 
-    this.A = a;
-    this.B = b;
-    this.C = c;
+    this.a = a;
+    this.b = b;
+    this.c = c;
     this.getAreas = function (a, b, c) {
         //海伦公式求面积
-        var hf = (this.A + this.B + this.C) / 2;
-        var res = Math.sqrt(hf * (hf - this.A) * (hf - this.B) * (hf - this.C));
+        var hf = (this.a + this.b + this.c) / 2;
+        var res = Math.sqrt(hf * (hf - this.a) * (hf - this.b) * (hf - this.c));
         return res;
     }
 }
@@ -215,15 +215,15 @@ console.log(r.getAreas());
 
 //三角形
 var Triangle = function (a, b, c) {
-    this.A = a;
-    this.B = b;
-    this.C = c;
+    this.a = a;
+    this.b = b;
+    this.c = c;
 }
 Triangle.prototype = new Polygon(3);
 Triangle.prototype.getAreas = function () {
     // 海伦公式求面积
-    var hf = (this.A + this.B + this.C) / 2;
-    var res = Math.sqrt(hf * (hf - this.A) * (hf - this.B) * (hf - this.C));
+    var hf = (this.a + this.b + this.c) / 2;
+    var res = Math.sqrt(hf * (hf - this.a) * (hf - this.b) * (hf - this.c));
     return res;
 }
 
@@ -254,7 +254,7 @@ console.log(r2.model);//{newProp: "新建属性"}
 * 简单，易于实现
 
 缺点：
-* 要想为子类新增属性和方法，必须要在new Animal()这样的语句之后执行，不能放到构造器中
+* 要想为子类新增属性和方法，必须要在new Polygon()这样的语句之后执行，不能放到构造器中
 * 无法实现多继承
 * 来自原型对象的所有属性被所有实例共享（来自原型对象的引用属性是所有实例共享的）（详细请看附录代码： 示例1）
 * 创建子类实例时，无法向父类构造函数传参
@@ -306,12 +306,13 @@ var r2 = new Rectangle(1, 2);
 r2.arr.push(2);
 r2.name = 'second';
 
-console.log(r.arr); //(2) [1, 2]
-console.log(r2.arr); //(2) [1, 2]
+// 实例属性体现了互相的差别
+console.log(r.arr); //(1) [1]
+console.log(r2.arr); //(1) [2]
 console.log(r.name); //first
 console.log(r2.name); //second
 console.log(r.model); //{newProp: "新建属性"}
-console.log(r2.model); //{newProp: "新建属性"}
+console.log(r2.model); //{}
 ```
 
 组合继承避免了原型链和借用构造函数的缺点，融合了它们的优点，成为JavaScript中最常用的继承方式。
