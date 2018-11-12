@@ -215,6 +215,7 @@ W3C提供了比较方便的定位节点的方法和属性，如下所示：
 | getElementById() | 获取特定ID元素的节点 | 
 | getElementsByTagName() | 获取相同元素的节点列表 | 
 | getElementsByName | 获取相同名称的节点列表 | 
+| getElementsByClassName | 通过类名获取节点列表 | 
 | getAttribute() | 获取特定元素节点属性的值 | 
 | setAttribute() | 设置特定元素节点属性的值 | 
 | removeAttribute() | 移除特定元素节点属性 |
