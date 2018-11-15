@@ -552,3 +552,68 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 
 当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
 
+```html
+<div id="app">
+    <fieldset><input type="text" placeholder="search.." v-model="condition" /></fieldset>
+    <fieldset>
+        <span>{{areaResult}}</sapn>
+    </fieldset>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            condition: '',
+            areaResult: '',
+        },
+        // 实例已经创建完成之后被调用
+        created: function () {
+            // 通过ajax获取区域数据
+            this.getBaiduAreas();
+        },
+        methods: {
+            getBaiduAreas: function () {
+                // 跨域问题，无法直接请求，使用jsonp方式进行请求获取全国省份数据
+                $.ajax({
+                    url: 'http://map.baidu.com/?qt=sub_area_list&areacode=1&level=1',
+                    method: 'get',
+                    dataType: 'jsonp',
+                    jsonpCallback: 'vm.areaBack',
+                });
+            },
+            // 回调设置全国省份数据
+            areaBack: function (data) {
+                // 设置属性，以便后续的侦听筛选
+                vm.areas = data.content.sub;
+                // 设置默认的结果值
+                vm.areaResult = $.map(vm.areas, function (v) {
+                    return v.area_name;
+                });
+            }
+        },
+        // 侦听属性
+        watch: {
+            // 侦听条件变化
+            condition: function () {
+                if (vm.condition.length > 0) {
+                    // 按照条件筛选对象，map构造新的数组
+                    vm.areaResult = $.map(vm.areas, function (v) {
+                        if (v.area_name.indexOf(vm.condition) > -1) {
+                            return v.area_name;
+                        }
+                    });
+                } else {
+                    vm.areaResult = $.map(vm.areas, function (v) {
+                        return v.area_name;
+                    });
+                }
+            }
+        }
+    })
+</script>
+```
