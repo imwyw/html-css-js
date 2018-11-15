@@ -73,7 +73,7 @@ jQuery的最大优势有两个。首先，它基本是一个DOM操作工具，�
 <!-- 实际使用取消注释 -->
 <!-- 
 <script type="text/javascript"
-  src="//code.jquery.com/jquery-1.11.0.min.js">
+  src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js">
 </script> 
 <script>
  window.jQuery ||
