@@ -53,7 +53,9 @@
 <!-- /TOC -->
 <a id="markdown-jquery" name="jquery"></a>
 # jQuery
-jQuery是目前使用最广泛的JavaScript函数库。据统计，全世界57.5%的网站使用jQuery，在使用JavaScript函数库的网站中，93.0%使用jQuery。它已经成了开发者必须学会的技能。
+jQuery是目前使用最广泛的JavaScript函数库。据统计，全世界57.5%的网站使用jQuery，在使用JavaScript函数库的网站中，93.0%使用jQuery。
+
+它已经成了开发者必须学会的技能。
 
 官网：>https://jquery.com/
 
@@ -105,7 +107,9 @@ var listItems = $('li');
 <a id="markdown-jquery构造函数" name="jquery构造函数"></a>
 ### jQuery构造函数
 jQuery对象本质上是一个构造函数，主要作用是返回jQuery对象的实例。比如，上面代码表面上是选中li元素，实际上是返回对应于li元素的jQuery实例。
+
 因为只有这样，才能在DOM对象上使用jQuery提供的各种方法。
+
 ```js
 /*
 $('body').nodeType; // undefined
@@ -183,7 +187,9 @@ $.preloadImages('img/hover-on.png', 'img/hover-off.png');
 
 <a id="markdown-jquery构造函数返回的结果集" name="jquery构造函数返回的结果集"></a>
 ### jQuery构造函数返回的结果集
-jQuery的核心思想是“先选中某些网页元素，然后对其进行某种处理”（find something, do something），也就是说，先选择后处理，这是jQuery的基本操作模式。所以，绝大多数jQuery操作都是从选择器开始的，返回一个选中的结果集。
+jQuery的核心思想是“先选中某些网页元素，然后对其进行某种处理”（find something, do something），也就是说，先选择后处理，这是jQuery的基本操作模式。
+
+所以，绝大多数jQuery操作都是从选择器开始的，返回一个选中的结果集。
 
 <a id="markdown-length属性" name="length属性"></a>
 #### length属性
@@ -209,8 +215,6 @@ $('li')[0] instanceof jQuery // false
 $('li')[0] instanceof Element // true
 ```
 上面代码表示，下标运算符取出的是Element节点的实例。所以，通常使用下标运算符将jQuery实例转回DOM对象。
-
-
 
 <a id="markdown-选择器" name="选择器"></a>
 ## 选择器
@@ -822,7 +826,9 @@ mouseleave |   | blur | unload
 
 <a id="markdown-委托事件" name="委托事件"></a>
 ### 委托事件
-委托事件 有一个优势，他们能在后代元素添加到文档后，可以处理这些事件。在确保所选择的元素已经存在的情况下，进行事件绑定时，您可以使用委派的事件，以避免频繁的绑定事件及解除绑定事件。
+委托事件 有一个优势，他们能在后代元素添加到文档后，可以处理这些事件。
+
+在确保所选择的元素已经存在的情况下，进行事件绑定时，您可以使用委派的事件，以避免频繁的绑定事件及解除绑定事件。
 
 ```html
 <body>
