@@ -19,6 +19,8 @@
         - [基础例子](#基础例子)
             - [计算属性缓存vs方法](#计算属性缓存vs方法)
             - [计算属性和侦听属性](#计算属性和侦听属性)
+            - [计算属性的setter](#计算属性的setter)
+        - [侦听器](#侦听器)
 
 <!-- /TOC -->
 
@@ -78,14 +80,14 @@ vm.b = 'hi'
 
 ```html
 <div id="app">
-    <p>{{ foo }}</p>
-    <!-- 这里的 `foo` 不会更新！ -->
-    <button v-on:click="foo = 'baz'">Change it</button>
+    <p>{{ name }}</p>
+    <!-- 这里的 `name` 不会更新！ -->
+    <button v-on:click="name = 'lucy'">Change it</button>
 </div>
 
 <script>
     var obj = {
-        foo: 'bar'
+        name: 'jack'
     }
 
     Object.freeze(obj)
@@ -99,20 +101,36 @@ vm.b = 'hi'
 
 除了数据属性，Vue 实例还暴露了一些有用的实例属性与方法。它们都有前缀 $，以便与用户定义的属性区分开来。例如：
 
-```js
-var data = { a: 1 }
-var vm = new Vue({
-  el: '#example',
-  data: data
-})
+```html
+<div id="app">
+    <fieldset><input type="text" v-model="name" /></fieldset>
+    <fieldset>
+    <span>{{ name }}</span>
+    </fieldset>
+    <fieldset><button v-on:click="show">获取数据</button></fieldset>
+</div>
 
-vm.$data === data // => true
-vm.$el === document.getElementById('example') // => true
+<script>
+    var obj = { name: "jack", age: 12 };
+    var vm = new Vue({
+    el: "#app",
+    data: obj,
+    methods: {
+        show: function() {
+        console.info("current name:" + vm.name);
+        }
+    }
+    });
 
-// $watch 是一个实例方法
-vm.$watch('a', function (newValue, oldValue) {
-  // 这个回调将在 `vm.a` 改变后调用
-})
+    vm.$data === obj; // => true
+    vm.$el === document.getElementById("app"); // => true
+
+    // $watch 是一个实例方法
+    vm.$watch("name", function(newValue, oldValue) {
+    // 这个回调将在 `vm.name` 改变后调用
+    console.info("old:" + oldValue + ",new:" + newValue);
+    });
+</script>
 ```
 
 <a id="markdown-实例生命周期钩子" name="实例生命周期钩子"></a>
@@ -155,9 +173,11 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 
 <a id="markdown-插值" name="插值"></a>
 ### 插值
+
 <a id="markdown-文本" name="文本"></a>
 #### 文本
 数据绑定最常见的形式就是使用“Mustache”语法 (双大括号) 的文本插值：
+
 ```html
 <span>Message: {{ msg }}</span>
 ```
@@ -166,9 +186,22 @@ Mustache 标签将会被替代为对应数据对象上 msg 属性的值。无论
 <a id="markdown-原始html" name="原始html"></a>
 #### 原始HTML
 双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令：
+
 ```html
-<p>Using mustaches: {{ rawHtml }}</p>
-<p>Using v-html directive: <span v-html="rawHtml"></span></p>
+<div id="app">
+    <p>Using mustaches: {{ rawHtml }}</p>
+    <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+</div>
+
+<script>
+    var obj = {
+        rawHtml: '<span style="color:red">this should be red.</span>',
+    };
+    var vm = new Vue({
+        el: "#app",
+        data: obj
+    });
+</script>
 ```
 
 这个 span 的内容将会被替换成为属性值 rawHtml，直接作为 HTML——会忽略解析属性值中的数据绑定。
@@ -185,6 +218,7 @@ Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v
 迄今为止，在我们的模板中，我们一直都只绑定简单的属性键值。
 
 但实际上，对于所有的数据绑定，Vue.js 都提供了完全的 JavaScript 表达式支持。
+
 ```html
 {{ number + 1 }}
 
@@ -194,6 +228,7 @@ Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v
 
 <div v-bind:id="'list-' + id"></div>
 ```
+
 这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效。
 ```html
 <!-- 这是语句，不是表达式 -->
@@ -215,8 +250,27 @@ Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v
 
 回顾我们在介绍中看到的例子：
 ```html
-<!-- v-if 指令将根据表达式 seen 的值的真假来插入/移除 <p> 元素。 -->
-<p v-if="seen">现在你看到我了</p>
+<div id="app">
+    <fieldset><button v-on:click="change">切换显示</button></fieldset>
+    <!-- v-if 指令将根据表达式 seen 的值的真假来插入/移除 <p> 元素。 -->
+    <p v-if="seen">现在你看到我了</p>
+
+</div>
+
+<script>
+    var obj = {
+        seen: true,
+    };
+    var vm = new Vue({
+        el: "#app",
+        data: obj,
+        methods: {
+            change: function () {
+                vm.seen = !vm.seen;
+            }
+        }
+    });
+</script>
 ```
 
 <a id="markdown-参数" name="参数"></a>
@@ -268,6 +322,7 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 模板内的表达式非常便利，但是设计它们的初衷是用于简单运算的。
 
 在模板中放入太多的逻辑会让模板过重且难以维护。例如：
+
 ```html
 <div id="example">
   {{ message.split('').reverse().join('') }}
@@ -335,7 +390,7 @@ Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生
         data: {
             message: 'Hello'
         },
-        // 在组件中
+        // 在组件中定义方法
         methods: {
             reversedMessage: function () {
                 return this.message.split('').reverse().join('')
@@ -346,7 +401,7 @@ Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生
 ```
 同样的反转显示我们可以使用一个方法而不是一个计算属性。两种方式的最终结果确实是完全相同的。
 
-然而，不同的是计算属性是基于它们的依赖进行缓存的。只在相关依赖发生改变时它们才会重新求值。
+然而，**不同的是计算属性是基于它们的依赖进行缓存的**。只在相关依赖发生改变时它们才会重新求值。
 
 这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而不必再次执行函数。
 
@@ -387,8 +442,113 @@ Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生
 <a id="markdown-计算属性和侦听属性" name="计算属性和侦听属性"></a>
 #### 计算属性和侦听属性
 
+Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据变动：侦听属性。
 
+当你有一些数据需要随着其它数据变动而变动时，你很容易滥用 watch——特别是如果你之前使用过 AngularJS。
 
+然而，通常更好的做法是使用计算属性而不是命令式的 watch 回调。细想一下这个例子：
 
+```html
+<div id="example">
+    <fieldset><input type="text" v-model="firstName" /></fieldset>
+    <fieldset><input type="text" v-model="lastName" /></fieldset>
+    <fieldset><span>FullName:{{ fullName }}</span></fieldset>
+</div>
 
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            firstName: 'money',
+            lastName: 'zhang',
+            fullName: 'money zhang'
+        },
+        watch: {
+            // 监听firstName属性编号
+            firstName: function (nv, ov) {
+                this.fullName = nv + ' ' + this.lastName;
+            },
+            // 监听lastName属性编号
+            lastName: function (nv, ov) {
+                this.fullName = this.firstName + ' ' + nv;
+            }
+        }
+    })
+</script>
+```
+
+将它与计算属性的版本进行比较：
+```html
+<div id="example">
+    <fieldset><input type="text" v-model="firstName" /></fieldset>
+    <fieldset><input type="text" v-model="lastName" /></fieldset>
+    <fieldset><span>FullName:{{ fullName }}</span></fieldset>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            firstName: 'money',
+            lastName: 'zhang',
+        },
+        computed: {
+            // fullName为计算属性，依赖于firstName和lastName
+            fullName: function () {
+                return this.firstName + ' ' + this.lastName;
+            }
+        }
+    })
+</script>
+```
+
+<a id="markdown-计算属性的setter" name="计算属性的setter"></a>
+#### 计算属性的setter
+
+计算属性默认只有 getter ，不过在需要时你也可以提供一个 setter ：
+
+```html
+<div id="example">
+    <fieldset><input type="text" v-model="firstName" /></fieldset>
+    <fieldset><input type="text" v-model="lastName" /></fieldset>
+    <fieldset><input type="text" v-model="fullName" /></fieldset>
+    <fieldset><span>FullName:{{ fullName }}</span></fieldset>
+</div>
+
+<script>
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            firstName: 'money',
+            lastName: 'zhang',
+        },
+        computed: {
+            // fullName为计算属性，依赖于firstName和lastName
+            fullName: {
+                // getter
+                get: function () {
+                    return this.firstName + ' ' + this.lastName;
+                },
+                // setter
+                set: function (val) {
+                    var names = val.split(' ');
+                    if (names.length > 1) {
+                        this.firstName = names[0];
+                        this.lastName = names[1];
+                    }
+                }
+            },
+        }
+    })
+</script>
+```
+
+<a id="markdown-侦听器" name="侦听器"></a>
+### 侦听器
+
+虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。
+
+这就是为什么 Vue 通过 watch 选项提供了一个更通用的方法，来响应数据的变化。
+
+当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
 
