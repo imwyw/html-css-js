@@ -861,6 +861,8 @@ mouseleave |   blur | unload
         /*
         动态为表格中每个td添加事件，即td是在未来产生的，如果使用$().click的方式是做不到的
         这里mouseenter和mouseleave其实就是jQuery封装的hover方法
+        或者使用 $('#table').delegate('td','mouseenter',function(){});
+        $().delegate()也是对on方法的封装
         */
         $('#table').on('mouseenter', 'td', function () {
             $(this).addClass('red');
