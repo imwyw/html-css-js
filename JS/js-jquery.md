@@ -747,7 +747,7 @@ window.onload：除了加载完dom文档，还要等待所有的图片、视频�
 click | keypress | submit | load
 dblclick | keydown | change | resize
 mouseenter | keyup | focus | scroll
-mouseleave |   | blur | unload
+mouseleave |   blur | unload
 
 <a id="markdown-jquery中等效方法" name="jquery中等效方法"></a>
 ### jQuery中等效方法
