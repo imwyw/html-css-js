@@ -19,10 +19,7 @@
     * [jQuery](./JS/js-jquery.md)
 
 * [Bootstrap](./Bootstrap/README.md)
-    * [示例](./Bootstrap/Demo.md)
+    * [全局样式](./Bootstrap/GlobalCSS.md)
 
 * [Vue](./Vue/README.md)
     * [Basic](./Vue/Basic.md)
-
-* [AngularJS](./AngularJS/README.md)
-    * [Basic](./AngularJS/Basic.md)

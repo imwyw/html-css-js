@@ -4,6 +4,7 @@
     - [OfficialSite](#officialsite)
     - [Basic Template](#basic-template)
     - [初体验](#初体验)
+    - [实例精选](#实例精选)
 
 <!-- /TOC -->
 
@@ -17,7 +18,7 @@
 
 <a id="markdown-basic-template" name="basic-template"></a>
 ## Basic Template
->https://getbootstrap.com/docs/3.3/getting-started/
+> https://getbootstrap.com/docs/3.3/getting-started/
 
 ```html
 <!DOCTYPE html>
@@ -50,6 +51,9 @@
   </body>
 </html>
 ```
+
+**Bootstrap 插件全部依赖 jQuery**
+> 请注意，Bootstrap 的所有 JavaScript 插件都依赖 jQuery，因此 jQuery 必须在 Bootstrap 之前引入，就像在基本模版中所展示的一样。在 bower.json 文件中 列出了 Bootstrap 所支持的 jQuery 版本。
 
 <a id="markdown-初体验" name="初体验"></a>
 ## 初体验
@@ -93,3 +97,10 @@
 </body>
 </html>
 ```
+
+<a id="markdown-实例精选" name="实例精选"></a>
+## 实例精选
+以下实例全部基于前面所讲的基本模板并配合 Bootstrap 的众多组件开发而成。
+
+> https://v3.bootcss.com/getting-started/#examples
+

@@ -1,6 +1,7 @@
 <!-- TOC -->
 
-- [示例](#示例)
+- [全局样式](#全局样式)
+    - [布局容器](#布局容器)
     - [Button](#button)
         - [Basic example](#basic-example)
         - [Button dropdowns](#button-dropdowns)
@@ -17,8 +18,15 @@
         - [Glyphicons 字体图标](#glyphicons-字体图标)
 
 <!-- /TOC -->
-<a id="markdown-示例" name="示例"></a>
-# 示例
+<a id="markdown-全局样式" name="全局样式"></a>
+# 全局样式
+
+<a id="markdown-布局容器" name="布局容器"></a>
+## 布局容器
+Bootstrap 需要为页面内容和栅格系统包裹一个 .container 容器。
+
+我们提供了两个作此用处的类。注意，由于 padding 等属性的原因，这两种 容器类不能互相嵌套。
+
 <a id="markdown-button" name="button"></a>
 ## Button
 
