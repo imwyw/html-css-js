@@ -20,7 +20,6 @@
 
 * [Bootstrap](./Bootstrap/README.md)
     * [全局样式](./Bootstrap/GlobalCSS.md)
-    * [组件](./Bootstrap/Component.md)
     * [Javascript插件](./Bootstrap/JS_Plugin.md)
 
 * [Vue](./Vue/README.md)
