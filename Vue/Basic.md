@@ -21,6 +21,16 @@
             - [计算属性和侦听属性](#计算属性和侦听属性)
             - [计算属性的setter](#计算属性的setter)
         - [侦听器](#侦听器)
+    - [Class 与 Style 绑定](#class-与-style-绑定)
+        - [绑定Class和Style](#绑定class和style)
+            - [对象绑定class](#对象绑定class)
+            - [数组绑定class](#数组绑定class)
+            - [绑定内联样式](#绑定内联样式)
+    - [条件渲染](#条件渲染)
+        - [v-if](#v-if)
+        - [v-show](#v-show)
+    - [列表渲染](#列表渲染)
+        - [v-for](#v-for)
 
 <!-- /TOC -->
 
@@ -617,3 +627,193 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
     })
 </script>
 ```
+
+<a id="markdown-class-与-style-绑定" name="class-与-style-绑定"></a>
+## Class 与 Style 绑定
+操作元素的 class 列表和内联样式是数据绑定的一个常见需求。
+
+因为它们都是属性，所以我们可以用 v-bind 处理它们：只需要通过表达式计算出字符串结果即可。
+
+不过，字符串拼接麻烦且易错。因此，在将 v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。
+
+表达式结果的类型除了字符串之外，还可以是对象或数组。
+
+<a id="markdown-绑定class和style" name="绑定class和style"></a>
+### 绑定Class和Style
+
+<a id="markdown-对象绑定class" name="对象绑定class"></a>
+#### 对象绑定class
+
+我们可以传给 v-bind:class 一个对象，以动态地切换 class：
+
+```html
+<div v-bind:class="{ active: isActive }"></div>
+```
+
+你可以在对象中传入更多属性来动态切换多个 class。此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:
+
+```html
+<div id="app">
+<!-- 注意：类名 【text-danger】 中包含横杆所以需要引号包含 -->
+<div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+    <h1>bind class</h1>
+</div>
+</div>
+
+<script>
+var vm = new Vue({
+    el: '#app',
+    data: {
+    isActive: true,
+    hasError: false
+    }
+});
+</script>
+```
+
+结果渲染为：
+
+```html
+<div class="static active"></div>
+```
+
+绑定的数据对象不必内联定义在模板里：
+
+```html
+  <div id="app">
+    <div v-bind:class="classObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        classObject: {
+          active: true,
+          'text-danger': false
+        }
+      }
+    });
+  </script>
+```
+
+渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式：
+
+```html
+  <div id="app">
+    <div v-bind:class="classObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        isActive: true,
+        error: null
+      },
+      computed: {
+        classObject: function () {
+          return {
+            active: this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    });
+  </script>
+```
+
+<a id="markdown-数组绑定class" name="数组绑定class"></a>
+#### 数组绑定class
+我们可以把一个数组传给 v-bind:class，以应用一个 class 列表：
+
+```html
+  <div id="app">
+    <div v-bind:class="[activeClass, errorClass]"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        activeClass: 'active',
+        errorClass: 'text-danger'
+      }
+    });
+  </script>
+```
+
+渲染为：
+
+```html
+<div class="active text-danger"></div>
+```
+
+<a id="markdown-绑定内联样式" name="绑定内联样式"></a>
+#### 绑定内联样式
+`v-bind:style` 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
+
+CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来) 来命名：
+
+```html
+  <div id="app">
+    <div v-bind:style="styleObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        styleObject: {
+          color: 'red',
+          fontSize: '13px'
+        }
+      }
+    });
+  </script>
+```
+
+同样也支持数组语法绑定，暂略。
+
+<a id="markdown-条件渲染" name="条件渲染"></a>
+## 条件渲染
+
+<a id="markdown-v-if" name="v-if"></a>
+### v-if
+```html
+  <div id="app">
+    <input type="text" v-model="number" />
+    <hr />
+    <div v-if="number > 0">
+      大于0
+    </div>
+    <div v-else-if="number < 0">
+      小于0
+    </div>
+    <div v-else>
+      等于0
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        number: 0
+      }
+    });
+  </script>
+```
+
+<a id="markdown-v-show" name="v-show"></a>
+### v-show
+
+```html
+<div v-show="true">v-show</div>
+```
+
+<a id="markdown-列表渲染" name="列表渲染"></a>
+## 列表渲染
+
+<a id="markdown-v-for" name="v-for"></a>
+### v-for
