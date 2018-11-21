@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>可编辑表格</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="title"><span>可编辑表格</span></div>
+        <div class="tools">
+            <div class="addBtn">
+                <div class="icon">
+                    <span class="add icon"></span>
+                </div>
+                <div class="icon">
+                    新增数据
+                </div>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <td>序号</td>
+                    <td>姓名</td>
+                    <td>性别</td>
+                    <td>入学年份</td>
+                    <td>入学日期</td>
+                    <td class="widther">所学专业</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td class="edi-text">张萍萍</td>
+                    <td class="edi-gender">女</td>
+                    <td class="edi-year">2000</td>
+                    <td class="edi-text">2000-09-01</td>
+                    <td class="edi-text">材料科学与工程系</td>
+                    <td>
+                        <span class="del icon"></span>
+                    </td>
+                </tr>
+                <tr class="evenline">
+                    <td>2</td>
+                    <td class="edi-text">陈飞</td>
+                    <td class="edi-gender">男</td>
+                    <td class="edi-year">2000</td>
+                    <td class="edi-text">2000-09-01</td>
+                    <td class="edi-text">化学系</td>
+                    <td>
+                        <span class="del icon"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td class="edi-text">董婷婷</td>
+                    <td class="edi-gender">女</td>
+                    <td class="edi-year">2000</td>
+                    <td class="edi-text">2000-09-01</td>
+                    <td class="edi-text">化学系</td>
+                    <td>
+                        <span class="del icon"></span>
+                    </td>
+                </tr>
+                <tr class="evenline">
+                    <td>4</td>
+                    <td class="edi-text">康莹莹</td>
+                    <td class="edi-gender">女</td>
+                    <td class="edi-year">2000</td>
+                    <td class="edi-text">2000-09-01</td>
+                    <td class="edi-text">外国语系</td>
+                    <td>
+                        <span class="del icon"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td class="edi-text">唐可儿</td>
+                    <td class="edi-gender">女</td>
+                    <td class="edi-year">2000</td>
+                    <td class="edi-text">2000-09-01</td>
+                    <td class="edi-text">外国语系</td>
+                    <td>
+                        <span class="del icon"></span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        var count = $('tbody tr').length;
+        $(document).ready(function () {
+            bindAddBtn();
+            bindDelBtn();
+            bindCellEdit();
+            bindBlurInput();
+        });
+
+        // 绑定添加数据按钮事件
+        function bindAddBtn() {
+            $('div.addBtn').click(function () {
+                count++;
+                var elements = '<tr><td>' + count + '</td><td class="edi-text">姓名</td>' +
+                    '<td class="edi-gender">女</td><td class="edi-year">2016</td>' +
+                    '<td class="edi-text">2015-09-01</td>' +
+                    '<td class="edi-text">材料科学与工程系</td>' +
+                    '<td><span class="del icon"></span></td></tr>';
+                $('tbody').append(elements);
+                $('tbody tr:odd').addClass('evenline');
+            });
+        }
+
+        // 绑定删除按钮事件
+        function bindDelBtn() {
+            // TODO
+            $('tbody').on('click', 'span.del', function (e) {
+                $(this).closest('tr').remove();
+            });
+        }
+
+        // 绑定单元格双击事件
+        function bindCellEdit() {
+            // TODO
+            $('tbody').on('dblclick', 'td[class]', function (e) {
+                var clsName = $(this).attr('class');
+                var tdContent = $(this).text();
+                var tdWidth = $(this).width() - 5;
+                var strElement = '';
+                $(this).html('');
+
+                if (clsName === 'edi-gender') {
+                    strElement = '<select>' +
+                        '<option value="男">男</option>' +
+                        '<option value="女">女</option></select>';
+                } else if (clsName === 'edi-year') {
+                    strElement = '<input type="number" />';
+                } else {
+                    strElement = '<input type="text"/>';
+                }
+
+                $(this).append(strElement);
+                if ($(this).find('input').length > 0) {
+                    $(this).find('input').width(tdWidth);
+                    $(this).find('input').val(tdContent);
+                    $(this).find('input').focus();
+                } else {
+                    $(this).find('select').width(tdWidth);
+                    $(this).find('select').val(tdContent);
+                    $(this).find('select').focus();
+                }
+
+            });
+        }
+
+        //针对input和select设置焦点离开
+        function bindBlurInput() {
+            $('tbody').on('blur', 'input', resetTd);
+            $('tbody').on('blur', 'select', resetTd);
+
+            function resetTd(e) {
+                var value = $(this).val();
+                var $td = $(this).closest('td');
+                $td.text(value);
+                $(this).remove();
+            }
+        }
+    </script>
+</body>
+
+</html>
