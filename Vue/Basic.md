@@ -31,6 +31,16 @@
         - [v-show](#v-show)
     - [列表渲染](#列表渲染)
         - [v-for](#v-for)
+            - [数组v-for](#数组v-for)
+            - [对象v-for](#对象v-for)
+        - [数组更新检测](#数组更新检测)
+        - [对象更新注意](#对象更新注意)
+    - [事件处理](#事件处理)
+        - [事件处理方法](#事件处理方法)
+        - [内联处理器](#内联处理器)
+        - [事件修饰符](#事件修饰符)
+        - [按键修饰符](#按键修饰符)
+    - [表单输入绑定](#表单输入绑定)
 
 <!-- /TOC -->
 
@@ -817,3 +827,349 @@ CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记
 
 <a id="markdown-v-for" name="v-for"></a>
 ### v-for
+
+<a id="markdown-数组v-for" name="数组v-for"></a>
+#### 数组v-for
+我们用 v-for 指令根据一组数组的选项列表进行渲染。
+
+v-for 指令需要使用 item in items 形式的特殊语法，items 是源数据数组并且 item 是数组元素迭代的别名。
+
+v-for 还支持一个可选的第二个参数为当前项的索引。
+
+```html
+  <div id="app">
+    <ul id="example-2">
+      <li v-for="(item, index) in items">
+        {{ parentMessage }} - {{ index }} - {{ item.message }}
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        parentMessage: 'Parent',
+        items: [{
+            message: 'Foo'
+          },
+          {
+            message: 'Bar'
+          }
+        ]
+      }
+    });
+  </script>
+```
+
+<a id="markdown-对象v-for" name="对象v-for"></a>
+#### 对象v-for
+```html
+  <div id="app">
+    <ul id="v-for-object" class="demo">
+      <li v-for="value in object">
+        {{ value }}
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        object: {
+          firstName: 'John',
+          lastName: 'Doe',
+          age: 30
+        }
+      }
+    });
+  </script>
+```
+
+第二个的参数为键名：
+
+```html
+<div v-for="(value, key) in object">
+  {{ key }}: {{ value }}
+</div>
+```
+
+第三个参数为索引：
+
+```html
+<div v-for="(value, key, index) in object">
+  {{ index }}. {{ key }}: {{ value }}
+</div>
+```
+
+<a id="markdown-数组更新检测" name="数组更新检测"></a>
+### 数组更新检测
+
+Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：
+
+* push()
+* pop()
+* shift()
+* unshift()
+* splice()
+* sort()
+* reverse()
+
+打开控制台，然后用前面例子的 items 数组调用变异方法：
+`vm.items.push({ message: 'Baz' }) `
+
+变异方法 (mutation method)，顾名思义，会改变被这些方法调用的原始数组。
+
+相比之下，也有非变异 (non-mutating method) 方法，例如：filter(), concat() 和 slice() 。
+
+这些不会改变原始数组，但总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
+
+```js
+vm.items = vm.items.filter(function (item) {
+  return item.message.match(/Foo/)
+})
+```
+
+**特别注意**
+
+由于 JavaScript 的限制，Vue 不能检测以下变动的数组：
+1. 当你利用索引直接设置一个项时，例如：`vm.items[indexOfItem] = newValue`
+2. 当你修改数组的长度时，例如：`vm.items.length = newLength`
+
+```js
+var vm = new Vue({
+  data: {
+    items: ['a', 'b', 'c']
+  }
+})
+vm.items[1] = 'x' // 不是响应性的
+vm.items.length = 2 // 不是响应性的
+```
+
+```js
+// Vue.set 使用set方法可以实现双向同步更新
+Vue.set(vm.items, indexOfItem, newValue)
+
+// Array.prototype.splice
+vm.items.splice(indexOfItem, 1, newValue)
+```
+
+你也可以使用 vm.$set 实例方法，该方法是全局方法 Vue.set 的一个别名：
+
+```js
+vm.$set(vm.items, indexOfItem, newValue)
+```
+
+<a id="markdown-对象更新注意" name="对象更新注意"></a>
+### 对象更新注意
+还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
+
+```js
+var vm = new Vue({
+  data: {
+    a: 1
+  }
+})
+// `vm.a` 现在是响应式的
+
+vm.b = 2
+// `vm.b` 不是响应式的
+```
+
+对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。
+
+但是，可以使用 Vue.set(object, key, value) 方法向嵌套对象添加响应式属性。
+
+例如，对于：
+
+```html
+var vm = new Vue({
+  data: {
+    userProfile: {
+      name: 'Anika'
+    }
+  }
+})
+```
+
+你可以添加一个新的 age 属性到嵌套的 userProfile 对象：
+
+```js
+Vue.set(vm.userProfile, 'age', 27)
+// 或者用下面的实例方法
+vm.$set(vm.userProfile, 'age', 27)
+```
+
+<a id="markdown-事件处理" name="事件处理"></a>
+## 事件处理
+
+可以用 v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。
+
+```html
+<div id="example-1">
+  <button v-on:click="counter += 1">Add 1</button>
+  <p>The button above has been clicked {{ counter }} times.</p>
+</div>
+```
+
+```js
+var example1 = new Vue({
+  el: '#example-1',
+  data: {
+    counter: 0
+  }
+})
+```
+
+<a id="markdown-事件处理方法" name="事件处理方法"></a>
+### 事件处理方法
+`v-on`绑定事件对象的传递：
+
+```html
+<div id="example-2">
+  <!-- `greet` 是在下面定义的方法名 -->
+  <button v-on:click="greet">Greet</button>
+</div>
+```
+
+```js
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    name: 'Vue.js'
+  },
+  // 在 `methods` 对象中定义方法
+  methods: {
+    greet: function (event) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert('Hello ' + this.name + '!')
+      // `event` 是原生 DOM 事件
+      if (event) {
+        alert(event.target.tagName)
+      }
+    }
+  }
+})
+
+// 也可以用 JavaScript 直接调用方法
+example2.greet() // => 'Hello Vue.js!'
+```
+
+<a id="markdown-内联处理器" name="内联处理器"></a>
+### 内联处理器
+```html
+<div id="example-3">
+  <button v-on:click="say('hi')">Say hi</button>
+  <button v-on:click="say('what')">Say what</button>
+</div>
+```
+
+```js
+new Vue({
+  el: '#example-3',
+  methods: {
+    say: function (message) {
+      alert(message)
+    }
+  }
+})
+```
+
+有时也需要在内联语句处理器中访问原始的 DOM 事件。可以用特殊变量 $event 把它传入方法：
+
+```html
+<button v-on:click="warn('Form cannot be submitted yet.', $event)">
+  Submit
+</button>
+```
+
+```js
+// ...
+methods: {
+  warn: function (message, event) {
+    // 现在我们可以访问原生事件对象
+    if (event) event.preventDefault()
+    alert(message)
+  }
+}
+```
+
+<a id="markdown-事件修饰符" name="事件修饰符"></a>
+### 事件修饰符
+
+在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。
+
+尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
+
+为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
+
+* .stop
+* .prevent
+* .capture
+* .self
+* .once
+* .passive
+
+```html
+<!-- 阻止单击事件继续传播 -->
+<a v-on:click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面 -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联 -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form v-on:submit.prevent></form>
+
+<!-- 添加事件监听器时使用事件捕获模式 -->
+<!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+<!-- 即事件不是从内部元素触发的 -->
+<div v-on:click.self="doThat">...</div>
+```
+
+使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 
+
+`v-on:click.prevent.self` 会阻止所有的点击，而 
+
+`v-on:click.self.prevent` 只会阻止对元素自身的点击。
+
+<a id="markdown-按键修饰符" name="按键修饰符"></a>
+### 按键修饰符
+在监听键盘事件时，我们经常需要检查常见的键值。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符：
+```html
+<!-- 只有在 `keyCode` 是 13 时调用 `vm.submit()` -->
+<input v-on:keyup.13="submit">
+```
+
+记住所有的 keyCode 比较困难，所以 Vue 为最常用的按键提供了别名：
+
+```html
+<!-- 同上 -->
+<input v-on:keyup.enter="submit">
+
+<!-- 缩写语法 -->
+<input @keyup.enter="submit">
+```
+
+全部的按键别名：
+
+* .enter
+* .tab
+* .delete (捕获“删除”和“退格”键)
+* .esc
+* .space
+* .up
+* .down
+* .left
+* .right
+
+<a id="markdown-表单输入绑定" name="表单输入绑定"></a>
+## 表单输入绑定
+
+> https://cn.vuejs.org/v2/guide/forms.html
