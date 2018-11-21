@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>拖拽div</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        div {
+            height: 100px;
+            width: 100px;
+            background-color: #FF0000;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            position: absolute;
+            top: 100px;
+            left: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="dd"></div>
+    <script>
+        // offsetX,offsetY 为鼠标单击时距离div左上角横向、纵向距离
+        var offsetX, offsetY;
+        // 移动标记，标记当前处理移动状态
+        var isMove = false;
+        $(function () {
+            $('#dd').on('mousedown', msDown);
+
+            // 为防止拖拽太快，div不跟鼠标，将鼠标事件绑定在document上
+            // $('#dd').on('mousemove', msMove);
+            // $('#dd').on('mouseup', msUp);
+            $(document).on('mousemove', msMove);
+            $(document).on('mouseup', msUp);
+        })
+
+        //鼠标点下事件，获取点击位置相对div左上角的位置
+        function msDown(e) {
+            offsetX = e.pageX - e.target.offsetLeft;
+            offsetY = e.pageY - e.target.offsetTop;
+            console.log(offsetX + '-' + offsetY);
+            isMove = true;
+        }
+
+        // 鼠标移动事件
+        function msMove(e) {
+            if (isMove) {
+                $('#dd').css('left', e.pageX - offsetX);
+                $('#dd').css('top', e.pageY - offsetY);
+            }
+        }
+
+        // 鼠标键被释放时
+        function msUp(e) {
+            isMove = false;
+        }
+    </script>
+</body>
+
+</html>

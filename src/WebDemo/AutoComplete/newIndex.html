@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动补全文本框</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- mockjs 用于生成测试数据 -->
+    <script src="https://cdn.bootcss.com/Mock.js/1.0.1-beta3/mock-min.js"></script>
+</head>
+
+<body>
+    <div class="warp">
+        <div class="searchPanel">
+            <div class="contPanel">
+                <h1>自动补全文本框</h1>
+                <input type="text" id="searchbox" />
+                <div id="items">
+                    <ul class="keywords-list">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 模拟测试数据
+        var mockArray = [];
+
+        $(document).ready(function () {
+            initMockData();
+
+            bindSearchBoxChange();
+
+            bindSearchBoxFocusIn();
+
+            bindSearchBoxFocusOut();
+
+            bindItemKeyEvent();
+
+            bindMouseMove();
+        });
+
+        // 与服务器端交互，获取数据
+        function getItemsByAjax(keywords) {
+            console.log(keywords);
+            // 模拟ajax请求
+            // $.get('',function(resp){});
+
+            // 筛选包含关键字的元素
+            var resArr = $.grep(mockArray, function (t, i) {
+                return t.indexOf(keywords) > -1;
+            });
+            showItems(resArr);
+        }
+
+        // 展示数据
+        function showItems(data) {
+            $('ul.keywords-list').empty();
+            $.each(data, function (i, t) {
+                $('ul.keywords-list').append('<li>' + t + '</li>');
+            });
+        }
+
+        // 绑定搜索框内容变更事件
+        function bindSearchBoxChange() {
+            $('#searchbox').on('input', function (e) {
+                getItemsByAjax($('#searchbox').val());
+            });
+        }
+
+        // 绑定搜索框获得焦点事件
+        function bindSearchBoxFocusIn() {
+            $('#searchbox').on('focus', function (e) {
+                $('#items').show();
+            });
+        }
+
+        // 绑定搜索框失去焦点事件
+        function bindSearchBoxFocusOut() {
+            $('#searchbox').on('blur', function (e) {
+                $('#items').hide();
+            });
+        }
+
+        // 绑定上下移动光标事件
+        function bindItemKeyEvent() {
+            $('#searchbox').on('keydown', function (e) {
+                var $cur = $('ul.keywords-list>li[class=selected]');
+                if (e.keyCode == 38) {
+                    console.log('up');
+                    $cur.prev().addClass('selected');
+                    $('#searchbox').val($cur.prev().text());
+                } else if (e.keyCode == 40) {
+                    console.log('down');
+                    // 第一次按键选择，需要选择第一个li
+                    if ($cur.length == 0) {
+                        $('ul.keywords-list>li:eq(0)').addClass('selected');
+                    } else if ($cur.next().length > 0) {
+                        $cur.next().addClass('selected');
+                    } else {
+                        return;
+                    }
+                } else {
+                    // 过滤其他按键
+                    return;
+                }
+                $cur.removeClass('selected');
+                // 设置当前选中的文本内容，dom已发生变化，需要进行重新选择
+                $('#searchbox').val($('ul.keywords-list>li[class=selected]').text());
+            });
+        }
+
+        // 绑定鼠标在关键字列表上的移动事件
+        // on 委托绑定，动态dom元素li的监听
+        function bindMouseMove() {
+            $('ul.keywords-list').on('mousemove', 'li', function (e) {
+                $('ul.keywords-list li').removeClass('selected');
+                $(this).addClass('selected');
+                $('#searchbox').val($('ul.keywords-list>li[class=selected]').text());
+            });
+        }
+
+        // 借助第三方库mockjs，添加测试数据
+        function initMockData() {
+            for (var i = 0; i < 1000; i++) {
+                var temp = Mock.Random.cname();
+                // 不添加重名数据
+                if ($.inArray(temp, mockArray) == -1) {
+                    mockArray.push(temp);
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

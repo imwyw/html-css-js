@@ -1,0 +1,56 @@
+.warp {
+    width: 0;
+    height: 0;
+    position: fixed;
+    left: 50%;
+    right: 50%;
+    top: 50%;
+    bottom: 50%;
+}
+
+.searchPanel {
+    width: 500px;
+    height: 400px;
+    margin-left: -250px;
+    margin-top: -200px;
+    text-align: center;
+}
+
+.contPanel {
+    width: 412px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 30px;
+}
+
+#searchbox {
+    display: block;
+    width: 400px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 25px;
+    padding: 5px;
+}
+
+#items {
+    display: block;
+    width: 411px;
+    border: 1px solid #c0c0c0;
+    padding: 0px;
+    background-color: #fff;
+    text-align: left;
+}
+
+.keywords-list {
+    margin: 5px;
+    padding: 0px;
+    font-size: 25px;
+}
+
+li {
+    list-style-type: none;
+}
+
+.selected {
+    background-color: #f8f8f8;
+}
