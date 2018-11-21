@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>进度条</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div class="progress">
+        <div class="bar">
+            <div class="border">
+                <div class="fill"></div>
+            </div>
+            <div class="percent">
+                <span class="num">0</span>%
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="control">
+            <button class="start">开始</button>
+            <button class="pause">暂停</button>
+        </div>
+    </div>
+    <script>
+        var intervalHandler; // 用于存放 setInterval 的句柄，方便清除 setInterval
+
+        $(document).ready(function () {
+            $('.start').click(function () {
+                // code...
+                intervalHandler = setInterval(progressUp, 50);
+            });
+
+            $('.pause').click(function () {
+                // code...
+                clearInterval(intervalHandler);
+            });
+        });
+
+        function progressUp() {
+            var wid = $('div.fill').width() + 1;
+            if (wid <= $('div.border').width()) {
+                $('div.fill').width(wid);
+            }
+        }
+    </script>
+</body>
+
+</html>

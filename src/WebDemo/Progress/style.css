@@ -1,0 +1,44 @@
+div.progress {
+    width: 700px;
+    margin: 50px;
+}
+
+div.bar {
+    width: 100%;
+    height: 35px;
+}
+
+div.border,
+div.percent {
+    float: left;
+    height: 30px;
+}
+
+div.border {
+    width: 90%;
+    border: 1px solid #ccc;
+    background-color: #eee;
+}
+
+div.fill {
+    width: 0%;
+    height: 100%;
+    background-color: #6CAF00;
+}
+
+div.percent {
+    width: 8%;
+    line-height: 30px;
+    margin: 1px;
+    text-align: center;
+    font-size: 24px;
+}
+
+div.control {
+    height: 20px;
+    padding: 10px;
+}
+
+.clear {
+    clear: both;
+}
