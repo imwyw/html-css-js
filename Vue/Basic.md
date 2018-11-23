@@ -122,35 +122,38 @@ vm.b = 'hi'
 除了数据属性，Vue 实例还暴露了一些有用的实例属性与方法。它们都有前缀 $，以便与用户定义的属性区分开来。例如：
 
 ```html
-<div id="app">
+  <div id="app">
     <fieldset><input type="text" v-model="name" /></fieldset>
     <fieldset>
-    <span>{{ name }}</span>
+      <span>{{ name }}</span>
     </fieldset>
     <fieldset><button v-on:click="show">获取数据</button></fieldset>
-</div>
+  </div>
 
-<script>
-    var obj = { name: "jack", age: 12 };
+  <script>
+    var obj = {
+      name: "jack",
+      age: 12
+    };
     var vm = new Vue({
-    el: "#app",
-    data: obj,
-    methods: {
-        show: function() {
-        console.info("current name:" + vm.name);
+      el: "#app",
+      data: obj,
+      methods: {
+        show: function () {
+          console.info("current name:" + vm.name);
         }
-    }
+      }
     });
 
     vm.$data === obj; // => true
     vm.$el === document.getElementById("app"); // => true
 
     // $watch 是一个实例方法
-    vm.$watch("name", function(newValue, oldValue) {
-    // 这个回调将在 `vm.name` 改变后调用
-    console.info("old:" + oldValue + ",new:" + newValue);
+    vm.$watch("name", function (newValue, oldValue) {
+      // 这个回调将在 `vm.name` 改变后调用
+      console.info("old:" + oldValue + ",new:" + newValue);
     });
-</script>
+  </script>
 ```
 
 <a id="markdown-实例生命周期钩子" name="实例生命周期钩子"></a>
@@ -576,7 +579,7 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 <div id="app">
     <fieldset><input type="text" placeholder="search.." v-model="condition" /></fieldset>
     <fieldset>
-        <span>{{areaResult}}</sapn>
+        <span>{{areaResult}}</span>
     </fieldset>
 </div>
 
