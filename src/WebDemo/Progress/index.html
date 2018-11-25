@@ -42,9 +42,10 @@
         });
 
         function progressUp() {
-            var wid = $('div.fill').width() + 1;
-            if (wid <= $('div.border').width()) {
-                $('div.fill').width(wid);
+            var wid = parseInt($('span.num').text()) + 1;
+            if (wid <= 100) {
+                $('div.fill').width(wid + '%');
+                $('span.num').text(wid);
             }
         }
     </script>
