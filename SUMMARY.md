@@ -17,6 +17,7 @@
     * [JavaScript面向对象](./JS/js-oop.md)
     * [提升](./JS/js-middle.md)
     * [jQuery](./JS/js-jquery.md)
+    * [ES6](./JS/ES6.md)
 
 * [Bootstrap](./Bootstrap/README.md)
     * [全局样式](./Bootstrap/GlobalCSS.md)
