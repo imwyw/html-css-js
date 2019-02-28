@@ -8,6 +8,8 @@
         - [let基本用法](#let基本用法)
         - [变量提升](#变量提升)
         - [块级作用域](#块级作用域)
+        - [const命令](#const命令)
+    - [字符串扩展](#字符串扩展)
 
 <!-- /TOC -->
 
@@ -203,12 +205,41 @@ function f1() {
 
 如果两次都使用var定义变量n，最后输出的值才是 10。
 
+<a id="markdown-const命令" name="const命令"></a>
+### const命令
+const声明一个只读的常量。一旦声明，常量的值就不能改变。
 
+```js
+const PI = 3.1415;
+PI // 3.1415
 
+PI = 3;
+// TypeError: Assignment to constant variable.
+```
 
+const声明的变量不得改变值，这意味着，const一旦声明变量，就必须立即初始化，不能留到以后赋值。
 
+---
 
+const实际上保证的，并不是变量的值不得改动，而是变量指向的那个内存地址所保存的数据不得改动。
 
+对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。
+
+但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。因此，将一个对象声明为常量必须非常小心。
+
+```js
+const foo = {};
+
+// 为 foo 添加一个属性，可以成功
+foo.prop = 123;
+foo.prop // 123
+
+// 将 foo 指向另一个对象，就会报错
+foo = {}; // TypeError: "foo" is read-only
+```
+
+<a id="markdown-字符串扩展" name="字符串扩展"></a>
+## 字符串扩展
 
 
 
@@ -222,3 +253,5 @@ function f1() {
 参考引用：
 
 [ECMAScript 6 入门-阮一峰](http://es6.ruanyifeng.com/#docs/intro)
+
+[es6常用的语法](https://blog.csdn.net/itzhongzi/article/details/73330681)
