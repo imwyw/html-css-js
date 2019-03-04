@@ -64,12 +64,12 @@
 </style>
 
 <div class="div-float" id="div1">
-    <h1>我是大娃</h1>
-    <h2>我是二娃</h2>
-    <h3>我是三娃</h3>
-    <h4>我是四娃</h4>
-    <h5>我是五娃</h5>
-    <h6>我是六娃</h6>
+    <h1>一级标题</h1>
+    <h2>二级标题</h2>
+    <h3>三级标题</h3>
+    <h4>四级标题</h4>
+    <h5>五级标题</h5>
+    <h6>六级标题</h6>
 </div>
 <div class="div-float" id="div2">
     <ul>
@@ -125,8 +125,11 @@
     <footer>底部</footer>
 </body>
 ```
-但是会有一个问题，底部的footer位置并不是在ul和iframe的下面。因为浮动的缘故，
-body并没有被撑开。我们可以通过给footer标签增加clear属性设置不允许浮动元素,将浮动元素重新拉回文档中。
+但是会有一个问题，底部的footer位置并不是在ul和iframe的下面。
+
+因为浮动的缘故，body并没有被撑开。
+
+我们可以通过给footer标签增加clear属性设置不允许浮动元素,将浮动元素重新拉回文档中。
 
 `footer{clear:both;}`
 
@@ -148,31 +151,37 @@ body并没有被撑开。我们可以通过给footer标签增加clear属性设�
 
 <a id="markdown-absolute" name="absolute"></a>
 ### absolute
-position:absolute，将元素从原先的文档流中独立出来，然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。
+position:absolute，将元素从原先的文档流中独立出来，
+
+然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。
+
+如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。
 
 对于前面Float浮动模型，两个div在同一行，也可以使用绝对定位的方式实现右对齐，如下示例：
 
 ``` html
 <style>
     .div-float {
+        background-color: lightblue;
         width: 300px;
         height: 500px;
         float: left;
     }
 
     #divAbsolute {
+        background-color: lightpink;
         position: absolute;
-        right: 0px;
+        left: 310px;
     }
 </style>
 
 <div class="div-float">
-    <h1>我是大娃</h1>
-    <h2>我是二娃</h2>
-    <h3>我是三娃</h3>
-    <h4>我是四娃</h4>
-    <h5>我是五娃</h5>
-    <h6>我是六娃</h6>
+    <h1>一级标题</h1>
+    <h2>二级标题</h2>
+    <h3>三级标题</h3>
+    <h4>四级标题</h4>
+    <h5>五级标题</h5>
+    <h6>六级标题</h6>
 </div>
 <div class="div-float" id="divAbsolute">
     <ul>
@@ -181,24 +190,40 @@ position:absolute，将元素从原先的文档流中独立出来，然后使用
     </ul>
 </div>
 ```
+![](../assets/css/position-absolute.png)
+
 
 <a id="markdown-relative" name="relative"></a>
 ### relative
-position:relative，通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置，相对定位完成的过程是首先按static(float)方式生成一个元素(并且元素像层一样浮动了起来)，然后相对于以前的位置移动，移动的方向和幅度由left、right、top、bottom属性确定，偏移前的位置保留不动。
+position:relative，通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置，
+
+相对定位完成的过程是首先按static(float)方式生成一个元素(并且元素像层一样浮动了起来)，
+
+然后相对于以前的位置移动，移动的方向和幅度由left、right、top、bottom属性确定，偏移前的位置保留不动。
 
 ``` html
 <style>
+    div {
+        width: 100px;
+        height: 100px;
+    }
+
+    #div1 {
+        background-color: blue;
+    }
+
     #divRelative {
-        width: 300px;
-        height: 300px;
         background-color: red;
         position: relative;
         left: 100px;
     }
 </style>
+<div id="div1"></div>
 <div id="divRelative"></div>
 <span>偏移前的位置还保留不动，覆盖不了前面的div没有偏移前的位置</span>
 ```
+
+![](../assets/css/position-relative.png)
 
 <a id="markdown-fixed" name="fixed"></a>
 ### fixed
@@ -261,7 +286,7 @@ Webkit 内核的浏览器，必须加上-webkit前缀。
 ### 基本概念
 采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。
 
-![](..\assets\CSS\flex-1.png)
+![](../assets/CSS/flex-1.png)
 
 容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。
 
@@ -324,15 +349,15 @@ flex-direction属性决定主轴的方向（即项目的排列方向）。
 </body>
 ```
 
-![](..\assets\CSS\flex-direc-row.png)
+![](../assets/CSS/flex-direc-row.png)
 
-![](..\assets\CSS\flex-direc-all.png)
+![](../assets/CSS/flex-direc-all.png)
 
 <a id="markdown-flex-wrap属性" name="flex-wrap属性"></a>
 #### flex-wrap属性
 默认情况下，项目都排在一条线（又称"轴线"）上。flex-wrap属性定义，如果一条轴线排不下，如何换行。
 
-![](..\assets\CSS\flex-wrap-show.png)
+![](../assets/CSS/flex-wrap-show.png)
 
 ```css
 .box{
@@ -342,16 +367,16 @@ flex-direction属性决定主轴的方向（即项目的排列方向）。
 
 * nowrap（默认）：不换行。
 
-![](..\assets\CSS\flex-wrap-nowrap.png)
+![](../assets/CSS/flex-wrap-nowrap.png)
 
 
 * wrap：换行，第一行在上方。
 
-![](..\assets\CSS\flex-wrap-wrap.png)
+![](../assets/CSS/flex-wrap-wrap.png)
 
 * wrap-reverse：换行，第一行在下方。
 
-![](..\assets\CSS\flex-wrap-wrap-reserve.png)
+![](../assets/CSS/flex-wrap-wrap-reserve.png)
 
 <a id="markdown-flex-flow" name="flex-flow"></a>
 #### flex-flow
@@ -378,7 +403,7 @@ justify-content属性定义了项目在主轴上的对齐方式。
 }
 ```
 
-![](..\assets\CSS\justify-content.png)
+![](../assets/CSS/justify-content.png)
 
 * flex-start（默认值）：左对齐
 * flex-end：右对齐
@@ -396,7 +421,7 @@ align-items属性定义项目在交叉轴上如何对齐。
 }
 ```
 
-![](..\assets\CSS\align-items.png)
+![](../assets/CSS/align-items.png)
 
 * flex-start：交叉轴的起点对齐。
 * flex-end：交叉轴的终点对齐。
@@ -414,7 +439,7 @@ align-content属性定义了多根轴线的对齐方式。如果项目只有一�
 }
 ```
 
-![](..\assets\CSS\align-content.png)
+![](../assets/CSS/align-content.png)
 
 * flex-start：与交叉轴的起点对齐。
 * flex-end：与交叉轴的终点对齐。
@@ -443,7 +468,7 @@ order属性定义项目的排列顺序。数值越小，排列越靠前，默认
 }
 ```
 
-![](..\assets\CSS\items-order.png)
+![](../assets/CSS/items-order.png)
 
 
 <a id="markdown-flex-grow" name="flex-grow"></a>
@@ -456,7 +481,7 @@ flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余�
 }
 ```
 
-![](..\assets\CSS\flex-grow.png)
+![](../assets/CSS/flex-grow.png)
 
 如果所有项目的flex-grow属性都为1，则它们将等分剩余空间（如果有的话）。
 
@@ -472,7 +497,7 @@ flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间�
 }
 ```
 
-![](..\assets\CSS\flex-shrink.jpg)
+![](../assets/CSS/flex-shrink.jpg)
 
 
 如果所有项目的flex-shrink属性都为1，当空间不足时，都将等比例缩小。
@@ -523,7 +548,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 }
 ```
 
-![](..\assets\CSS\align-self.png)
+![](../assets/CSS/align-self.png)
 
 <a id="markdown-布局实例" name="布局实例"></a>
 ## 布局实例
@@ -532,7 +557,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 ### 基本网格布局
 最简单的网格布局，就是平均分布。在容器里面平均分配空间，跟上面的骰子布局很像，但是需要设置项目的自动缩放。
 
-![](..\assets\CSS\flex-demo-grid.png)
+![](../assets/CSS/flex-demo-grid.png)
 
 ```html
 <body>
@@ -574,7 +599,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 ### 百分比网格
 某个网格的宽度为固定的百分比，其余网格平均分配剩余的空间。
 
-![](..\assets\CSS\flex-demo-grid-percent.png)
+![](../assets/CSS/flex-demo-grid-percent.png)
 
 ```html
 <body>
@@ -629,7 +654,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 
 其中躯干又水平分成三栏，从左到右为：导航、主栏、副栏。
 
-![](..\assets\CSS\flex-demo-holy.png)
+![](../assets/CSS/flex-demo-holy.png)
 
 ```html
 <body>
@@ -705,7 +730,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 ### 输入框的布局
 我们常常需要在输入框的前方添加提示，后方添加按钮。
 
-![](..\assets\CSS\flex-demo-输入框布局.png)
+![](../assets/CSS/flex-demo-输入框布局.png)
 
 ```html
 <body>
@@ -730,7 +755,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 ### 固定底栏
 有时，页面内容太少，无法占满一屏的高度，底栏就会抬高到页面的中间。这时可以采用Flex布局，让底栏总是出现在页面的底部。
 
-![](..\assets\CSS\flex-demo-固定底栏.png)
+![](../assets/CSS/flex-demo-固定底栏.png)
 
 ```html
 <body>
