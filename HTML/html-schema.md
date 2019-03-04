@@ -81,6 +81,6 @@ Hbuilder，H5开发利器，但因提示很多可能会影响一定的性能
 
 后面的课程全部以VSCODE作为IDE，创建一个html文档非常的简单，新建html扩展文件，输入!，然后直接tab键快速插入html模板。如下图：
 
-![](..\assets\HTML\vscode-create-html.gif)
+![](../assets/HTML/vscode-create-html.gif)
 
 其他犀利操作和插件自行百度研究

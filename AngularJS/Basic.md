@@ -96,7 +96,7 @@ ng-app 指令告诉 AngularJS，`<div>` 元素是 AngularJS 应用程序 的"所
 
 上面实例中的 {{ firstName }} 表达式是一个 AngularJS 数据绑定表达式。AngularJS 中的数据绑定，同步了 AngularJS 表达式与 AngularJS 数据。{{ firstName }} 是通过 ng-model="firstName" 进行同步。
 
-![](..\assets\AngularJS\Two_Way_Data_Binding.png)
+![](../assets/AngularJS/Two_Way_Data_Binding.png)
 
 ```html
 <!--定义了两个初始值，数量qty为1，单价cost为5-->
@@ -109,7 +109,7 @@ ng-app 指令告诉 AngularJS，`<div>` 元素是 AngularJS 应用程序 的"所
 </div>
 ```
 
-![](..\assets\AngularJS\concepts-databinding1.png)
+![](../assets/AngularJS/concepts-databinding1.png)
 
 PS:使用 ng-init 不是很常见。通常我们会使用控制器来代替它。
 
@@ -556,7 +556,7 @@ AngularJS 应用程序被控制器控制。ng-controller 指令定义了应用�
 </body>
 ```
 
-![](..\assets\AngularJS\concepts-databinding-controller.png)
+![](../assets/AngularJS/concepts-databinding-controller.png)
 
 注意，下面的场合千万不要用控制器：
 * 任何形式的DOM操作：控制器只应该包含业务逻辑。DOM操作则属于应用程序的表现层逻辑操作，向来以测试难度之高闻名于业界。把任何表现层的逻辑放到控制器中将会大大增加业务逻辑的测试难度。ng 提供数据绑定 （数据绑定） 来实现自动化的DOM操作。如果需要手动进行DOM操作，那么最好将表现层的逻辑封装在 指令 中

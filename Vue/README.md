@@ -2,19 +2,20 @@
 
 - [Vue](#vue)
     - [MVVM](#mvvm)
-    - [Vue.js 是什么](#vuejs-%E6%98%AF%E4%BB%80%E4%B9%88)
-    - [引用](#%E5%BC%95%E7%94%A8)
-    - [声明式渲染](#%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B8%B2%E6%9F%93)
-        - [指令](#%E6%8C%87%E4%BB%A4)
-    - [条件与循环](#%E6%9D%A1%E4%BB%B6%E4%B8%8E%E5%BE%AA%E7%8E%AF)
-    - [处理用户输入](#%E5%A4%84%E7%90%86%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5)
-    - [组件化应用](#%E7%BB%84%E4%BB%B6%E5%8C%96%E5%BA%94%E7%94%A8)
+    - [Vue.js 是什么](#vuejs-是什么)
+    - [引用](#引用)
+    - [声明式渲染](#声明式渲染)
+        - [指令](#指令)
+    - [条件与循环](#条件与循环)
+    - [处理用户输入](#处理用户输入)
+    - [组件化应用](#组件化应用)
 
 <!-- /TOC -->
 
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <a id="markdown-vue" name="vue"></a>
 # Vue
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 <a id="markdown-mvvm" name="mvvm"></a>
 ## MVVM

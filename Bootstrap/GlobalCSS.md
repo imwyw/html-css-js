@@ -82,7 +82,7 @@ Bootstrap 需要为页面内容和栅格系统包裹一个 .container 容器。
 
 栅格参数：
 
-![](..\assets\bootstrap\栅格参数.png)
+![](../assets/bootstrap/栅格参数.png)
 
 ```html
 <style>

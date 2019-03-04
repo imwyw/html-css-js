@@ -283,7 +283,7 @@ CSS盒模型本质上是一个盒子，封装周围的HTML元素，它包括：�
 
 除了solid实线的样式，还有以下样式：
 
-![](..\assets\HTML\box-border-1.jpg)
+![](../assets/HTML/box-border-1.jpg)
 
 其中border宽度也可以分开设置：
 border-top，border-right，border-bottom，border-left
@@ -470,4 +470,4 @@ border-box | Width = width(包含padding-left + padding-right + border-left + bo
 
 针对上例代码，通过宽度的显示，我们可以看出来两种box-size的区别，border-box的宽高是包含padding和border进行考虑的。
 
-![](..\assets\HTML\box-size-1.jpg)
+![](../assets/HTML/box-size-1.jpg)

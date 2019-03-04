@@ -431,5 +431,5 @@ iframe 元素会创建包含另外一个文档的内联框架（即行内框架�
 <a id="markdown-相对路径" name="相对路径"></a>
 ## 相对路径
 
-![](..\assets\HTML\relative_path.png)
+![](../assets/HTML/relative_path.png)
 
