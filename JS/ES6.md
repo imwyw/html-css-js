@@ -10,6 +10,19 @@
         - [块级作用域](#块级作用域)
         - [const命令](#const命令)
     - [字符串扩展](#字符串扩展)
+        - [includes(), startsWith(), endsWith()](#includes-startswith-endswith)
+        - [repeat()](#repeat)
+        - [padStart()，padEnd()](#padstartpadend)
+        - [模板字符串](#模板字符串)
+    - [函数扩展](#函数扩展)
+        - [参数默认值](#参数默认值)
+        - [rest参数](#rest参数)
+        - [函数name属性](#函数name属性)
+        - [箭头函数](#箭头函数)
+    - [对象扩展](#对象扩展)
+        - [属性的简洁表示法](#属性的简洁表示法)
+        - [属性的遍历](#属性的遍历)
+        - [解构](#解构)
 
 <!-- /TOC -->
 
@@ -240,6 +253,381 @@ foo = {}; // TypeError: "foo" is read-only
 
 <a id="markdown-字符串扩展" name="字符串扩展"></a>
 ## 字符串扩展
+
+<a id="markdown-includes-startswith-endswith" name="includes-startswith-endswith"></a>
+### includes(), startsWith(), endsWith()
+传统上，JavaScript 只有indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。ES6 又提供了三种新方法。
+
+* includes()：返回布尔值，表示是否找到了参数字符串。
+* startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
+* endsWith()：返回布尔值，表示参数字符串是否在原字符串的尾部。
+
+
+<a id="markdown-repeat" name="repeat"></a>
+### repeat()
+repeat方法返回一个新字符串，表示将原字符串重复n次。
+```js
+'x'.repeat(3) // "xxx"
+'hello'.repeat(2) // "hellohello"
+'na'.repeat(0) // ""
+```
+
+<a id="markdown-padstartpadend" name="padstartpadend"></a>
+### padStart()，padEnd()
+ES2017 引入了字符串补全长度的功能。如果某个字符串不够指定长度，会在头部或尾部补全。
+
+padStart()用于头部补全，padEnd()用于尾部补全。
+
+```js
+'x'.padStart(5, 'ab') // 'ababx'
+'x'.padStart(4, 'ab') // 'abax'
+
+'x'.padEnd(5, 'ab') // 'xabab'
+'x'.padEnd(4, 'ab') // 'xaba'
+
+'2'.padStart(2, '0') // '02'
+```
+
+<a id="markdown-模板字符串" name="模板字符串"></a>
+### 模板字符串
+传统的 JavaScript 语言，输出模板通常是这样写的（下面使用了 jQuery 的方法）。
+
+```js
+$('#result').append(
+  'There are <b>' + basket.count + '</b> ' +
+  'items in your basket, ' +
+  '<em>' + basket.onSale +
+  '</em> are on sale!'
+);
+```
+
+上面这种写法相当繁琐不方便，ES6 引入了模板字符串解决这个问题。
+
+```js
+$('#result').append(`
+  There are <b>${basket.count}</b> items
+   in your basket, <em>${basket.onSale}</em>
+  are on sale!
+`);
+```
+
+模板字符串（template string）是增强版的字符串，用反引号（`）标识。
+
+它可以当作普通字符串使用，也可以用来定义多行字符串，或者在字符串中嵌入变量。
+
+模板字符串中嵌入变量，需要将变量名写在${}之中。大括号内部可以放入任意的 JavaScript 表达式，可以进行运算，以及引用对象属性。
+
+```js
+let x = 1;
+let y = 2;
+
+`${x} + ${y} = ${x + y}`
+// "1 + 2 = 3"
+
+`${x} + ${y * 2} = ${x + y * 2}`
+// "1 + 4 = 5"
+
+let obj = {x: 1, y: 2};
+`${obj.x + obj.y}`
+// "3"
+```
+
+<a id="markdown-函数扩展" name="函数扩展"></a>
+## 函数扩展
+
+<a id="markdown-参数默认值" name="参数默认值"></a>
+### 参数默认值
+ES6 之前，不能直接为函数的参数指定默认值，只能采用变通的方法。
+
+```js
+function log(x, y) {
+  y = y || 'World';
+  console.log(x, y);
+}
+
+log('Hello') // Hello World
+log('Hello', 'China') // Hello China
+log('Hello', '') // Hello World
+```
+
+上面代码检查函数log的参数y有没有赋值，如果没有，则指定默认值为World。
+
+这种写法的缺点在于，如果参数y赋值了，但是对应的布尔值为false，则该赋值不起作用。
+
+就像上面代码的最后一行，参数y等于空字符，结果被改为默认值。
+
+ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
+```js
+function log(x, y = 'World') {
+  console.log(x, y);
+}
+
+log('Hello') // Hello World
+log('Hello', 'China') // Hello China
+log('Hello', '') // Hello
+```
+
+可以看到，ES6 的写法比 ES5 简洁许多，而且非常自然。下面是另一个例子。
+
+```js
+function Point(x = 0, y = 0) {
+  this.x = x;
+  this.y = y;
+}
+
+const p = new Point();
+p // { x: 0, y: 0 }
+```
+
+<a id="markdown-rest参数" name="rest参数"></a>
+### rest参数
+ES6 引入 rest 参数（形式为...变量名），用于获取函数的多余参数，这样就不需要使用arguments对象了。
+
+rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中。
+```js
+function add(...values) {
+  let sum = 0;
+
+  for (var val of values) {
+    sum += val;
+  }
+
+  return sum;
+}
+
+add(2, 5, 3) // 10
+```
+上面代码的add函数是一个求和函数，利用 rest 参数，可以向该函数传入任意数目的参数。
+
+```js
+function push(array, ...items) {
+  items.forEach(function(item) {
+    array.push(item);
+    console.log(item);
+  });
+}
+
+var a = [];
+push(a, 1, 2, 3)
+```
+注意，rest 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错。
+
+<a id="markdown-函数name属性" name="函数name属性"></a>
+### 函数name属性
+
+函数的name属性，返回该函数的函数名。
+```js
+function foo() {}
+foo.name // "foo"
+```
+这个属性早就被浏览器广泛支持，但是直到 ES6，才将其写入了标准。
+
+
+需要注意的是，ES6 对这个属性的行为做出了一些修改。
+
+如果将一个匿名函数赋值给一个变量，ES5 的name属性，会返回空字符串，而 ES6 的name属性会返回实际的函数名。
+```js
+var f = function () {};
+
+// ES5
+f.name // ""
+
+// ES6
+f.name // "f"
+```
+
+<a id="markdown-箭头函数" name="箭头函数"></a>
+### 箭头函数
+ES6 允许使用“箭头”（=>）定义函数。同lambda表达式的用法
+
+```js
+var f = v => v;
+
+// 等同于
+var f = function (v) {
+  return v;
+};
+```
+
+如果箭头函数不需要参数或需要多个参数，就使用一个圆括号代表参数部分。
+
+```js
+var f = () => 5;
+// 等同于
+var f = function () { return 5 };
+
+var sum = (num1, num2) => num1 + num2;
+// 等同于
+var sum = function(num1, num2) {
+  return num1 + num2;
+};
+```
+
+如果箭头函数的代码块部分多于一条语句，就要使用大括号将它们括起来，并且使用return语句返回。
+
+```js
+var sum = (num1, num2) => { return num1 + num2; }
+```
+
+由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上括号，否则会报错。
+
+```js
+// 报错
+let getTempItem = id => { id: id, name: "Temp" };
+
+// 不报错
+let getTempItem = id => ({ id: id, name: "Temp" });
+// 或者
+let getTempItem = id => { return {id: id, name: "Temp"}; };
+```
+
+如果箭头函数只有一行语句，且不需要返回值，可以采用下面的写法，就不用写大括号了。
+
+```js
+let fn = () => void doesNotReturn();
+```
+
+箭头函数的一个用处是简化回调函数。
+```js
+// 正常函数写法
+[1,2,3].map(function (x) {
+  return x * x;
+});
+
+// 箭头函数写法
+[1,2,3].map(x => x * x);
+```
+
+<a id="markdown-对象扩展" name="对象扩展"></a>
+## 对象扩展
+
+<a id="markdown-属性的简洁表示法" name="属性的简洁表示法"></a>
+### 属性的简洁表示法
+ES6 允许直接写入变量和函数，作为对象的属性和方法。这样的书写更加简洁。
+```js
+function people(name, age) {
+    return {
+        name,
+        age
+    };
+}
+
+// 等同于
+
+function people(name, age) {
+    return {
+        name: name,
+        age: age
+    };
+}
+
+```
+
+除了属性简写，方法也可以简写。
+
+```js
+const o = {
+  method() {
+    return "Hello!";
+  }
+};
+
+// 等同于
+
+const o = {
+  method: function() {
+    return "Hello!";
+  }
+};
+```
+
+下面是一个实际的例子。
+```js
+let birth = '2000/01/01';
+
+const Person = {
+
+  name: '张三',
+
+  //等同于birth: birth
+  birth,
+
+  // 等同于hello: function ()...
+  hello() { console.log('我的名字是', this.name); }
+
+};
+```
+
+<a id="markdown-属性的遍历" name="属性的遍历"></a>
+### 属性的遍历
+ES6 一共有 5 种方法可以遍历对象的属性。
+
+- for...in
+
+for...in循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
+
+- Object.keys(obj)
+
+Object.keys返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
+
+- Object.getOwnPropertyNames(obj)
+
+Object.getOwnPropertyNames返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
+
+- Object.getOwnPropertySymbols(obj)
+
+Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有 Symbol 属性的键名。
+
+- Reflect.ownKeys(obj)
+
+Reflect.ownKeys返回一个数组，包含对象自身的所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
+
+
+<a id="markdown-解构" name="解构"></a>
+### 解构
+```js
+//对象
+const people = {
+    name: 'lux',
+    age: 20
+}
+const { name, age } = people
+console.log(`${name} --- ${age}`)
+
+// 等同于 ES5中写法
+const people = {
+    name: 'lux',
+    age: 20
+}
+const name = people.name
+const age = people.age
+console.log(name + ' --- ' + age)
+```
+
+数组的解构是同样的：
+```js
+//数组
+const color = ['red', 'blue']
+const [first, second] = color
+console.log(first) //'red'
+console.log(second) //'blue'
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
