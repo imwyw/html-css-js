@@ -23,6 +23,9 @@
         - [属性的简洁表示法](#属性的简洁表示法)
         - [属性的遍历](#属性的遍历)
         - [解构](#解构)
+    - [class](#class)
+        - [类的由来](#类的由来)
+        - [class表达式](#class表达式)
 
 <!-- /TOC -->
 
@@ -613,28 +616,105 @@ console.log(first) //'red'
 console.log(second) //'blue'
 ```
 
+<a id="markdown-class" name="class"></a>
+## class
+<a id="markdown-类的由来" name="类的由来"></a>
+### 类的由来
+JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子。
 
+```js
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
 
+Point.prototype.toString = function () {
+  return '(' + this.x + ', ' + this.y + ')';
+};
 
+var p = new Point(1, 2);
+```
 
+上面这种写法跟传统的面向对象语言（比如 C++ 和 Java）差异很大，很容易让新学习这门语言的程序员感到困惑。
 
+ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。
 
+基本上，ES6 的class可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，
 
+新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。上面的代码用 ES6 的class改写，就是下面这样。
 
+```js
+class Point {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
 
+  toString() {
+    return '(' + this.x + ', ' + this.y + ')';
+  }
+}
+```
 
+ES6 的类，完全可以看作构造函数的另一种写法。
 
+```js
+class Point {
+  // ...
+}
 
+typeof Point // "function"
+Point === Point.prototype.constructor // true
+```
 
+构造函数的prototype属性，在 ES6 的“类”上面继续存在。事实上，类的所有方法都定义在类的prototype属性上面。
 
+```js
+class Point {
+  constructor() {
+    // ...
+  }
 
+  toString() {
+    // ...
+  }
 
+  toValue() {
+    // ...
+  }
+}
 
+// 等同于
 
+Point.prototype = {
+  constructor() {},
+  toString() {},
+  toValue() {},
+};
+```
 
+<a id="markdown-class表达式" name="class表达式"></a>
+### class表达式
+与函数一样，类也可以使用表达式的形式定义。
+```js
+const MyClass = class Me {
+  getClassName() {
+    return Me.name;
+  }
+};
+```
 
+上面代码使用表达式定义了一个类。
 
+需要注意的是，这个类的名字是Me，但是Me只在 Class 的内部可用，指代当前类。
 
+在 Class 外部，这个类只能用MyClass引用。
+
+```js
+let inst = new MyClass();
+inst.getClassName() // Me
+Me.name // ReferenceError: Me is not defined
+```
 
 ---
 
