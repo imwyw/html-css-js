@@ -45,6 +45,14 @@
         - [do...while](#dowhile)
         - [for](#for)
         - [break和continue](#break和continue)
+    - [严格模式](#严格模式)
+        - [为什么使用严格模式](#为什么使用严格模式)
+        - [严格模式中的变化](#严格模式中的变化)
+            - [全局变量声明](#全局变量声明)
+            - [禁止this关键字指向全局对象](#禁止this关键字指向全局对象)
+            - [禁止删除变量](#禁止删除变量)
+            - [对象不能有重名的属性](#对象不能有重名的属性)
+            - [函数不能有重名的参数](#函数不能有重名的参数)
 
 <!-- /TOC -->
 <a id="markdown-基础" name="基础"></a>
@@ -1098,6 +1106,130 @@ for (initialize; test; increment) {
 
 - 不同点：break跳出后不再执行循环体；continue只结束本轮循环，还会继续循环下去。。。
 
+<a id="markdown-严格模式" name="严格模式"></a>
+## 严格模式
+JavaScript 严格模式（strict mode）即在严格的条件下运行。
+
+<a id="markdown-为什么使用严格模式" name="为什么使用严格模式"></a>
+### 为什么使用严格模式
+* 消除Javascript语法的一些不合理、不严谨之处，减少一些怪异行为;
+* 消除代码运行的一些不安全之处，保证代码运行的安全；
+* 提高编译器效率，增加运行速度；
+* 为未来新版本的Javascript做好铺垫。
+
+使用`"use strict";`进入严格模式
+
+针对单个脚本：
+```html
+<script>
+    "use strict";
+    console.log("这是严格模式。");
+</script>
+```
+
+针对单个函数：
+```html
+function strict() {
+    "use strict";
+    return "这是严格模式。";
+}
+
+function notStrict() {
+    return "这是正常模式。";
+}
+```
+
+<a id="markdown-严格模式中的变化" name="严格模式中的变化"></a>
+### 严格模式中的变化
+<a id="markdown-全局变量声明" name="全局变量声明"></a>
+#### 全局变量声明
+在正常模式中，如果一个变量没有声明就赋值，默认是全局变量。
+
+严格模式禁止这种用法，全局变量必须显式声明。
+
+```js
+"use strict";
+v = 1; // 报错，v未声明
+for (i = 0; i < 2; i++) { // 报错，i未声明
+}
+```
+
+因此，严格模式下，变量都必须先用var命令声明，然后再使用。
+
+<a id="markdown-禁止this关键字指向全局对象" name="禁止this关键字指向全局对象"></a>
+#### 禁止this关键字指向全局对象
+```js
+function f() {
+    return !this;
+}
+// 返回false，因为"this"指向全局对象，"!this"就是false
+
+function f() {
+    "use strict";
+    return !this;
+}
+// 返回true，因为严格模式下，this的值为undefined，所以"!this"为true。
+```
+
+因此，使用构造函数时，如果忘了加new，this不再指向全局对象，而是报错。
+
+<a id="markdown-禁止删除变量" name="禁止删除变量"></a>
+#### 禁止删除变量
+严格模式下无法删除变量。只有configurable设置为true的对象属性，才能被删除。
+
+```js
+"use strict";
+var x;
+delete x; // 语法错误
+var o = Object.create(null, {
+    'x': {
+        value: 1,
+        configurable: true
+    }
+});
+delete o.x; // 删除成功
+```
+
+<a id="markdown-对象不能有重名的属性" name="对象不能有重名的属性"></a>
+#### 对象不能有重名的属性
+正常模式下，如果对象有多个重名属性，最后赋值的那个属性会覆盖前面的值。严格模式下，这属于语法错误。
+
+```js
+"use strict";
+var o = {
+    p: 1,
+    p: 2
+}; // 语法错误
+```
+
+<a id="markdown-函数不能有重名的参数" name="函数不能有重名的参数"></a>
+#### 函数不能有重名的参数
+正常模式下，如果函数有多个重名的参数，可以用arguments[i]读取。严格模式下，这属于语法错误。
+
+```js
+"use strict";
+function f(a, a, b) { // 语法错误
+    return;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
 
 参考引用：
 
