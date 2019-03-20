@@ -23,9 +23,18 @@
         - [属性的简洁表示法](#属性的简洁表示法)
         - [属性的遍历](#属性的遍历)
         - [解构](#解构)
-    - [class](#class)
+    - [class基本用法](#class基本用法)
         - [类的由来](#类的由来)
         - [class表达式](#class表达式)
+        - [不存在提升](#不存在提升)
+        - [name封装](#name封装)
+        - [this指向](#this指向)
+        - [静态方法](#静态方法)
+        - [实例属性](#实例属性)
+        - [静态属性](#静态属性)
+        - [私有方法](#私有方法)
+        - [私有属性](#私有属性)
+    - [class的继承](#class的继承)
 
 <!-- /TOC -->
 
@@ -99,7 +108,7 @@ console.log(j);// output: j is not defined
 
 ---
 
-for循环的计数器，就很合适使用let命令。
+for循环的计数器，就很适合使用let命令。
 
 ```js
 var a = [];
@@ -241,7 +250,11 @@ const实际上保证的，并不是变量的值不得改动，而是变量指向
 
 对于简单类型的数据（数值、字符串、布尔值），值就保存在变量指向的那个内存地址，因此等同于常量。
 
-但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。因此，将一个对象声明为常量必须非常小心。
+但对于复合类型的数据（主要是对象和数组），变量指向的内存地址，保存的只是一个指向实际数据的指针，
+
+const只能保证这个指针是固定的（即总是指向另一个固定的地址），至于它指向的数据结构是不是可变的，就完全不能控制了。
+
+因此，将一个对象声明为常量必须非常小心。
 
 ```js
 const foo = {};
@@ -616,8 +629,8 @@ console.log(first) //'red'
 console.log(second) //'blue'
 ```
 
-<a id="markdown-class" name="class"></a>
-## class
+<a id="markdown-class基本用法" name="class基本用法"></a>
+## class基本用法
 <a id="markdown-类的由来" name="类的由来"></a>
 ### 类的由来
 JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子。
@@ -715,6 +728,296 @@ let inst = new MyClass();
 inst.getClassName() // Me
 Me.name // ReferenceError: Me is not defined
 ```
+
+<a id="markdown-不存在提升" name="不存在提升"></a>
+### 不存在提升
+类不存在变量提升（hoist），这一点与 ES5 完全不同。
+
+```js
+new Foo(); // ReferenceError
+class Foo {}
+```
+
+上面代码中，Foo类使用在前，定义在后，这样会报错，因为 ES6 不会把类的声明提升到代码头部。
+
+<a id="markdown-name封装" name="name封装"></a>
+### name封装
+由于本质上，ES6 的类只是 ES5 的构造函数的一层包装，所以函数的许多特性都被Class继承，包括name属性。
+
+```js
+class Point {}
+Point.name // "Point"
+```
+
+name属性总是返回紧跟在class关键字后面的类名。
+
+<a id="markdown-this指向" name="this指向"></a>
+### this指向
+类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
+
+```js
+class Logger {
+  printName(name = 'there') {
+    this.print(`Hello ${name}`);
+  }
+
+  print(text) {
+    console.log(text);
+  }
+}
+
+const logger = new Logger();
+const { printName } = logger;// 对象解构，printName即单独的方法
+printName(); // TypeError: Cannot read property 'print' of undefined
+```
+
+上面代码中，printName方法中的this，默认指向Logger类的实例。
+
+但是，如果将这个方法提取出来单独使用，this会指向该方法运行时所在的环境。
+
+由于 class 内部是严格模式，所以 this 实际指向的是undefined，从而导致找不到print方法而报错。
+
+<a id="markdown-静态方法" name="静态方法"></a>
+### 静态方法
+类相当于实例的原型，所有在类中定义的方法，都会被实例继承。
+
+如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
+```js
+class Foo {
+  static classMethod() {
+    return 'hello';
+  }
+}
+
+Foo.classMethod() // 'hello'
+
+var foo = new Foo();
+foo.classMethod()
+// TypeError: foo.classMethod is not a function
+```
+上面代码中，Foo类的classMethod方法前有static关键字，表明该方法是一个静态方法，
+
+可以直接在Foo类上调用（Foo.classMethod()），而不是在Foo类的实例上调用。
+
+如果在实例上调用静态方法，会抛出一个错误，表示不存在该方法。
+
+注意，如果静态方法包含this关键字，这个this指的是类，而不是实例。
+
+```js
+class Foo {
+  static bar() {
+    this.baz();
+  }
+  static baz() {
+    console.log('hello');
+  }
+  baz() {
+    console.log('world');
+  }
+}
+
+Foo.bar() // hello
+```
+
+上面代码中，静态方法bar调用了this.baz，这里的this指的是Foo类，而不是Foo的实例，等同于调用Foo.baz。
+
+另外，从这个例子还可以看出，静态方法可以与非静态方法重名。
+
+<a id="markdown-实例属性" name="实例属性"></a>
+### 实例属性
+实例属性除了定义在constructor()方法里面的this上面，也可以定义在类的最顶层。
+```js
+class IncreasingCounter {
+  constructor() {
+    this._count = 0;
+  }
+  get value() {
+    console.log('Getting the current value!');
+    return this._count;
+  }
+  increment() {
+    this._count++;
+  }
+}
+```
+
+上面代码中，实例属性this._count定义在constructor()方法里面。
+
+另一种写法是，这个属性也可以定义在类的最顶层，其他都不变。
+```js
+class IncreasingCounter {
+  _count = 0;
+  get value() {
+    console.log('Getting the current value!');
+    return this._count;
+  }
+  increment() {
+    this._count++;
+  }
+}
+```
+
+上面代码中，实例属性_count与取值函数value()和increment()方法，处于同一个层级。这时，不需要在实例属性前面加上this。
+
+这种新写法的好处是，所有实例对象自身的属性都定义在类的头部，看上去比较整齐，一眼就能看出这个类有哪些实例属性。
+
+<a id="markdown-静态属性" name="静态属性"></a>
+### 静态属性
+静态属性指的是 Class 本身的属性，即Class.propName，而不是定义在实例对象（this）上的属性。
+
+```js
+class Foo {
+}
+
+Foo.prop = 1;
+Foo.prop // 1
+```
+
+上面的写法为Foo类定义了一个静态属性prop。
+
+目前，只有这种写法可行，因为 ES6 明确规定，Class 内部只有静态方法，没有静态属性。
+
+现在有一个提案提供了类的静态属性，写法是在实例属性法的前面，加上static关键字。
+```js
+// 老写法
+class Foo {
+  // ...
+}
+Foo.prop = 1;
+
+// 新写法
+class Foo {
+  static prop = 1;
+}
+```
+
+<a id="markdown-私有方法" name="私有方法"></a>
+### 私有方法
+私有方法和私有属性，是只能在类的内部访问的方法和属性，外部不能访问。
+
+这是常见需求，有利于代码的封装，但 ES6 不提供，只能通过变通方法模拟实现。
+
+一种做法是在命名上加以区别。
+```js
+class Widget {
+
+  // 公有方法
+  foo (baz) {
+    this._bar(baz);
+  }
+
+  // 私有方法
+  _bar(baz) {
+    return this.snaf = baz;
+  }
+
+  // ...
+}
+```
+
+上面代码中，_bar方法前面的下划线，表示这是一个只限于内部使用的私有方法。但是，这种命名是不保险的，在类的外部，还是可以调用到这个方法。
+
+另一种方法就是索性将私有方法移出模块，因为模块内部的所有方法都是对外可见的。
+```js
+class Widget {
+  foo (baz) {
+    bar.call(this, baz);
+  }
+
+  // ...
+}
+
+function bar(baz) {
+  return this.snaf = baz;
+}
+```
+
+上面代码中，foo是公开方法，内部调用了bar.call(this, baz)。这使得bar实际上成为了当前模块的私有方法。
+
+<a id="markdown-私有属性" name="私有属性"></a>
+### 私有属性
+目前，有一个提案，为class加了私有属性。方法是在属性名之前，使用#表示。
+
+```js
+class IncreasingCounter {
+  #count = 0;
+  get value() {
+    console.log('Getting the current value!');
+    return this.#count;
+  }
+  increment() {
+    this.#count++;
+  }
+}
+```
+
+上面代码中，#count就是私有属性，只能在类的内部使用（this.#count）。如果在类的外部使用，就会报错。
+```js
+const counter = new IncreasingCounter();
+counter.#count // 报错
+counter.#count = 42 // 报错
+```
+上面代码在类的外部，读取私有属性，就会报错。
+
+<a id="markdown-class的继承" name="class的继承"></a>
+## class的继承
+Class 可以通过extends关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。
+
+```js
+class Point {
+    x = 0;
+    y = 0;
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+class ColorPoint extends Point {
+    constructor(x, y, color='white') {
+        super(x, y); //不可省略，并且要在constructor中第一行调用
+        this.color = color;
+    }
+}
+```
+子类必须在constructor方法中调用super方法，否则新建实例时会报错。
+
+这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。
+
+如果不调用super方法，子类就得不到this对象。
+
+下面是生成子类实例的代码。
+```js
+let cp = new ColorPoint(25, 8, 'green');
+
+cp instanceof ColorPoint // true
+cp instanceof Point // true
+```
+
+上面代码中，实例对象cp同时是ColorPoint和Point两个类的实例，这与 ES5 的行为完全一致。
+
+最后，父类的静态方法，也会被子类继承。
+```js
+class A {
+  static hello() {
+    console.log('hello world');
+  }
+}
+
+class B extends A {
+}
+
+B.hello()  // hello world
+```
+上面代码中，hello()是A类的静态方法，B继承A，也继承了A的静态方法。
+
+
+
+
+
+
+
+
 
 ---
 
