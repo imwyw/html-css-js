@@ -56,72 +56,79 @@
 
 ``` html
 <style>
-    .div-float {
-        width: 300px;
-        height: 500px;
-        float: left;
+    div {
+        width: 100px;
+        height: 100px;
+    }
+
+    #div1 {
+        background-color: blue;
+    }
+
+    #div2 {
+        background-color: red;
     }
 </style>
 
-<div class="div-float" id="div1">
-    <h1>一级标题</h1>
-    <h2>二级标题</h2>
-    <h3>三级标题</h3>
-    <h4>四级标题</h4>
-    <h5>五级标题</h5>
-    <h6>六级标题</h6>
-</div>
-<div class="div-float" id="div2">
-    <ul>
-        <li>桃子</li>
-        <li>橘子</li>
-    </ul>
-</div>
+<div id="div1"></div>
+<div id="div2"></div>
 ```
 
 设置两个div左右对齐呢？修改样式如下：
 
 ``` html
 <style>
-    .div-float {
-        width: 300px;
-        height: 500px;
-    }
-    #div1 {
+    div {
+        width: 100px;
+        height: 100px;
         float: left;
     }
+
+    #div1 {
+        background-color: blue;
+    }
+
     #div2 {
-        float: right;
+        background-color: red;
     }
 </style>
 ```
 
-设置左右布局的结构，如下：
+简易MIS管理系统的主要布局结构，可以采用浮动模型的方式来实现，如下所示：
+
 ``` html
-<style>
-    header {
-        height: 70px;
-    }
-    ul {
-        float: left;
-    }
-    iframe {
-        width: 600px;
-        height: 400px;
-        float: left;
-    }
-    footer {
-        height: 50px;
-    }
-</style>
 <body>
+    <style>
+        header {
+            height: 70px;
+            background-color: lightblue;
+        }
+
+        ul {
+            width: 10%;
+            float: left;
+        }
+
+        iframe {
+            width: 85%;
+            height: 400px;
+            float: left;
+        }
+
+        footer {
+            height: 50px;
+            background-color: steelblue;
+        }
+    </style>
     <header>头部</header>
-    <ul>
-        <li><a href="" target="frmContent">菜单一</a></li>
-        <li><a href="" target="frmContent">菜单二</a></li>
-        <li><a href="" target="frmContent">菜单三</a></li>
-    </ul>
-    <iframe id="frmContent" name="frmContent" src="" frameborder="0"></iframe>
+    <div class="main">
+        <ul>
+            <li><a href="http://www.baidu.com" target="frmContent">菜单一</a></li>
+            <li><a href="http://www.bing.com" target="frmContent">菜单二</a></li>
+            <li><a href="http://www.sina.com" target="frmContent">菜单三</a></li>
+        </ul>
+        <iframe id="frmContent" name="frmContent" src="http://www.baidu.com" frameborder="0"></iframe>
+    </div>
     <footer>底部</footer>
 </body>
 ```
@@ -131,7 +138,7 @@
 
 我们可以通过给footer标签增加clear属性设置不允许浮动元素,将浮动元素重新拉回文档中。
 
-`footer{clear:both;}`
+`footer {clear:both;}`
 
 <a id="markdown-position" name="position"></a>
 ## Position
@@ -157,38 +164,26 @@ position:absolute，将元素从原先的文档流中独立出来，
 
 如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。
 
-对于前面Float浮动模型，两个div在同一行，也可以使用绝对定位的方式实现右对齐，如下示例：
-
 ``` html
 <style>
-    .div-float {
-        background-color: lightblue;
-        width: 300px;
-        height: 500px;
-        float: left;
+    div {
+        width: 100px;
+        height: 100px;
     }
 
-    #divAbsolute {
-        background-color: lightpink;
+    #div1 {
+        float: left;
+        background-color: blue;
+    }
+
+    #div2 {
+        background-color: red;
         position: absolute;
-        left: 310px;
+        left: 110px;
     }
 </style>
-
-<div class="div-float">
-    <h1>一级标题</h1>
-    <h2>二级标题</h2>
-    <h3>三级标题</h3>
-    <h4>四级标题</h4>
-    <h5>五级标题</h5>
-    <h6>六级标题</h6>
-</div>
-<div class="div-float" id="divAbsolute">
-    <ul>
-        <li>桃子</li>
-        <li>橘子</li>
-    </ul>
-</div>
+<div id="div1"></div>
+<div id="div2"></div>
 ```
 ![](../assets/css/position-absolute.png)
 
@@ -212,14 +207,14 @@ position:relative，通过left、right、top、bottom属性确定元素在正常
         background-color: blue;
     }
 
-    #divRelative {
+    #div2 {
         background-color: red;
         position: relative;
         left: 100px;
     }
 </style>
 <div id="div1"></div>
-<div id="divRelative"></div>
+<div id="div2"></div>
 <span>偏移前的位置还保留不动，覆盖不了前面的div没有偏移前的位置</span>
 ```
 
@@ -231,6 +226,10 @@ position:fixed，表示固定定位，与absolute类似，不同的是fixed相�
 
 ``` html
 <style>
+    body {
+        height: 2000px;
+    }
+    
     #divFixed {
         width: 200px;
         height: 100px;
