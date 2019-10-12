@@ -28,6 +28,7 @@
     - [布局实例](#布局实例)
         - [基本网格布局](#基本网格布局)
         - [百分比网格](#百分比网格)
+        - [MIS系统布局](#mis系统布局)
         - [圣杯布局](#圣杯布局)
         - [输入框的布局](#输入框的布局)
         - [固定底栏](#固定底栏)
@@ -283,13 +284,15 @@ Webkit 内核的浏览器，必须加上-webkit前缀。
 
 <a id="markdown-基本概念" name="基本概念"></a>
 ### 基本概念
-采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。
+采用 Flex 布局的元素，称为 Flex 容器(flex container)，简称"容器"。
+
+它的所有子元素自动成为容器成员，称为 Flex 项目(flex item)，简称"项目"。
 
 ![](../assets/CSS/flex-1.png)
 
-容器默认存在两根轴：水平的主轴（main axis）和垂直的交叉轴（cross axis）。
+容器默认存在两根轴：水平的主轴(main axis)和垂直的交叉轴(cross axis)。
 
-主轴的开始位置（与边框的交叉点）叫做main start，结束位置叫做main end；
+主轴的开始位置(与边框的交叉点)叫做main start，结束位置叫做main end；
 
 交叉轴的开始位置叫做cross start，结束位置叫做cross end。
 
@@ -321,31 +324,29 @@ flex-direction属性决定主轴的方向（即项目的排列方向）。
 * column-reverse：主轴为垂直方向，起点在下沿。
 
 ```html
-<body>
-	<style>
-		div:not([class="box"]) {
-			background-color: pink;
-			width: 500px;
-			height: 100px;
-			margin: 5px;
-		}
+<style>
+    div.box {
+        display: flex;
+        flex-direction: row;
+    }
 
-		div.box {
-			display: flex;
-			flex-direction: row;
-		}
-	</style>
-	<div class="box">
-		<div>div1</div>
-		<div>div2</div>
-		<div>div3</div>
-		<div>div4</div>
-		<div>div5</div>
-		<div>div6</div>
-		<div>div7</div>
-		<div>div8</div>
-	</div>
-</body>
+        div.box > div {
+            background-color: pink;
+            width: 500px;
+            height: 100px;
+            margin: 5px;
+        }
+</style>
+<div class="box">
+    <div>div1</div>
+    <div>div2</div>
+    <div>div3</div>
+    <div>div4</div>
+    <div>div5</div>
+    <div>div6</div>
+    <div>div7</div>
+    <div>div8</div>
+</div>
 ```
 
 ![](../assets/CSS/flex-direc-row.png)
@@ -645,6 +646,74 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
 </body>
 ```
 
+<a id="markdown-mis系统布局" name="mis系统布局"></a>
+### MIS系统布局
+
+经典的信息管理系统布局，采用flex控制，方便快捷：
+
+```html
+<style type="text/css">
+    body {
+        /* 100% 屏幕高度，需要清除body margin值，否则会撑开滚动条 */
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        /*body内容纵向排列*/
+        flex-direction: column;
+    }
+
+    main {
+        /*中间区域自动填充*/
+        flex: auto;
+        /*内部实现横向排列，即左右分*/
+        display: flex;
+        flex-direction: row;
+    }
+
+    nav {
+        width: 100px;
+    }
+
+    ul {
+        padding-left: 10px;
+    }
+
+        ul li {
+            list-style: none;
+        }
+
+    iframe {
+        /*内联框架自动填充区域*/
+        flex: auto;
+    }
+
+    header, footer {
+        height: 70px;
+        background-color: #007acc;
+    }
+</style>
+    
+<body>
+    <header></header>
+    <main>
+        <nav>
+            <ul>
+                <li>
+                    <a href="http://www.baidu.com" target="frmContent">baidu</a>
+                </li>
+                <li>
+                    <a href="http://www.bing.com" target="frmContent">bing</a>
+                </li>
+            </ul>
+        </nav>
+        <iframe name="frmContent" src="http://www.baidu.com"></iframe>
+    </main>
+    <footer></footer>
+</body>
+```
+
+![](../assets/CSS/flex-demo-mis.png)
+
 <a id="markdown-圣杯布局" name="圣杯布局"></a>
 ### 圣杯布局
 圣杯布局（Holy Grail Layout）指的是一种最常见的网站布局。
@@ -677,44 +746,38 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
             display: flex;
             justify-content: center;
             align-items: center;
-            flex: none;
         }
 
         .content {
             /* 高度自适应 */
-            flex: 1;
+            flex: auto;
             display: flex;
         }
 
         nav,
         aside {
-            background-color: #eb6f43;
-            flex: 0 1 200px;
             display: flex;
+            background-color: #eb6f43;
+            width: 200px;
             justify-content: center;
             align-items: center;
         }
 
         main {
             display: flex;
+            /* 宽度自适应 */
+            flex: auto;
             justify-content: center;
             align-items: center;
-            /* 宽度自适应 */
-            flex: 1;
             background-color: #d6d6d6;
-        }
-
-        nav {
-            /* 调整顺序在main前面 */
-            order: -1;
         }
     </style>
     <header>
         header
     </header>
     <div class="content">
-        <main>main</main>
         <nav>nav</nav>
+        <main>main</main>
         <aside>aside</aside>
     </div>
     <footer>
@@ -761,9 +824,6 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
     <style>
         body {
             margin: 0;
-        }
-
-        #cont {
             display: flex;
             flex-direction: column;
             /* 100% 屏幕高度，需要清除body margin值，否则会撑开滚动条 */
@@ -771,7 +831,7 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
         }
 
         main {
-            flex: 1;
+            flex: auto;
         }
 
         header,
@@ -785,11 +845,9 @@ align-self属性允许单个项目有与其他项目不一样的对齐方式，�
             font-weight: bold;
         }
     </style>
-    <div id="cont">
-        <header>header</header>
-        <main></main>
-        <footer>footer</footer>
-    </div>
+    <header>header</header>
+    <main></main>
+    <footer>footer</footer>
 </body>
 ```
 
