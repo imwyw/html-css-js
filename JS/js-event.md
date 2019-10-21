@@ -3,6 +3,7 @@
 - [事件](#事件)
     - [前导](#前导)
     - [简单事件](#简单事件)
+        - [onload事件](#onload事件)
     - [监听函数](#监听函数)
         - [HTML标签的on-属性](#html标签的on-属性)
         - [Element节点的事件属性](#element节点的事件属性)
@@ -91,6 +92,23 @@ window.onload方法会在DOM节点树加载完成后触发，此时DOM文档树�
   </script>
 </body>
 ```
+
+<a id="markdown-onload事件" name="onload事件"></a>
+### onload事件
+onload 事件会在页面或图像加载完成后立即发生。
+
+```html
+<img src="https://cn.bing.com/th?id=OHR.MistyAshdown_ZH-CN6344044927_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp" />
+
+<script type="text/javascript">
+    alert('不会等待dom加载，执行到此行即执行');
+    window.onload = function () {
+        alert('dom和img加载完成');
+    }
+</script>
+```
+
+需要禁用浏览器Cache并且设置chrome调试Network模拟【slow 3g】网速才能看到明显的区分。
 
 <a id="markdown-监听函数" name="监听函数"></a>
 ## 监听函数
