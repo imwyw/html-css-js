@@ -12,8 +12,7 @@
             - [对象的保存](#对象的保存)
         - [sessionStorage 对象](#sessionstorage-对象)
     - [音频](#音频)
-        - [Web 上的音频](#web-上的音频)
-        - [如何工作](#如何工作)
+    - [视频](#视频)
 
 <!-- /TOC -->
 <a id="markdown-提升" name="提升"></a>
@@ -88,6 +87,7 @@ HTML 本地存储提供了两个在客户端存储数据的对象：
 <a id="markdown-localstorage-对象" name="localstorage-对象"></a>
 ### localStorage 对象
 localStorage 对象存储的是没有截止日期的数据。
+
 当浏览器被关闭时数据不会被删除，在下一天、周或年中，都是可用的。
 
 名称/值对始终存储为字符串。如果需要请记得把它们转换为其他格式！
@@ -158,18 +158,9 @@ sessionStorage.clickcount + " 次。";
 
 <a id="markdown-音频" name="音频"></a>
 ## 音频
-<a id="markdown-web-上的音频" name="web-上的音频"></a>
-### Web 上的音频
-直到现在，仍然不存在一项旨在网页上播放音频的标准。
-今天，大多数音频是通过插件（比如 Flash）来播放的。然而，并非所有浏览器都拥有同样的插件。
-HTML5 规定了一种通过 audio 元素来包含音频的标准方法。
-audio 元素能够播放声音文件或者音频流。
 
-<a id="markdown-如何工作" name="如何工作"></a>
-### 如何工作
 ```html
-<audio src="song.ogg" controls="controls">
-</audio>
+<audio src="../resource/xxx.mp3" controls="controls"></audio>
 ```
 
 `<audio>`标签属性：
@@ -181,6 +172,28 @@ controls | controls | 如果出现该属性，则向用户显示控件，比如�
 loop | loop | 如果出现该属性，则每当音频结束时重新开始播放。
 preload | preload | 如果出现该属性，则音频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。
 src | url | 要播放的音频的 URL。
+
+<a id="markdown-视频" name="视频"></a>
+## 视频
+
+```html
+<audio src="../resource/xxx.mp4" controls="controls"></audio>
+```
+
+HTML5 中的新属性：
+
+属性 | 值 | 描述
+---|---|---
+autoplay | autoplay | 如果出现该属性，则视频在就绪后马上播放。
+controls | controls | 如果出现该属性，则向用户显示控件，比如播放按钮。
+height | pixels | 设置视频播放器的高度。
+loop | loop | 如果出现该属性，则当媒介文件完成播放后再次开始播放。
+muted | muted | 规定视频的音频输出应该被静音。
+poster | URL | 规定视频下载时显示的图像，或者在用户点击播放按钮前显示的图像。
+preload | preload |  如果出现该属性，则视频在页面加载时进行加载，并预备播放。如果使用 "autoplay"，则忽略该属性。
+src | url | 要播放的视频的 URL。
+width | pixels | 设置视频播放器的宽度。
+
 
 
 参考引用：
