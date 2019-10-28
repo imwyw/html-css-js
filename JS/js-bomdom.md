@@ -198,13 +198,9 @@ go() | 加载 history 列表中的某个具体页面。
 ## DOM(Document Object Model)
 DOM是JavaScript操作网页的接口，全称为“文档对象模型”（Document Object Model）。它的作用是将网页转为一个JavaScript对象，从而可以用脚本进行各种操作（比如增删内容）。
 
-浏览器会根据DOM模型，将结构化文档（比如HTML和XML）解析成一系列的节点，再由这些节点组成一个树状结构（DOM Tree）。所有的节点和最终的树状结构，都有规范的对外接口。
+严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。
 
-所以，DOM可以理解成网页的编程接口。DOM有自己的国际标准，目前的通用版本是DOM 3，下一代版本DOM 4正在拟定中。
-
-严格地说，DOM不属于JavaScript，但是操作DOM是JavaScript最常见的任务，而JavaScript也是最常用于DOM操作的语言。本章介绍的就是JavaScript对DOM标准的实现和用法。
-
-//todo dom操作需要增加简单案例
+由于HTML文档被浏览器解析后就是一棵DOM树，要改变HTML的结构，就需要通过JavaScript来操作DOM。
 
 <a id="markdown-查找元素" name="查找元素"></a>
 ### 查找元素
@@ -216,9 +212,6 @@ W3C提供了比较方便的定位节点的方法和属性，如下所示：
 | getElementsByTagName() | 获取相同元素的节点列表 | 
 | getElementsByName | 获取相同名称的节点列表 | 
 | getElementsByClassName | 通过类名获取节点列表 | 
-| getAttribute() | 获取特定元素节点属性的值 | 
-| setAttribute() | 设置特定元素节点属性的值 | 
-| removeAttribute() | 移除特定元素节点属性 |
 
 <a id="markdown-元素节点属性" name="元素节点属性"></a>
 ### 元素节点属性
@@ -229,7 +222,8 @@ nodeName | 返回一个字符串，其内容是节点的名字
 nodeType | 返回一个整数，这个数值代表给定节点的类型
 nodeValue | 返回给定节点的当前值
 tagName | 获取元素节点的标签名
-innerHTML | 获取元素节点的内容
+innerHTML | 获取元素节点的内容，**包含**标签本身
+innerText | 获取元素节点的内容，**过滤**标签本身
 
 <a id="markdown-遍历节点树" name="遍历节点树"></a>
 ### 遍历节点树
@@ -315,11 +309,11 @@ element.offsetWidth | 返回元素的整体宽度，包滚动条等边线，会�
 
 上述案例中，默认的textarea的scrollWidth和clientWidth是相等的，而offsetWidth是包含边框的宽度，如图：
 
-![](..\assets\HTML\dom-width-1.jpg)
+![](../assets/HTML/dom-width-1.jpg)
 
 当textarea内容超出元素宽度时，scrollWidth和clientWidth是不一样的，如图：
 
-![](..\assets\HTML\dom-width-2.jpg)
+![](../assets/HTML/dom-width-2.jpg)
 
 同样的，scrollHeight、clientHeight、offsetHeight高度也是一样的道理。
 
