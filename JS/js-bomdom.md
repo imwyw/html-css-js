@@ -49,22 +49,22 @@ window的主对象主要有如下几个：
 
 <a id="markdown-window对象" name="window对象"></a>
 ### window对象
-Window 对象表示浏览器中打开的窗口。
+window 对象表示浏览器中打开的窗口。
 如果文档包含框架（frame 或 iframe 标签），浏览器会为 HTML 文档创建一个 window 对象，并为每个框架创建一个额外的 window 对象。
 
-Window 对象表示一个浏览器窗口或一个框架。在客户端 JavaScript 中，Window 对象是全局对象，所有的表达式都在当前的环境中计算。
+window 对象表示一个浏览器窗口或一个框架。在客户端 JavaScript 中，window 对象是全局对象，所有的表达式都在当前的环境中计算。
 
 也就是说，要引用当前窗口根本不需要特殊的语法，可以把那个窗口的属性作为全局变量来使用。
 
 例如，可以只写 document，而不必写 window.document。
 
-同样，可以把当前窗口对象的方法当作函数来使用，如只写 alert()，而不必写 Window.alert()。
+同样，可以把当前窗口对象的方法当作函数来使用，如只写 alert()，而不必写 window.alert()。
 
-除了上面列出的属性和方法，Window 对象还实现了核心 JavaScript 所定义的所有全局属性和方法。
+除了上面列出的属性和方法，window 对象还实现了核心 JavaScript 所定义的所有全局属性和方法。
 
-Window 对象的 window 属性和 self 属性引用的都是它自己。当你想明确地引用当前窗口，而不仅仅是隐式地引用它时，可以使用这两个属性。
+window 对象的 window 属性和 self 属性引用的都是它自己。当你想明确地引用当前窗口，而不仅仅是隐式地引用它时，可以使用这两个属性。
 
-除了这两个属性之外，parent 属性、top 属性以及 frame[] 数组都引用了与当前 Window 对象相关的其他 Window 对象。
+除了这两个属性之外，parent 属性、top 属性以及 frame[] 数组都引用了与当前 window 对象相关的其他 window 对象。
 
 属性 | 描述
 ---|---
@@ -85,7 +85,7 @@ pageXOffset | 设置或返回当前页面相对于窗口显示区左上角的 X 
 pageYOffset | 设置或返回当前页面相对于窗口显示区左上角的 Y 位置。
 parent | 返回父窗口。
 Screen | 对 Screen 对象的只读引用。请参数 Screen 对象。
-self | 返回对当前窗口的引用。等价于 Window 属性。
+self | 返回对当前窗口的引用。等价于 window 属性。
 status | 设置窗口状态栏的文本。
 top | 返回最顶层的先辈窗口。
 window | window 属性等价于 self 属性，它包含了对窗口自身的引用。
@@ -113,7 +113,7 @@ scrollTo() | 把内容滚动到指定的坐标。
 setInterval() | 按照指定的周期（以毫秒计）来调用函数或计算表达式。
 setTimeout() | 在指定的毫秒数后调用函数或计算表达式。
 
-参考：[Window对象](http://www.w3school.com.cn/jsref/dom_obj_window.asp)
+参考：[window对象](http://www.w3school.com.cn/jsref/dom_obj_window.asp)
 
 <a id="markdown-navigator对象" name="navigator对象"></a>
 ### navigator对象
