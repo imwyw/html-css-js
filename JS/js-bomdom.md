@@ -210,8 +210,8 @@ W3C提供了比较方便的定位节点的方法和属性，如下所示：
 | ------------- |:-------------:| 
 | getElementById() | 获取特定ID元素的节点 | 
 | getElementsByTagName() | 获取相同元素的节点列表 | 
-| getElementsByName | 获取相同名称的节点列表 | 
-| getElementsByClassName | 通过类名获取节点列表 | 
+| getElementsByName() | 获取相同名称的节点列表 | 
+| getElementsByClassName() | 通过类名获取节点列表 | 
 
 <a id="markdown-元素节点属性" name="元素节点属性"></a>
 ### 元素节点属性
