@@ -13,8 +13,11 @@
         - [总结](#总结)
     - [事件传播](#事件传播)
         - [捕获](#捕获)
-        - [冒泡](#冒泡)
+        - [冒泡(默认顺序)](#冒泡默认顺序)
         - [Dom标准的事件模型](#dom标准的事件模型)
+        - [取消默认事件](#取消默认事件)
+        - [阻止事件冒泡](#阻止事件冒泡)
+    - [委托事件](#委托事件)
 
 <!-- /TOC -->
 <a id="markdown-事件" name="事件"></a>
@@ -249,7 +252,9 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 2. 第二阶段：在目标节点上触发，称为“目标阶段”（target phase）。
 3. 第三阶段：从目标节点传导回window对象，称为“冒泡阶段”（bubbling phase）。
 
-我们已经知道DOM(文档对象模型)结构是一个树型结构，事实上，当一个HTML元素产生一个事件时，该事件会在元素结点与根节点之间按特定的顺序传播，路径所经过的节点都会收到该事件，这个传播过程可称为DOM事件流。
+我们已经知道DOM(文档对象模型)结构是一个树型结构，事实上，当一个HTML元素产生一个事件时，
+
+该事件会在元素结点与根节点之间按特定的顺序传播，路径所经过的节点都会收到该事件，这个传播过程可称为DOM事件流。
 
 若要了解DOM事件流，我们需要先了解两种事件顺序类型：事件捕捉和事件冒泡。
 
@@ -259,9 +264,15 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 
 ![](../assets/JS/eventCapturing.png)
 
-<a id="markdown-冒泡" name="冒泡"></a>
-### 冒泡
-顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；从浏览器界 面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
+<a id="markdown-冒泡默认顺序" name="冒泡默认顺序"></a>
+### 冒泡(默认顺序)
+顾名思义，事件像个水中的气泡一样一直往上冒，直到顶端。
+
+从DOM树型结构上理解，就是事件由叶子节点沿祖先结点一直向上传递直到根节点；
+
+从浏览器界面视图HTML元素排列层次上理解就是事件由具有从属关系的最确定的目标元素一直传递到最不确定的目标元素，
+
+冒泡型事件的基本思想是事件按照从特定的事件目标开始到最不确定的事件目标。
 
 ![](../assets/JS/eventBubbling.png)
 
@@ -269,37 +280,149 @@ addEventListener是推荐的指定监听函数的方法。它有如下优点：
 ### Dom标准的事件模型
 DOM标准的事件流包括三个阶段：事件捕获阶段、处于目标阶段和冒泡阶段。
 
-首先发生的是事件捕获，为截获事件提供了机会。然后是实际的目标接收到事件。最后一个阶段是 冒泡阶段，可以在这个阶段对事件作出响应。
+首先发生的是事件捕获，为截获事件提供了机会。
+
+然后是实际的目标接收到事件。
+
+最后一个阶段是 冒泡阶段，可以在这个阶段对事件作出响应。
 
 ![](../assets/JS/dom_event.png)
 
 我们可以通过一个简单的示例来模拟：
 
 ```html
-<body id="_body">
-  <div id="_div"style="width: 500px; height:200px; background:#EAEAEA;">
-    <input id="btn"type="button"value="确定"/>
-  </div>
-  <script type="text/javascript">
-    function myclick1() {
-      alert("按钮被点击了");
-    }
+<body>
+    <div id="dd1">
+        <header id="hh1">
+            <input type="button" id="btn1" value="click me" />
+        </header>
+    </div>
+    <script type="text/javascript">
+        // useCapture捕获模型，默认为false（冒泡方式）
+        var useCapture = false;
 
-    function myclick2() {
-      alert("div被点击了");
-    }
-
-    function myclick3() {
-      alert("body被点击了");
-    }
-
-    // 将addEventListener方法最后一个参数全部修改为true再试试效果
-    document.getElementById("btn").addEventListener("click", myclick1, false);
-    document.getElementById("_div").addEventListener("click", myclick2, false);
-    //document.getElementById("_body").addEventListener("click", myclick3, false);
-  </script>
+        document.getElementById("dd1").addEventListener("click", function (e) {
+            console.log('div');
+        }, useCapture);
+        document.getElementById('hh1').addEventListener("click", function (e) {
+            console.log('header');
+        }, useCapture);
+        document.getElementById("btn1").addEventListener("click", function (e) {
+            console.log('button');
+        }, useCapture);
+    </script>
 </body>
 ```
+
+点击按钮，事件冒泡顺序，控制台输出如下所示；
+```
+button
+header
+div
+```
+
+修改上述代码中的`useCapture`变量为`true`，采用捕获方式执行，得到结果如下：
+```
+div
+header
+button
+```
+
+<a id="markdown-取消默认事件" name="取消默认事件"></a>
+### 取消默认事件
+preventDefault它是事件对象(Event)的一个方法，作用是取消一个目标元素的默认行为。
+
+既然是说默认行为，当然是元素必须有默认行为才能被取消，如果元素本身就没有默认行为，调用当然就无效了。
+
+什么元素有默认行为呢？如链接`<a>`，提交按钮`<input type="submit">`等
+
+```html
+<body>
+    <div id="dd1">
+        <a id="btn1" href="Home.html" target="_self">跳转</a>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('btn1').addEventListener('click', function (e) {
+            // 取消默认事件，阻止a标签的跳转
+            e.preventDefault();
+        });
+    </script>
+</body>
+```
+
+<a id="markdown-阻止事件冒泡" name="阻止事件冒泡"></a>
+### 阻止事件冒泡
+stopPropagation也是事件对象(Event)的一个方法，作用是阻止目标元素的冒泡事件，但是会不阻止默认行为。
+
+stopPropagation就是阻止目标元素的事件冒泡到父级元素，在上述冒泡案例代码基础上修改如下：
+
+```html
+<body>
+    <div id="dd1">
+        <header id="hh1">
+            <input type="button" id="btn1" value="click me" />
+        </header>
+    </div>
+    <script type="text/javascript">
+        // useCapture捕获模型，默认为false（冒泡方式）
+        var useCapture = false;
+
+        document.getElementById("dd1").addEventListener("click", function (e) {
+            console.log('div');
+        }, useCapture);
+        document.getElementById('hh1').addEventListener("click", function (e) {
+            console.log('header');
+        }, useCapture);
+        document.getElementById("btn1").addEventListener("click", function (e) {
+            console.log('button');
+            // 阻止事件冒泡，header和div上事件不再触发
+            e.stopPropagation();
+        }, useCapture);
+    </script>
+</body>
+```
+
+点击按钮后，事件不会冒泡至header和div标签。
+
+<a id="markdown-委托事件" name="委托事件"></a>
+## 委托事件
+事件委托，通俗地来讲，就是把一个元素响应事件（click、keydown......）的函数委托到另一个元素。
+
+一般来讲，会把一个或者一组元素的事件委托到它的父层或者更外层元素上，真正绑定事件的是外层元素，
+
+当事件响应到需要绑定的元素上时，会通过事件冒泡机制从而触发它的外层元素的绑定事件上，然后在外层元素上去执行函数。
+
+试想一下，若果我们有一个table，表格中有大量的单元格，我们需要在点击单元格的时候响应一个事件；
+
+如果给每个列表项一一都绑定一个函数，那对于内存消耗是非常大的，效率上需要消耗很多性能；
+
+```html
+<body>
+    <button id="btnAdd">添加测试数据</button>
+    <div id="dd1">
+        <table id="tt1" border="1">
+            <tr><th>时间</th></tr>
+        </table>
+    </div>
+    <script type="text/javascript">
+        document.getElementById('btnAdd').addEventListener('click', function (e) {
+            var tr = document.createElement('tr');
+            var td = document.createElement('td');
+            tr.appendChild(td);
+            td.innerText = new Date();
+            document.getElementById('tt1').appendChild(tr);
+        });
+        document.getElementById('tt1').addEventListener('click', function (e) {
+            if (e.target.nodeName.toLowerCase() == 'td') {
+                alert(e.target.innerText);
+            }
+        });
+    </script>
+</body>
+```
+
+
+---
 
 参考引用：
 
