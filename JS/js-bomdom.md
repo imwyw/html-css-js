@@ -231,11 +231,17 @@ innerText | 获取元素节点的内容，**过滤**标签本身
 遍历节点树 | 说明
 ------|---
 childNodes | 返回一个数组，这个数组由给定元素的子节点构成
+children    |   返回一个数组，这个数组由给定元素的子节点构成；childNodes元素版本
+childElementCount   |   返回子元素（不包括文本节点和注释）的个数
 firstChild | 返回第一个子节点
+firstElementChild   |   指向第一个子元素；firstChild的元素版。
 lastChild | 返回最后一个子节点
+lastElementChild    |   指向最后一个子元素；lastChild的元素版。
 parentNode | 返回一个给定节点的父节点
 nextSibling | 返回给定节点的下一个子节点
+nextElementSibling  |   指向最后一个同辈元素；nextSibling的元素版。
 previousSibling | 返回给定节点的上一个子节点
+previousElementSibling  |   指向前一个同辈元素；previousSibling的元素版。
 
 <a id="markdown-dom操作" name="dom操作"></a>
 ### DOM操作
