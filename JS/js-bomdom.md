@@ -15,7 +15,10 @@
         - [属性操作](#属性操作)
         - [scrollWidth/clientWidth/offsetWidth](#scrollwidthclientwidthoffsetwidth)
         - [innerText/innerHTML/outerHTML/outerText](#innertextinnerhtmlouterhtmloutertext)
-    - [BOM和DOM](#bom和dom)
+    - [JS浏览器URL参数](#js浏览器url参数)
+        - [采用正则表达式获取地址栏参数 (代码简洁，重点正则）](#采用正则表达式获取地址栏参数-代码简洁重点正则)
+        - [split拆分法 (代码较复杂，较易理解)](#split拆分法-代码较复杂较易理解)
+        - [split拆分法(易于理解，代码中规)](#split拆分法易于理解代码中规)
 
 <!-- /TOC -->
 <a id="markdown-概述" name="概述"></a>
@@ -327,9 +330,64 @@ element.offsetWidth | 返回元素的整体宽度，包滚动条等边线，会�
 ### innerText/innerHTML/outerHTML/outerText
 ![](../assets/JS/inner_outer.gif)
 
-<a id="markdown-bom和dom" name="bom和dom"></a>
-## BOM和DOM
-DOM描述了处理网页内容的方法和接口，BOM描述了与浏览器进行交互的方法和接口。
+<a id="markdown-js浏览器url参数" name="js浏览器url参数"></a>
+## JS浏览器URL参数
+<a id="markdown-采用正则表达式获取地址栏参数-代码简洁重点正则" name="采用正则表达式获取地址栏参数-代码简洁重点正则"></a>
+### 采用正则表达式获取地址栏参数 (代码简洁，重点正则）
+```js
+function getQueryString(name) {
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    let r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    };
+    return null;
+}
+
+// 调用
+var value = getQueryString('参数名');
+```
+
+<a id="markdown-split拆分法-代码较复杂较易理解" name="split拆分法-代码较复杂较易理解"></a>
+### split拆分法 (代码较复杂，较易理解)
+```js
+function GetRequest() {
+    const url = location.search; //获取url中"?"符后的字串
+    let theRequest = new Object();
+    if (url.indexOf("?") != -1) {
+        let str = url.substr(1);
+        strs = str.split("&");
+        for (let i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+        }
+    }
+    return theRequest;
+}
+
+// 调用
+var req = GetRequest();
+console.log(req['参数名']);
+```
+
+<a id="markdown-split拆分法易于理解代码中规" name="split拆分法易于理解代码中规"></a>
+### split拆分法(易于理解，代码中规)
+```js
+function getQueryVariable(variable) {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split("=");
+        if (pair[0] == variable) { return pair[1]; }
+    }
+    return (false);
+}
+
+// 调用
+var value = getQueryVariable('参数名');
+```
+
+
+
 
 参考引用：
 
