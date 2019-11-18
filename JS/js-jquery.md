@@ -792,6 +792,7 @@ mouseleave |   blur | unload
 <a id="markdown-jquery中等效方法" name="jquery中等效方法"></a>
 ### jQuery中等效方法
 在 jQuery 中，大多数 DOM 事件都有一个等效的 jQuery 方法。
+
 例如：
 ```html
 <body>
@@ -829,7 +830,7 @@ mouseleave |   blur | unload
 </body>
 ```
 
-当多个文本框切换时，blur失去焦点事件会陷入死循环，todo分析
+当多个文本框切换时，blur失去焦点事件会陷入死循环
 
 > https://blog.csdn.net/hzw2312/article/details/8177927
 
