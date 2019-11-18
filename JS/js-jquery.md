@@ -53,13 +53,17 @@
 <!-- /TOC -->
 <a id="markdown-jquery" name="jquery"></a>
 # jQuery
-jQuery是目前使用最广泛的JavaScript函数库。据统计，全世界57.5%的网站使用jQuery，在使用JavaScript函数库的网站中，93.0%使用jQuery。
+jQuery是目前使用最广泛的JavaScript函数库。
+
+据统计，全世界57.5%的网站使用jQuery，在使用JavaScript函数库的网站中，93.0%使用jQuery。
 
 它已经成了开发者必须学会的技能。
 
 官网：>https://jquery.com/
 
-jQuery的最大优势有两个。首先，它基本是一个DOM操作工具，可以使操作DOM对象变得异常容易。其次，它统一了不同浏览器的API接口，使得代码在所有现代浏览器均能运行，开发者不用担心浏览器之间的差异。
+jQuery的最大优势有两个。首先，它基本是一个DOM操作工具，可以使操作DOM对象变得异常容易。
+
+其次，它统一了不同浏览器的API接口，使得代码在所有现代浏览器均能运行，开发者不用担心浏览器之间的差异。
 
 1. jQuery是一个兼容多浏览器的javascript库，核心理念是write less,do more(写得更少,做得更多)。
 2. jQuery是免费、开源的，使用MIT许可协议。
@@ -84,7 +88,9 @@ jQuery的最大优势有两个。首先，它基本是一个DOM操作工具，�
 -->
 ```
 
-上面代码有两点需要注意。一是采用CDN加载。如果CDN加载失败，则退回到本地加载。二是采用协议无关的加载网址（使用双斜线表示），同时支持http协议和https协议。
+上面代码有两点需要注意。一是采用CDN加载。如果CDN加载失败，则退回到本地加载。
+
+二是采用协议无关的加载网址（使用双斜线表示），同时支持http协议和https协议。
 
 CDN的选择[参考jQuery官网](http://jquery.com/download/#other-cdns)
 
@@ -106,7 +112,9 @@ var listItems = $('li');
 
 <a id="markdown-jquery构造函数" name="jquery构造函数"></a>
 ### jQuery构造函数
-jQuery对象本质上是一个构造函数，主要作用是返回jQuery对象的实例。比如，上面代码表面上是选中li元素，实际上是返回对应于li元素的jQuery实例。
+jQuery对象本质上是一个构造函数，主要作用是返回jQuery对象的实例。
+
+比如，上面代码表面上是选中li元素，实际上是返回对应于li元素的jQuery实例。
 
 因为只有这样，才能在DOM对象上使用jQuery提供的各种方法。
 
@@ -117,7 +125,9 @@ $('body').nodeType; // undefined
 $('body') instanceof jQuery; // true
 */
 ```
-上面代码表示，由于jQuery返回的不是DOM对象，所以没有DOM属性nodeType。它返回的是jQuery对象的实例。
+上面代码表示，由于jQuery返回的不是DOM对象，所以没有DOM属性nodeType。
+
+它返回的是jQuery对象的实例。
 
 jQuery构造函数可以多种参数，返回不同的值。
 
@@ -136,7 +146,9 @@ jQuery构造函数的参数，还可以是DOM对象。它也会被转为jQuery�
 如果直接在jQuery构造函数中输入HTML字符串，返回的也是jQuery实例。
 
 `$('<li class="greet">test</li>')`
-上面代码从HTML代码生成了一个jQuery实例，它与从CSS选择器生成的jQuery实例完全一样。唯一的区别就是，它对应的DOM结构不属于当前文档。
+上面代码从HTML代码生成了一个jQuery实例，它与从CSS选择器生成的jQuery实例完全一样。
+
+唯一的区别就是，它对应的DOM结构不属于当前文档。
 
 上面代码也可以写成下面这样。
 ```js
@@ -166,6 +178,7 @@ $('<input/>')
 .attr('name', 'foo')
 .val('bar')
 ```
+
 由于新增的DOM节点不属于当前文档，所以可以用这种写法预加载图片。
 ```js
 $.preloadImages = function () {
@@ -179,7 +192,9 @@ $.preloadImages('img/hover-on.png', 'img/hover-off.png');
 
 <a id="markdown-第二个参数" name="第二个参数"></a>
 #### 第二个参数
-默认情况下，jQuery将文档的根元素（html）作为寻找匹配对象的起点。如果要指定某个网页元素（比如某个div元素）作为寻找的起点，可以将它放在jQuery函数的第二个参数。
+默认情况下，jQuery将文档的根元素（html）作为寻找匹配对象的起点。
+
+如果要指定某个网页元素（比如某个div元素）作为寻找的起点，可以将它放在jQuery函数的第二个参数。
 
 `$('li', someElement);`
 
@@ -187,34 +202,44 @@ $.preloadImages('img/hover-on.png', 'img/hover-off.png');
 
 <a id="markdown-jquery构造函数返回的结果集" name="jquery构造函数返回的结果集"></a>
 ### jQuery构造函数返回的结果集
-jQuery的核心思想是“先选中某些网页元素，然后对其进行某种处理”（find something, do something），也就是说，先选择后处理，这是jQuery的基本操作模式。
+jQuery的核心思想是“先选中某些网页元素，然后对其进行某种处理”（find something, do something），
+
+也就是说，先选择后处理，这是jQuery的基本操作模式。
 
 所以，绝大多数jQuery操作都是从选择器开始的，返回一个选中的结果集。
 
 <a id="markdown-length属性" name="length属性"></a>
 #### length属性
-jQuery对象返回的结果集是一个类似数组的对象，包含了所有被选中的网页元素。查看该对象的length属性，可以知道到底选中了多少个结果。
+jQuery对象返回的结果集是一个类似数组的对象，包含了所有被选中的网页元素。
+
+查看该对象的length属性，可以知道到底选中了多少个结果。
 ```js
 if ( $('li').length === 0 ) {
 	console.log('不含li元素');
 }
 ```
-上面代码表示，如果网页没有li元素，则返回对象的length属性等于0。这就是测试有没有选中的标准方法。
+上面代码表示，如果网页没有li元素，则返回对象的**length属性等于0**。这就是测试有没有选中的标准方法。
 
 所以，如果想知道jQuery有没有选中相应的元素，不能写成下面这样。
 
 `if ($('div.foo')) { ... }`
 
-因为不管有没有选中，jQuery构造函数总是返回一个实例对象，而对象的布尔值永远是true。使用length属性才是判断有没有选中的正确方法。
+因为不管有没有选中，jQuery构造函数总是返回一个实例对象，而对象的布尔值永远是true。
+
+使用length属性才是判断有没有选中的正确方法。
 
 <a id="markdown-下标运算符" name="下标运算符"></a>
 #### 下标运算符
-jQuery选择器返回的是一个类似数组的对象。但是，使用下标运算符取出的单个对象，并不是jQuery对象的实例，而是一个DOM对象。
+jQuery选择器返回的是一个类似数组的对象。
+
+但是，使用下标运算符取出的单个对象，并不是jQuery对象的实例，而是一个DOM对象。
 ```js
 $('li')[0] instanceof jQuery // false
 $('li')[0] instanceof Element // true
 ```
-上面代码表示，下标运算符取出的是Element节点的实例。所以，通常使用下标运算符将jQuery实例转回DOM对象。
+上面代码表示，下标运算符取出的是Element节点的实例。
+
+所以，通常使用下标运算符将jQuery实例转回DOM对象。
 
 <a id="markdown-选择器" name="选择器"></a>
 ## 选择器
@@ -348,7 +373,9 @@ jQuery构造函数的参数，主要是CSS选择器。常用的有：
 
 <a id="markdown-containsempty" name="containsempty"></a>
 #### :contains/:empty
-contains选择所有包含指定文本的元素。 empty选择所有没有子元素的元素（包括文本节点）。 
+contains选择所有包含指定文本的元素。 
+
+empty选择所有没有子元素的元素（包括文本节点）。 
 ```html
 <div>John Resig</div>
 <div>George Martin</div>
@@ -362,7 +389,9 @@ contains选择所有包含指定文本的元素。 empty选择所有没有子元
 
 <a id="markdown-hiddenvisible" name="hiddenvisible"></a>
 #### :hidden/:visible
-hidden选择所有隐藏的元素。 visible选择所有可见的元素。 
+hidden选择所有隐藏的元素。 
+
+visible选择所有可见的元素。 
 ```html
 <table>
     <tr style="display:none"><td>Value 1</td></tr>
@@ -479,17 +508,21 @@ hidden选择所有隐藏的元素。 visible选择所有可见的元素。
 
 <a id="markdown-propremoveprop" name="propremoveprop"></a>
 ### prop()/removeProp()
-具有 true 和 false 两个值的属性，如 checked, selected 或者 disabled 使用prop()，其他的使用 attr()。
+具有 true 和 false 两个值的属性，如 radio, checked, selected 或者 disabled 使用prop()，其他的使用 attr()。
+
+
 ```html
 <h4>性别</h4>
-<input type="radio" name="radSex" id="chkMan" /><label for="chkMan">男</label>
-<input type="radio" name="radSex" id="chkWomen" /><label for="chkWomen">女</label>
+<input type="radio" name="radSex" id="chkMan" value="男" /><label for="chkMan">男</label>
+<input type="radio" name="radSex" id="chkWomen" value="女"/><label for="chkWomen">女</label>
 
 <script>
     //默认加载时选择女性
     $('#chkWomen').prop('checked', true);
     $('#chkWomen').prop('checked');//true
     $('#chkWomen').attr('checked')//undefined
+    $('input:radio:checked').val();// 选中radio的value值
+    $('input[name=radSex]:checked').val();// 选中radio的value值
 </script>
 ```
 
@@ -583,7 +616,9 @@ hidden选择所有隐藏的元素。 visible选择所有可见的元素。
 <a id="markdown-css" name="css"></a>
 ### css()
 
-通常情况，不推荐通过js代码控制元素样式，代码极难维护。建议通过样式类搭配addClass和removeClass方法进行样式控制。
+通常情况，不推荐通过js代码控制元素样式，代码极难维护。
+
+建议通过样式类搭配addClass和removeClass方法进行样式控制。
 
 ` .css( propertyName, value ) `
 
@@ -621,6 +656,7 @@ $('div').width();// 100
 <a id="markdown-内部插入" name="内部插入"></a>
 ### 内部插入
 append在每个匹配元素里面的末尾处插入参数内容，注意是**内部的结尾插入**。
+
 appendTo将元素插入到目标元素的最后面，也是在**内部**进行插入。
 
 ```html
@@ -664,6 +700,7 @@ insertAfter在目标元素后面插入集合中每个匹配的元素。
 <a id="markdown-删除" name="删除"></a>
 ### 删除
 empty()从DOM中移除元素的所有子节点，不会移除自身。
+
 remove()将匹配元素集合从DOM中删除，包含自身。
 
 <a id="markdown-筛选" name="筛选"></a>
@@ -680,6 +717,7 @@ remove()将匹配元素集合从DOM中删除，包含自身。
 <a id="markdown-ready" name="ready"></a>
 ### ready()
 当DOM准备就绪时，指定一个函数来执行。 
+
 ```js
 //以下语法都是等价的：
 $( handler ) 
@@ -692,7 +730,9 @@ $().ready( handler )
 <a id="markdown-ready和onload" name="ready和onload"></a>
 #### `ready和onload`
 $(document).ready方法接受一个函数作为参数，将该参数作为document对象的DOMContentLoaded事件的回调函数。
+
 也就是说，当页面解析完成（即下载完</html>标签）以后，在所有外部资源（图片、脚本等）完成加载之前，该函数就会立刻运行。
+
 ```js
 $( document ).ready(function() {
   console.log( 'ready!' );
@@ -790,12 +830,14 @@ mouseleave |   blur | unload
 ```
 
 当多个文本框切换时，blur失去焦点事件会陷入死循环，todo分析
+
 > https://blog.csdn.net/hzw2312/article/details/8177927
 
 
 <a id="markdown-onoff" name="onoff"></a>
 ### on()/off()
 同样，还可以使用on进行事件的绑定，需要注意，在jQuery 3+版本后删除了bind、delegate等方法。
+
 `.on( events [, selector ] [, data ], handler(eventObject) ) `
 
 ```html
