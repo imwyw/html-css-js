@@ -919,7 +919,10 @@ mouseleave |   blur | unload
 
 <a id="markdown-事件对象" name="事件对象"></a>
 ### 事件对象
-`event.target` 触发事件的DOM元素。 
+```
+event.target 触发事件的DOM元素。 
+event.data 当前正在执行的处理程序绑定时，一个可选的数据对象传递给一个事件方法。 
+```
 
 <a id="markdown-ajax" name="ajax"></a>
 ## $.ajax
@@ -933,7 +936,13 @@ $.ajax({
     async : true,//true/false,是否异步，默认true
     success : function(data,textStatus,jqXHR){},//请求成功后的回调函数。
     error : function(jqXHR,textStatus,errorThrown){},//请求失败时调用此函数。
-    complete : function(jqXHR,textStatus){},//请求完成后回调函数 (请求success 和 error之后均调用)。
+    complete : function(jqXHR,textStatus){},//请求完成后回调函数 (请求success 或 error之后均调用)。
+}).done(function(data, textStatus, jqXHR){
+    // 请求成功后的回调函数。等同于success
+}).fail(function(jqXHR, textStatus, errorThrown){
+    // 请求失败时调用此函数。等同于error
+}).always(function(data|jqXHR, textStatus, jqXHR|errorThrown){
+    // 请求完成后回调函数 (请求done 或 fail之后均调用)。
 });
 ```
 
