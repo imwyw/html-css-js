@@ -24,6 +24,8 @@
         - [背景](#背景)
         - [其他](#其他)
     - [Glyphicons 字体图标](#glyphicons-字体图标)
+    - [案例引用](#案例引用)
+        - [23种Bootstrap导航菜单布局设计jQuery插件](#23种bootstrap导航菜单布局设计jquery插件)
 
 <!-- /TOC -->
 <a id="markdown-全局样式" name="全局样式"></a>
@@ -719,11 +721,16 @@ Class | 描述
 
 <a id="markdown-glyphicons-字体图标" name="glyphicons-字体图标"></a>
 ## Glyphicons 字体图标
-包括250多个来自 Glyphicon Halflings 的字体图标。Glyphicons Halflings 一般是收费的，但是他们的作者允许 Bootstrap 免费使用。为了表示感谢，希望你在使用时尽量为 Glyphicons 添加一个友情链接。
+包括250多个来自 Glyphicon Halflings 的字体图标。
+
+Glyphicons Halflings 一般是收费的，但是他们的作者允许 Bootstrap 免费使用。
+
+为了表示感谢，希望你在使用时尽量为 Glyphicons 添加一个友情链接。
 
 不随放大而失真。
 
 官网上给出的图标列表：
+
 > http://v3.bootcss.com/components/#glyphicons
 
 > https://getbootstrap.com/docs/3.3/components/#glyphicons-glyphs
@@ -748,3 +755,14 @@ Class | 描述
 ```
 
 除此，还有 [Font Awesome](http://www.bootcss.com/p/font-awesome/) 字体图标可和bootstrap搭配使用，有兴趣线下自行研究。
+
+> http://www.bootcss.com/p/font-awesome/
+
+<a id="markdown-案例引用" name="案例引用"></a>
+## 案例引用
+
+<a id="markdown-23种bootstrap导航菜单布局设计jquery插件" name="23种bootstrap导航菜单布局设计jquery插件"></a>
+### 23种Bootstrap导航菜单布局设计jQuery插件
+
+> http://www.htmleaf.com/jQuery/Menu-Navigation/201606083575.html
+
