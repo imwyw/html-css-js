@@ -754,9 +754,9 @@ Glyphicons Halflings 一般是收费的，但是他们的作者允许 Bootstrap 
 </button>
 ```
 
-除此，还有 [Font Awesome](http://www.bootcss.com/p/font-awesome/) 字体图标可和bootstrap搭配使用，有兴趣线下自行研究。
+除此，还有 [Font Awesome](http://www.fontawesome.com.cn/) 字体图标可和bootstrap搭配使用，有兴趣线下自行研究。
 
-> http://www.bootcss.com/p/font-awesome/
+> http://www.fontawesome.com.cn/
 
 <a id="markdown-案例引用" name="案例引用"></a>
 ## 案例引用
