@@ -188,3 +188,4 @@ $RECYCLE.BIN/
 # webpack
 node_modules/
 bundle.js
+dist/
