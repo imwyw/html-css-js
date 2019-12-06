@@ -19,10 +19,12 @@
         - [rest参数](#rest参数)
         - [函数name属性](#函数name属性)
         - [箭头函数](#箭头函数)
-    - [对象扩展](#对象扩展)
+    - [对象新增用法](#对象新增用法)
         - [属性的简洁表示法](#属性的简洁表示法)
         - [属性的遍历](#属性的遍历)
         - [解构](#解构)
+        - [Object.is()](#objectis)
+        - [Object.assign()](#objectassign)
     - [class基本用法](#class基本用法)
         - [类的由来](#类的由来)
         - [class表达式](#class表达式)
@@ -79,7 +81,9 @@ ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已�
 
 ES6 的第一个版本，就这样在 2015 年 6 月发布了，正式名称就是《ECMAScript 2015 标准》（简称 ES2015）。
 
-2016 年 6 月，小幅修订的《ECMAScript 2016 标准》（简称 ES2016）如期发布，这个版本可以看作是 ES6.1 版，因为两者的差异非常小（只新增了数组实例的includes方法和指数运算符），基本上是同一个标准。
+2016 年 6 月，小幅修订的《ECMAScript 2016 标准》（简称 ES2016）如期发布，这个版本可以看作是 ES6.1 版，
+
+因为两者的差异非常小（只新增了数组实例的includes方法和指数运算符），基本上是同一个标准。
 
 因此，ES6 既是一个历史名词，也是一个泛指，含义是 5.1 版以后的 JavaScript 的下一代标准，涵盖了 ES2015、ES2016、ES2017 等等。
 
@@ -90,7 +94,9 @@ ES6 的第一个版本，就这样在 2015 年 6 月发布了，正式名称就�
 ### let基本用法
 在ES6之前，我们都是用var关键字声明变量。
 
-无论声明在何处，都会被视为声明在函数的最顶部(不在函数内即在全局作用域的最顶部)。这就是函数变量提升例如:
+无论声明在何处，都会被视为声明在函数的最顶部(不在函数内即在全局作用域的最顶部)。
+
+这就是函数变量提升例如:
 
 ```js
 for (var i = 0; i < 10; i++) {}
@@ -514,8 +520,8 @@ let fn = () => void doesNotReturn();
 [1,2,3].map(x => x * x);
 ```
 
-<a id="markdown-对象扩展" name="对象扩展"></a>
-## 对象扩展
+<a id="markdown-对象新增用法" name="对象新增用法"></a>
+## 对象新增用法
 
 <a id="markdown-属性的简洁表示法" name="属性的简洁表示法"></a>
 ### 属性的简洁表示法
@@ -629,8 +635,68 @@ console.log(first) //'red'
 console.log(second) //'blue'
 ```
 
+<a id="markdown-objectis" name="objectis"></a>
+### Object.is()
+ES5 比较两个值是否相等，只有两个运算符：相等运算符（==）和严格相等运算符（===）。
+
+它们都有缺点，前者会自动转换数据类型，后者的NaN不等于自身，以及+0等于-0。
+
+JavaScript 缺乏一种运算，在所有环境中，只要两个值是一样的，它们就应该相等。
+
+ES6 提出“Same-value equality”（同值相等）算法，用来解决这个问题。
+
+Object.is就是部署这个算法的新方法。
+
+它用来比较两个值是否严格相等，与严格比较运算符（===）的行为基本一致。
+
+```js
+Object.is('foo', 'foo')
+// true
+Object.is({}, {})
+// false
+```
+
+不同之处只有两个：一是+0不等于-0，二是NaN等于自身。
+
+```js
++0 === -0 //true
+NaN === NaN // false
+
+Object.is(+0, -0) // false
+Object.is(NaN, NaN) // true
+```
+
+<a id="markdown-objectassign" name="objectassign"></a>
+### Object.assign()
+Object.assign方法用于对象的合并，将源对象（source）的所有可枚举属性，复制到目标对象（target）。
+
+```js
+const target = { a: 1 };
+
+const source1 = { b: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+
+Object.assign方法的第一个参数是目标对象，后面的参数都是源对象。
+
+注意，如果目标对象与源对象有同名属性，或多个源对象有同名属性，则后面的属性会覆盖前面的属性。
+
+```js
+const target = { a: 1, b: 1 };
+
+const source1 = { b: 2, c: 2 };
+const source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+
 <a id="markdown-class基本用法" name="class基本用法"></a>
 ## class基本用法
+
 <a id="markdown-类的由来" name="类的由来"></a>
 ### 类的由来
 JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子。
@@ -680,7 +746,9 @@ typeof Point // "function"
 Point === Point.prototype.constructor // true
 ```
 
-构造函数的prototype属性，在 ES6 的“类”上面继续存在。事实上，类的所有方法都定义在类的prototype属性上面。
+构造函数的prototype属性，在 ES6 的“类”上面继续存在。
+
+事实上，类的所有方法都定义在类的prototype属性上面。
 
 ```js
 class Point {
