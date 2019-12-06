@@ -25,6 +25,12 @@
         - [解构](#解构)
         - [Object.is()](#objectis)
         - [Object.assign()](#objectassign)
+    - [Promise 对象](#promise-对象)
+        - [基本用法](#基本用法)
+        - [Promise.prototype.then()](#promiseprototypethen)
+        - [Promise.prototype.catch()](#promiseprototypecatch)
+        - [Promise.prototype.finally()](#promiseprototypefinally)
+        - [Promise.all()](#promiseall)
     - [class基本用法](#class基本用法)
         - [类的由来](#类的由来)
         - [class表达式](#class表达式)
@@ -694,6 +700,213 @@ Object.assign(target, source1, source2);
 target // {a:1, b:2, c:3}
 ```
 
+<a id="markdown-promise-对象" name="promise-对象"></a>
+## Promise 对象
+Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
+
+所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
+
+Promise对象有以下两个特点:
+1. 对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
+2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。
+
+有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
+
+此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
+
+Promise也有一些缺点。
+* 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
+* 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+* 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+<a id="markdown-基本用法" name="基本用法"></a>
+### 基本用法
+Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
+
+* resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
+* reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+
+```js
+let p = new Promise(function (resolve, reject) {
+    // 异步操作，用setTimeOut模拟
+    setTimeout(() => {
+        console.log('执行完成');
+        resolve('数据1');
+    }, 2000);
+});
+p.then(function (data) {
+    console.log('then:' + data);
+});
+/*
+延迟2s输出结果：
+执行完成
+then:数据1
+*/
+```
+
+Promise 新建后就会立即执行。
+
+<a id="markdown-promiseprototypethen" name="promiseprototypethen"></a>
+### Promise.prototype.then()
+Promise实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。
+
+then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
+
+```js
+function runAsync1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务1');
+            resolve('异步获取的数据1');
+        }, 2000);
+    });
+}
+function runAsync2() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务2');
+            resolve('异步获取的数据2');
+        }, 3000);
+    });
+}
+function runAsync3() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务3');
+            resolve('异步获取的数据3');
+        }, 2000);
+    });
+}
+
+// 设置心跳任务
+let heartClick = setInterval(() => {
+    console.log('==========心跳==========');
+}, 1000);
+
+runAsync1()
+    .then((data) => {
+        console.log('async1 then :' + data);
+        return runAsync2();
+    })
+    .then((data) => {
+        console.log('async2 then: ' + data);
+        return runAsync3();
+        //return '直接返回数据也可以！';
+    })
+    .then((data) => {
+        console.log('async3 then: ' + data);
+        clearInterval(heartClick);//清除心跳任务
+    })
+```
+
+采用链式的then，可以指定一组按照次序调用的回调函数。
+
+这时，前一个回调函数，有可能返回的还是一个Promise对象（即有异步操作），这时后一个回调函数，就会等待该Promise对象的状态发生变化，才会被调用。
+
+<a id="markdown-promiseprototypecatch" name="promiseprototypecatch"></a>
+### Promise.prototype.catch()
+reject的作用就是把Promise的状态置为rejected，这样我们在then中就能捕捉到，然后执行“失败”情况的回调。
+
+```js
+function getAsyncNumber() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let num = Math.ceil(Math.random() * 10);
+            if (num <= 5) {
+                resolve(num);
+            } else {
+                reject('数字太大了');
+            }
+        }, 2000);
+    });
+}
+
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        //cnosole.log('console写错了，故意引发异常');
+    }, (err) => {
+        console.error('fail:' + err);
+    });
+```
+
+then方法可以接受两个参数，第一个对应resolve的回调，第二个对应reject的回调。
+
+这种写法并不推荐，如果【resolve回调】中发生异常无法进行处理。
+
+Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+
+针对上例的修改:
+```js
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        cnosole.log('console写错了，故意引发异常');
+    })
+    .catch((err) => {
+        console.log('fail:' + err);
+    });
+```
+
+效果和写在then的第二个参数里面一样。
+
+不过它还有另外一个作用：在执行resolve的回调（也就是上面then中的第一个参数）时，
+
+如果抛出异常了（代码出错了），那么并不会报错卡死js，而是会进到这个catch方法中。
+
+<a id="markdown-promiseprototypefinally" name="promiseprototypefinally"></a>
+### Promise.prototype.finally()
+finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。
+
+```js
+promise
+.then(result => {···})
+.catch(error => {···})
+.finally(() => {···});
+```
+
+以前面获取数字举例，不论【resolve】/【reject】，都将进入finally回调：
+
+```js
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        cnosole.log('console写错了，故意引发异常');
+    })
+    .catch((err) => {
+        console.log('fail:' + err);
+    })
+    .finally(() => {
+        console.log('运行完成');
+    });
+```
+
+<a id="markdown-promiseall" name="promiseall"></a>
+### Promise.all()
+Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+const p = Promise.all([p1, p2, p3]);
+```
+
+Promise的all方法提供了并行执行异步操作的能力，并且在所有异步操作执行完后才执行回调。
+
+我们仍旧使用上面定义好的runAsync1、runAsync2、runAsync3这三个函数，看下面的例子：
+
+```js
+Promise
+    .all([runAsync1(), runAsync2(), runAsync3()])
+    .then((results) => {
+        console.log(results);
+    });
+```
+
+用Promise.all来执行，all接收一个数组参数，里面的值最终都算返回Promise对象。
+
+这样，三个异步操作的并行执行的，等到它们都执行完后才会进到then里面。
+
+all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
+
 <a id="markdown-class基本用法" name="class基本用法"></a>
 ## class基本用法
 
@@ -1094,3 +1307,6 @@ B.hello()  // hello world
 [ECMAScript 6 入门-阮一峰](http://es6.ruanyifeng.com/#docs/intro)
 
 [es6常用的语法](https://blog.csdn.net/itzhongzi/article/details/73330681)
+
+[大白话讲解Promise](https://www.cnblogs.com/lvdabao/p/es6-promise-1.html)
+
