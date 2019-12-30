@@ -6,10 +6,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
+    // 入口
     entry: {
         app: './src/index.js',
         print: './src/print.js'
     },
+    // 模式 production development
+    mode: 'development',
     // 用于开发环境调试
     devtool: 'inline-source-map',
     devServer: {
@@ -22,9 +25,10 @@ module.exports = {
         })
     ],
     output: {
+        // 打包输出的文件名
         filename: '[name].bundle.js',
-        // __dirname 系统变量，当前根路径
+        // 打包输出的绝对路径，__dirname 系统变量，当前根路径，path.resolve相对路径变绝对路径
         path: path.resolve(__dirname, 'dist'),
-        publicPath: '/'
+        //publicPath: '/'
     }
 };
