@@ -31,7 +31,7 @@
         - [Promise.prototype.catch()](#promiseprototypecatch)
         - [Promise.prototype.finally()](#promiseprototypefinally)
         - [Promise.all()](#promiseall)
-    - [class基本用法](#class基本用法)
+    - [Class基本用法](#class基本用法)
         - [类的由来](#类的由来)
         - [class表达式](#class表达式)
         - [不存在提升](#不存在提升)
@@ -42,7 +42,9 @@
         - [静态属性](#静态属性)
         - [私有方法](#私有方法)
         - [私有属性](#私有属性)
-    - [class的继承](#class的继承)
+    - [Class的继承](#class的继承)
+    - [Module 模块](#module-模块)
+        - [export和import](#export和import)
 
 <!-- /TOC -->
 
@@ -908,11 +910,11 @@ Promise
 all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
 
 <a id="markdown-class基本用法" name="class基本用法"></a>
-## class基本用法
+## Class基本用法
 
 <a id="markdown-类的由来" name="类的由来"></a>
 ### 类的由来
-JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子。
+JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子：
 
 ```js
 function Point(x, y) {
@@ -929,7 +931,9 @@ var p = new Point(1, 2);
 
 上面这种写法跟传统的面向对象语言（比如 C++ 和 Java）差异很大，很容易让新学习这门语言的程序员感到困惑。
 
-ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概念，作为对象的模板。通过class关键字，可以定义类。
+ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概念，作为对象的模板。
+
+通过class关键字，可以定义类。
 
 基本上，ES6 的class可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，
 
@@ -1034,7 +1038,9 @@ name属性总是返回紧跟在class关键字后面的类名。
 
 <a id="markdown-this指向" name="this指向"></a>
 ### this指向
-类的方法内部如果含有this，它默认指向类的实例。但是，必须非常小心，一旦单独使用该方法，很可能报错。
+类的方法内部如果含有this，它默认指向类的实例。
+
+但是，必须非常小心，一旦单独使用该方法，很可能报错。
 
 ```js
 class Logger {
@@ -1063,6 +1069,7 @@ printName(); // TypeError: Cannot read property 'print' of undefined
 类相当于实例的原型，所有在类中定义的方法，都会被实例继承。
 
 如果在一个方法前，加上static关键字，就表示该方法不会被实例继承，而是直接通过类来调用，这就称为“静态方法”。
+
 ```js
 class Foo {
   static classMethod() {
@@ -1196,7 +1203,9 @@ class Widget {
 }
 ```
 
-上面代码中，_bar方法前面的下划线，表示这是一个只限于内部使用的私有方法。但是，这种命名是不保险的，在类的外部，还是可以调用到这个方法。
+上面代码中，_bar方法前面的下划线，表示这是一个只限于内部使用的私有方法。
+
+但是，这种命名是不保险的，在类的外部，还是可以调用到这个方法。
 
 另一种方法就是索性将私有方法移出模块，因为模块内部的所有方法都是对外可见的。
 ```js
@@ -1241,7 +1250,7 @@ counter.#count = 42 // 报错
 上面代码在类的外部，读取私有属性，就会报错。
 
 <a id="markdown-class的继承" name="class的继承"></a>
-## class的继承
+## Class的继承
 Class 可以通过extends关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。
 
 ```js
@@ -1292,9 +1301,54 @@ B.hello()  // hello world
 ```
 上面代码中，hello()是A类的静态方法，B继承A，也继承了A的静态方法。
 
+<a id="markdown-module-模块" name="module-模块"></a>
+## Module 模块
+ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
 
+ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。
 
+CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性。
 
+```js
+// CommonJS模块
+let { stat, exists, readFile } = require('fs');
+
+// 等同于
+let _fs = require('fs');
+let stat = _fs.stat;
+let exists = _fs.exists;
+let readfile = _fs.readfile;
+```
+
+上面代码的实质是整体加载fs模块（即加载fs的所有方法），生成一个对象（_fs），然后再从这个对象上面读取 3 个方法。
+
+这种加载称为“运行时加载”，因为只有运行时才能得到这个对象，导致完全没办法在编译时做“静态优化”。
+
+```js
+// ES6模块
+import { stat, exists, readFile } from 'fs';
+```
+
+上面代码的实质是从fs模块加载 3 个方法，其他方法不加载。
+
+这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。
+
+<a id="markdown-export和import" name="export和import"></a>
+### export和import
+export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。
+
+一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。
+
+如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。
+
+下面是一个 JS 文件，里面使用export命令输出变量。
+
+```js
+// profile.js
+export var firstName = 'Michael';
+export var lastName = 'Jackson';
+export var year = 1958;
+```
 
 
 
