@@ -6,6 +6,16 @@
         - [安装webpack](#安装webpack)
         - [基本安装过程](#基本安装过程)
     - [开始](#开始)
+    - [配置](#配置)
+        - [核心概念](#核心概念)
+            - [入口起点](#入口起点)
+            - [输出](#输出)
+            - [loader](#loader)
+            - [插件](#插件)
+        - [开始配置](#开始配置)
+        - [NPM脚本](#npm脚本)
+    - [管理资源](#管理资源)
+        - [加载CSS](#加载css)
 
 <!-- /TOC -->
 
@@ -96,6 +106,7 @@ npm install moduleName --save-dev # --save-dev 的意思是将模块安装到项
 
 <a id="markdown-开始" name="开始"></a>
 ## 开始
+
 在项目根路径下创建【src】文件夹，并在文件夹内新增【index.js】文件：
 ```js
 // 导入lodash库
@@ -104,7 +115,7 @@ import _ from 'lodash';
 function component() {
   var element = document.createElement('div');
 
-  // Lodash（目前通过一个 script 脚本引入）对于执行这一行是必需的
+  // Lodash 通过import方式导入
   element.innerHTML = _.join(['Hello', 'webpack'], ' ');
 
   return element;
@@ -129,11 +140,227 @@ document.body.appendChild(component());
 </html>
 ```
 
-执行 npx webpack，会将我们的脚本作为入口起点，然后 输出 为 main.js，项目结构图如下：
+在命令窗口中执行 `npx webpack`，会将我们的脚本作为入口起点，然后 输出 为 main.js，项目结构图如下：
 
 ![](../assets/webpack/webpack-npx1.png)
 
-在浏览器中打开 index.html，如果一切访问都正常，你应该能看到以下文本：'Hello webpack'。
+在Chrome浏览器中打开 index.html，如果一切访问都正常，你应该能看到以下文本：'Hello webpack'。（Edge中暂时不行）
+
+**模块**
+
+ES2015 中的 import 和 export 语句已经被标准化。
+
+虽然大多数浏览器还无法支持它们，但是 webpack 却能够提供开箱即用般的支持。
+
+事实上，webpack 在幕后会将代码“转译”，以便旧版本浏览器可以执行。
+
+如果你检查自动生成的 【dist/main.js】文件，你可以看到 webpack 具体如何实现。
+
+<a id="markdown-配置" name="配置"></a>
+## 配置
+从 webpack v4.0.0 开始，可以不用引入一个配置文件。然而大多数项目会需要很复杂的设置，
+
+这就是为什么 webpack 仍然要支持 配置文件。
+
+当 webpack 处理应用程序时，它会递归地构建一个依赖关系图(dependency graph)，
+
+其中包含应用程序需要的每个模块，然后将所有这些模块打包成一个或多个 bundle。
+
+<a id="markdown-核心概念" name="核心概念"></a>
+### 核心概念
+
+在开始前你需要先理解四个核心概念：
+
+* 入口(entry)
+* 输出(output)
+* loader
+* 插件(plugins)
+
+<a id="markdown-入口起点" name="入口起点"></a>
+#### 入口起点
+入口起点(entry point)指示 webpack 应该使用哪个模块，来作为构建其内部依赖图的开始。
+
+进入入口起点后，webpack 会找出有哪些模块和库是入口起点（直接和间接）依赖的。
+
+可以通过在 webpack 配置中配置 entry 属性，来指定一个入口起点（或多个入口起点）。默认值为 ./src。
+
+<a id="markdown-输出" name="输出"></a>
+#### 输出
+output 属性告诉 webpack 在哪里输出它所创建的 bundles，以及如何命名这些文件，默认值为 ./dist。
+
+我们通过 output.filename 和 output.path 属性，来告诉 webpack bundle 的名称，以及我们想要 bundle 生成(emit)到哪里。
+
+<a id="markdown-loader" name="loader"></a>
+#### loader
+loader 让 webpack 能够去处理那些非 JavaScript 文件（webpack 自身只理解 JavaScript）。
+
+在更高层面，在 webpack 的配置中 loader 有两个目标：
+1. test 属性，用于标识出应该被对应的 loader 进行转换的某个或某些文件。
+2. use 属性，表示进行转换时，应该使用哪个 loader。
+
+```js
+const path = require('path');
+
+const config = {
+  output: {
+    filename: 'my-first-webpack.bundle.js'
+  },
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  }
+};
+
+module.exports = config;
+```
+
+在 webpack 配置中定义 loader 时，要定义在 module.rules 中，而不是 rules。
+
+<a id="markdown-插件" name="插件"></a>
+#### 插件
+
+loader 被用于转换某些类型的模块，而插件则可以用于执行范围更广的任务。
+
+想要使用一个插件，你只需要 require() 它，然后把它添加到 plugins 数组中。
+
+```js
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // 通过 npm 安装
+const webpack = require('webpack'); // 用于访问内置插件
+
+const config = {
+  module: {
+    rules: [
+      { test: /\.txt$/, use: 'raw-loader' }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({template: './src/index.html'})
+  ]
+};
+
+module.exports = config;
+```
+
+webpack 提供许多开箱可用的插件！插件列表：
+
+> https://www.webpackjs.com/plugins/
+
+<a id="markdown-开始配置" name="开始配置"></a>
+### 开始配置
+
+这比在终端(terminal)中手动输入大量命令要高效的多，所以让我们创建一个取代以上使用 CLI 选项方式的配置文件：
+
+根目录下新增【webpack.config.js】配置文件，内容如下：
+
+```js
+// Node内置的path模块，用于路径相关操作
+const path = require('path');
+
+// 注意是 exports ，带s！！！
+module.exports = {
+    // 入口
+    entry: {
+        app: './src/index.js'
+    },
+    output: {
+        // 打包输出的文件名
+        filename: 'bundle.js',
+        // 打包输出的绝对路径，__dirname 系统变量，当前根路径，path.resolve 相对路径变绝对路径
+        path: path.resolve(__dirname, 'dist')
+    },
+    mode:'development', // 开发模式，不会混淆压缩打包代码
+}
+```
+
+现在，让我们通过新配置文件再次执行构建：
+
+`npx webpack --config webpack.config.js`
+
+<a id="markdown-npm脚本" name="npm脚本"></a>
+### NPM脚本
+考虑到用 CLI 这种方式来运行本地的 webpack 不是特别方便，我们可以设置一个快捷方式。
+
+在 package.json 添加一个 npm 脚本【package.json】：
+```js
+{
+  "name": "webpack-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lodash": "^4.17.15",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
+```
+
+`"build": "webpack"`，可以使用 npm run build 命令，来替代我们之前使用的 npx 命令。
+
+使用`"build": "webpack --config webpack.config.js"`进行指定配置的打包命令。
+
+
+<a id="markdown-管理资源" name="管理资源"></a>
+## 管理资源
+
+<a id="markdown-加载css" name="加载css"></a>
+### 加载CSS
+为了从 JavaScript 模块中 import 一个 CSS 文件，你需要在 module 配置中 安装并添加 style-loader 和 css-loader：
+
+```shell
+npm install --save-dev style-loader css-loader
+```
+
+修改【webpack.config.js】配置文件，增加对css的处理：
+
+```js
+// Node内置的path模块，用于路径相关操作
+const path = require('path');
+
+// 注意是 exports ，带s！！！
+module.exports = {
+    // 入口
+    entry: {
+        app: './src/index.js'
+    },
+    output: {
+        // 打包输出的文件名
+        filename: 'main.js',
+        // 打包输出的绝对路径，__dirname 系统变量，当前根路径，path.resolve 相对路径变绝对路径
+        path: path.resolve(__dirname, 'dist')
+    },
+    mode: 'development', // 开发模式，不会混淆压缩打包代码
+    // 
+    module: {
+        rules: [
+            {
+                test: /\.css&/,
+                use: ['style-loader', 'css-loader']
+            }
+        ]
+    }
+}
+```
+
+webpack 根据正则表达式，来确定应该查找哪些文件，并将其提供给指定的 loader。
+
+在这种情况下，以 .css 结尾的全部文件，都将被提供给 style-loader 和 css-loader。
+
+新增样式文件【src/style.css】：
+```css
+.hello {
+    color: red;
+}
+```
+
+修改【src/index.js】文件：
 
 
 
