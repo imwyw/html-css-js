@@ -436,8 +436,6 @@ console.log(r2.model); //{}
 缺点：
 * 调用了两次父类构造函数，生成了两份实例（子类实例将子类原型上的那份屏蔽了）
 
-
-
 <a id="markdown-闭包" name="闭包"></a>
 ## 闭包
 
@@ -445,7 +443,7 @@ console.log(r2.model); //{}
 ```js
 function test(name) {
     return function (age) {
-        console.log('hi,' + name + ' is ' + age);
+        console.log(`hi,${name} is ${age} `);
     }
 }
 test('jack')(18);
@@ -486,7 +484,10 @@ f.setName('lucy');
 console.log(f.getName());
 ```
 
-闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。
+闭包可以用在许多地方。它的最大用处有两个：
+
+* 一个是前面提到的可以读取函数内部的变量;
+* 另一个就是让这些变量的值始终保持在内存中。
 
 ```js
 var arr = [];
@@ -529,5 +530,7 @@ arr[3]();//3
 ---
 
 参考引用：
+
+[JavaScript秘密花园](https://bonsaiden.github.io/JavaScript-Garden/zh/)
 
 [JS继承的实现方式](https://www.cnblogs.com/humin/p/4556820.html)
