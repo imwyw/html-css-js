@@ -1364,3 +1364,6 @@ export var year = 1958;
 
 [大白话讲解Promise](https://www.cnblogs.com/lvdabao/p/es6-promise-1.html)
 
+[从ES6到ES10的新特性万字大总结（不得不收藏）](https://mp.weixin.qq.com/s?__biz=MzUxOTQ5ODYzOQ==&mid=2247498014&idx=6&sn=df491e34feebedc072b0ceea3f67f8ae&chksm=f9fa07fece8d8ee8e729149c66e97c25415322a3181029576186a73015d3b3936bb8203c6ad7&scene=0&xtrack=1&key=4fbe20007a5be0afb103fb1f0ba27eed1711a55b6bd0e29d4289b521790f0c2fc5a00a32ec2032fe90735bf925ec8dac002364cf8bd4f249cbc229c8bae424a3546b720604b1d6b301f990c4717d6b09&ascene=1&uin=Mjg4Njc3MzE1&devicetype=Windows+10&version=62070158&lang=zh_CN&exportkey=AZHhVlagkPNs4uE1p7gHSFk%3D&pass_ticket=yMJa9mJ%2FmOlJdthl%2BXcSF1%2FHTtNJjm7nkSSyQ29KgOPCuLNsSXHSYU8M2ME6W7aC)
+
+
