@@ -14,8 +14,8 @@
     * [标准库](./JS/js-standard.md)
     * [BOM、DOM](./JS/js-bomdom.md)
     * [事件](./JS/js-event.md)
-    * [JavaScript面向对象](./JS/js-oop.md)
     * [提升](./JS/js-middle.md)
+    * [JavaScript面向对象](./JS/js-oop.md)
     * [jQuery](./JS/js-jquery.md)
     * [ES6](./JS/ES6.md)
 
