@@ -1,6 +1,11 @@
 <!-- TOC -->
 
 - [JavaScript面向对象](#javascript面向对象)
+    - [作用域](#作用域)
+        - [作用域链](#作用域链)
+        - [没有块级作用域](#没有块级作用域)
+        - [未使用var的声明](#未使用var的声明)
+    - [this](#this)
     - [类](#类)
     - [原型prototype](#原型prototype)
     - [继承](#继承)
@@ -8,19 +13,110 @@
             - [call()和apply()](#call和apply)
         - [原型链实现继承](#原型链实现继承)
         - [组合继承](#组合继承)
-    - [作用域](#作用域)
-        - [作用域链](#作用域链)
-        - [没有块级作用域](#没有块级作用域)
-        - [未使用var的声明](#未使用var的声明)
-    - [this](#this)
     - [闭包](#闭包)
 
 <!-- /TOC -->
 <a id="markdown-javascript面向对象" name="javascript面向对象"></a>
 # JavaScript面向对象
+
+<a id="markdown-作用域" name="作用域"></a>
+## 作用域
+
+<a id="markdown-作用域链" name="作用域链"></a>
+### 作用域链
+JavaScript需要查询一个变量x时，首先会查找作用域链的第一个对象，
+
+如果以第一个对象没有定义x变量，JavaScript会继续查找有没有定义x变量，如果第二个对象没有定义则会继续查找，以此类推。
+
+```js
+//等价于window.num
+var num = 1;
+
+function outer() {
+    var num = 2;
+
+    function inner() {
+        var num = 3;
+        console.log(num);
+    }
+    inner();
+}
+outer();
+```
+
+上述例子中，实际查找过程为：inner->outer->window
+
+<a id="markdown-没有块级作用域" name="没有块级作用域"></a>
+### 没有块级作用域
+
+在函数内部，变量是全局的
+```js
+function test() {
+    for (var i = 0; i < 10; i++) {}
+    console.log(i);
+}
+test();//10
+```
+
+<a id="markdown-未使用var的声明" name="未使用var的声明"></a>
+### 未使用var的声明
+```js
+function sayHi() {
+    var name = 'jack';
+}
+
+function sayHello() {
+    zhName = 'lucy';
+}
+
+sayHi();
+sayHello();
+console.log(zhName);
+console.log(name);
+```
+观察以上代码，仅zhName可以打印，没有显式的使用var关键字，
+
+即经过sayHello()方法的调用后，创建了全局变量zhName，相当于window.zhName。
+
+未使用var关键字定义的变量都是全局变量，这种方式会造成变量污染，容易造成冲突。
+
+<a id="markdown-this" name="this"></a>
+## this
+```js
+//全局范围 this->window
+console.log(this);
+
+//函数的直接调用 this->window
+function foo() {
+    console.log(this);
+}
+foo();
+
+//对象方法的调用，指向当前的对象
+var obj = {
+    test: function () {
+        console.log(this);
+    }
+};
+obj.test();
+
+//构造函数，函数内部的this指向新创建的实例
+function Student() {
+    this.name = '';
+    this.test = function () {
+        console.log(this);
+    }
+}
+var stu = new Student();
+stu.test();
+
+```
+
 <a id="markdown-类" name="类"></a>
 ## 类
-所谓“类”就是对象的模板，对象就是“类”的实例。但是，JavaScript 语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）。
+所谓“类”就是对象的模板，对象就是“类”的实例。
+
+但是，JavaScript 语言的对象体系，不是基于“类”的，而是基于构造函数（constructor）和原型链（prototype）。
 
 ```js
 //Student类构造函数
@@ -42,7 +138,9 @@ stu2.sayHi();
 
 <a id="markdown-原型prototype" name="原型prototype"></a>
 ## 原型prototype
-JavaScript 的每个对象都继承另一个对象，后者称为“原型”（prototype）对象。只有null除外，它没有自己的原型对象。
+JavaScript 的每个对象都继承另一个对象，后者称为“原型”（prototype）对象。
+
+只有null除外，它没有自己的原型对象。
 
 原型对象上的所有属性和方法，都能被派生对象共享。这就是 JavaScript 继承机制的基本设计。
 
@@ -72,7 +170,9 @@ console.log(stu1.name);//jack
 console.log(stu1.__proto__.name);//中国人
 ```
 
-对象的属性和方法，有可能是定义在自身，也有可能是定义在它的原型对象。由于原型本身也是对象，又有自己的原型，所以形成了一条原型链（prototype chain）。
+对象的属性和方法，有可能是定义在自身，也有可能是定义在它的原型对象。
+
+由于原型本身也是对象，又有自己的原型，所以形成了一条原型链（prototype chain）。
 
 如果对象自身和它的原型，都定义了一个同名属性，那么优先读取对象自身的属性，这叫做“覆盖”（overriding）。
 
@@ -143,6 +243,7 @@ var Polygon = function (side) {
 var Triangle = function (a, b, c) {
     // 在当前实例this的基础上调用Polygon的构造函数
     Polygon.call(this, 3);
+    // Polygon.apply(this, [3]); //等价
 
     this.a = a;
     this.b = b;
@@ -160,13 +261,13 @@ console.log(t.getAreas());
 
 关于对象冒充实现继承：
 
-所有的成员方法都是针对this而创建的，也就是所所有的实例都会拥有一份成员方法的副本，这是对内存资源的一种极度浪费。
+所有的成员方法都是针对this而创建的，也就是说所有的实例都会拥有一份成员方法的副本，这是对内存资源的一种极度浪费。
 
 其它的缺陷比如说对象冒充无法继承prototype域的变量和方法就不用提了，因为根本没有用到原型。
 
 针对上面的例子中，给多边形类Polygon增加原型方法，子类无法继承到原型上的属性。。。
 ```js
-//计算周长，原型方法
+// 计算周长，原型方法
 Polygon.prototype.getPerimeter = function () {
     return 0;
 }
@@ -189,13 +290,14 @@ var Polygon = function (side) {
         return 0;
     }
 
+    // 实例属性，每个对象独立内存
+    this.name = '';
     /*
     原型继承的不足之处
     实例属性中的数组和对象并不会继承，而是共享了一个内存，在多个实例修改属性时会造成冲突
     */
     this.model = {};
     this.arr = [];
-    this.name = '';
 };
 
 // 矩形
@@ -240,12 +342,16 @@ var r2 = new Rectangle(1, 2);
 r2.arr.push(2);
 r2.name = 'second';
 
+// r1和r2 对象和数组共享内存，互相干扰
 console.log(r.arr);//(2) [1, 2]
 console.log(r2.arr);//(2) [1, 2]
 console.log(r.name);//first
 console.log(r2.name);//second
 console.log(r.model);//{newProp: "新建属性"}
 console.log(r2.model);//{newProp: "新建属性"}
+
+r instanceof Rectangle; // true
+r instanceof Polygon; // true
 ```
 
 优点：
@@ -273,13 +379,14 @@ var Polygon = function (side) {
         return 0;
     }
 
+    // 实例属性，每个对象独立内存
+    this.name = '';
     /*
     原型继承的不足之处
     实例属性中的数组和对象并不会继承，而是共享了一个内存，在多个实例修改属性时会造成冲突
     */
     this.model = {};
     this.arr = [];
-    this.name = '';
 };
 
 //矩形
@@ -317,7 +424,7 @@ console.log(r2.model); //{}
 
 组合继承避免了原型链和借用构造函数的缺点，融合了它们的优点，成为JavaScript中最常用的继承方式。
 
-而且instanceof和isPrototypeOf()也能够用于识别基于组合继承创建的对象。
+而且instanceof也能够用于识别基于组合继承创建的对象。
 
 优点：
 * 可以继承实例属性/方法，也可以继承原型属性/方法
@@ -329,95 +436,11 @@ console.log(r2.model); //{}
 缺点：
 * 调用了两次父类构造函数，生成了两份实例（子类实例将子类原型上的那份屏蔽了）
 
-<a id="markdown-作用域" name="作用域"></a>
-## 作用域
-<a id="markdown-作用域链" name="作用域链"></a>
-### 作用域链
-JavaScript需要查询一个变量x时，首先会查找作用域链的第一个对象，如果以第一个对象没有定义x变量，JavaScript会继续查找有没有定义x变量，如果第二个对象没有定义则会继续查找，以此类推。
 
-```js
-//等价于window.num
-var num = 1;
-
-function outer() {
-    var num = 2;
-
-    function inner() {
-        var num = 3;
-        console.log(num);
-    }
-    inner();
-}
-outer();
-```
-
-上述例子中，实际查找过程为：inner->outer->window
-
-<a id="markdown-没有块级作用域" name="没有块级作用域"></a>
-### 没有块级作用域
-在函数内部，变量是全局的
-```js
-function test() {
-    for (var i = 0; i < 10; i++) {}
-    console.log(i);
-}
-test();//10
-```
-
-<a id="markdown-未使用var的声明" name="未使用var的声明"></a>
-### 未使用var的声明
-```js
-function sayHi() {
-    var name = 'jack';
-}
-
-function sayHello() {
-    zhName = 'lucy';
-}
-
-sayHi();
-sayHello();
-console.log(zhName);
-console.log(name);
-```
-观察以上代码，仅zhName可以打印，没有显式的使用var关键字，即经过sayHello()方法的调用后，创建了全局变量zhName，相当于window.zhName。
-
-未使用var关键字定义的变量都是全局变量，这种方式会造成变量污染，容易造成冲突。
-
-<a id="markdown-this" name="this"></a>
-## this
-```js
-//全局范围 this->window
-console.log(this);
-
-//函数的直接调用 this->window
-function foo() {
-    console.log(this);
-}
-foo();
-
-//对象方法的调用，指向当前的对象
-var obj = {
-    test: function () {
-        console.log(this);
-    }
-};
-obj.test();
-
-//构造函数，函数内部的this指向新创建的实例
-function Student() {
-    this.name = '';
-    this.test = function () {
-        console.log(this);
-    }
-}
-var stu = new Student();
-stu.test();
-
-```
 
 <a id="markdown-闭包" name="闭包"></a>
 ## 闭包
+
 首先看懂这个demo，返回的并不是一个结果值，而是一个函数
 ```js
 function test(name) {
