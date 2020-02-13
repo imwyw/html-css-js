@@ -15,8 +15,8 @@
     * [BOM、DOM](./JS/js-bomdom.md)
     * [事件](./JS/js-event.md)
     * [提升](./JS/js-middle.md)
-    * [JavaScript面向对象](./JS/js-oop.md)
     * [jQuery](./JS/js-jquery.md)
+    * [JavaScript面向对象](./JS/js-oop.md)
     * [ES6](./JS/ES6.md)
 
 * [Bootstrap](./Bootstrap/README.md)
