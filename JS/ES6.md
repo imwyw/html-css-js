@@ -3,36 +3,33 @@
 - [ES6](#es6)
     - [历史背景](#历史背景)
         - [ECMAScript和JavaScript的关系](#ecmascript和javascript的关系)
+        - [历史版本](#历史版本)
         - [ES6与ECMAScript 2015的关系](#es6与ecmascript-2015的关系)
     - [let和const](#let和const)
-        - [let基本用法](#let基本用法)
+        - [let基本用法（重要）](#let基本用法重要)
         - [变量提升](#变量提升)
         - [块级作用域](#块级作用域)
-        - [const命令](#const命令)
+        - [const命令（重要）](#const命令重要)
+        - [区别](#区别)
     - [字符串扩展](#字符串扩展)
         - [includes(), startsWith(), endsWith()](#includes-startswith-endswith)
         - [repeat()](#repeat)
         - [padStart()，padEnd()](#padstartpadend)
-        - [模板字符串](#模板字符串)
+        - [模板字符串（重要）](#模板字符串重要)
+    - [for...of](#forof)
     - [函数扩展](#函数扩展)
         - [参数默认值](#参数默认值)
         - [rest参数](#rest参数)
         - [函数name属性](#函数name属性)
-        - [箭头函数](#箭头函数)
+        - [箭头函数（重要）](#箭头函数重要)
     - [对象新增用法](#对象新增用法)
         - [属性的简洁表示法](#属性的简洁表示法)
         - [属性的遍历](#属性的遍历)
         - [解构](#解构)
         - [Object.is()](#objectis)
         - [Object.assign()](#objectassign)
-    - [Promise 对象](#promise-对象)
-        - [基本用法](#基本用法)
-        - [Promise.prototype.then()](#promiseprototypethen)
-        - [Promise.prototype.catch()](#promiseprototypecatch)
-        - [Promise.prototype.finally()](#promiseprototypefinally)
-        - [Promise.all()](#promiseall)
     - [Class基本用法](#class基本用法)
-        - [类的由来](#类的由来)
+        - [类的由来（重要）](#类的由来重要)
         - [class表达式](#class表达式)
         - [不存在提升](#不存在提升)
         - [name封装](#name封装)
@@ -43,6 +40,12 @@
         - [私有方法](#私有方法)
         - [私有属性](#私有属性)
     - [Class的继承](#class的继承)
+    - [Promise 对象](#promise-对象)
+        - [基本用法](#基本用法)
+        - [Promise.prototype.then()](#promiseprototypethen)
+        - [Promise.prototype.catch()](#promiseprototypecatch)
+        - [Promise.prototype.finally()](#promiseprototypefinally)
+        - [Promise.all()](#promiseall)
     - [Module 模块](#module-模块)
         - [export和import](#export和import)
 
@@ -76,6 +79,20 @@ ECMAScript 6.0（以下简称ES6）是JavaScript语言的下一代标准，已�
 
 日常场合，这两个词是可以互换的。
 
+<a id="markdown-历史版本" name="历史版本"></a>
+### 历史版本
+
+1. 1997年6月：第一版
+2. 1998年6月：修改格式，使其与ISO/IEC16262国际标准一样
+3. 1999年12月：强大的正则表达式，更好的词法作用域链处理，新的控制指令，异常处理，错误定义更加明确，数据输出的格式化及其它改变
+4. 2009年12月：添加严格模式("use strict")。修改了前面版本模糊不清的概念。增加了getters，setters，JSON以及在对象属性上更完整的反射。
+5. 2011年6月：ECMAScript标5.1版形式上完全一致于国际标准ISO/IEC 16262:2011。
+6. 2015年6月：ECMAScript 2015（ES2015），第 6 版，最早被称作是 ECMAScript 6（ES6），添加了类和模块的语法，其他特性包括迭代器。
+7. 2016年6月：ECMAScript 2016（ES2016），第 7 版，多个新的概念和语言特性。
+8. 2017年6月：ECMAScript 2017（ES2017），第 8 版，多个新的概念和语言特性。
+9. 2018年6月：ECMAScript 2018 （ES2018），第 9 版，包含了异步循环，生成器，新的正则表达式特性和 rest/spread 语法。
+10. 2019年6月：ECMAScript 2019 （ES2019），第 10 版。
+
 <a id="markdown-es6与ecmascript-2015的关系" name="es6与ecmascript-2015的关系"></a>
 ### ES6与ECMAScript 2015的关系
 
@@ -98,8 +115,8 @@ ES6 的第一个版本，就这样在 2015 年 6 月发布了，正式名称就�
 <a id="markdown-let和const" name="let和const"></a>
 ## let和const
 
-<a id="markdown-let基本用法" name="let基本用法"></a>
-### let基本用法
+<a id="markdown-let基本用法重要" name="let基本用法重要"></a>
+### let基本用法（重要）
 在ES6之前，我们都是用var关键字声明变量。
 
 无论声明在何处，都会被视为声明在函数的最顶部(不在函数内即在全局作用域的最顶部)。
@@ -244,8 +261,8 @@ function f1() {
 
 如果两次都使用var定义变量n，最后输出的值才是 10。
 
-<a id="markdown-const命令" name="const命令"></a>
-### const命令
+<a id="markdown-const命令重要" name="const命令重要"></a>
+### const命令（重要）
 const声明一个只读的常量。一旦声明，常量的值就不能改变。
 
 ```js
@@ -281,12 +298,27 @@ foo.prop // 123
 foo = {}; // TypeError: "foo" is read-only
 ```
 
+<a id="markdown-区别" name="区别"></a>
+### 区别
+
+&nbsp; | var | let | const
+-------|-----|-----|------
+变量提升 | √ | × | ×
+全局变量 | √ | × | ×
+重复声明 | √ | × | ×
+重新赋值 | √ | √ | ×
+暂时死区 | × | √ | √
+块作用域 | × | √ | √
+只声明不初始化 | √ | √ | ×
+
 <a id="markdown-字符串扩展" name="字符串扩展"></a>
 ## 字符串扩展
 
 <a id="markdown-includes-startswith-endswith" name="includes-startswith-endswith"></a>
 ### includes(), startsWith(), endsWith()
-传统上，JavaScript 只有indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。ES6 又提供了三种新方法。
+传统上，JavaScript 只有indexOf方法，可以用来确定一个字符串是否包含在另一个字符串中。
+
+ES6 又提供了三种新方法：
 
 * includes()：返回布尔值，表示是否找到了参数字符串。
 * startsWith()：返回布尔值，表示参数字符串是否在原字符串的头部。
@@ -318,8 +350,8 @@ padStart()用于头部补全，padEnd()用于尾部补全。
 '2'.padStart(2, '0') // '02'
 ```
 
-<a id="markdown-模板字符串" name="模板字符串"></a>
-### 模板字符串
+<a id="markdown-模板字符串重要" name="模板字符串重要"></a>
+### 模板字符串（重要）
 传统的 JavaScript 语言，输出模板通常是这样写的（下面使用了 jQuery 的方法）。
 
 ```js
@@ -362,6 +394,25 @@ let obj = {x: 1, y: 2};
 // "3"
 ```
 
+<a id="markdown-forof" name="forof"></a>
+## for...of
+for...of语句在可迭代对象（包括 Array，Map，Set，String，TypedArray，arguments对象等等）上创建一个迭代循环，
+
+调用自定义迭代钩子，并为每个不同属性的值执行语句。
+
+```js
+const arr = ['red', 'green', 'blue'];
+
+for(let v of arr) {
+  console.log(v); // red green blue
+}
+
+for(let i in arr){
+  console.log(i); // 0,1,2
+}
+
+```
+
 <a id="markdown-函数扩展" name="函数扩展"></a>
 ## 函数扩展
 
@@ -388,6 +439,7 @@ log('Hello', '') // Hello World
 
 ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。
 ```js
+// 参数列表 y = 'World'，某些IDE暂时还未支持此语法，如vs2015，但可以运行
 function log(x, y = 'World') {
   console.log(x, y);
 }
@@ -418,8 +470,8 @@ rest 参数搭配的变量是一个数组，该变量将多余的参数放入数
 function add(...values) {
   let sum = 0;
 
-  for (var val of values) {
-    sum += val;
+  for (var i = 0; i < values.length; i++) {
+      sum += values[i];
   }
 
   return sum;
@@ -452,7 +504,6 @@ foo.name // "foo"
 ```
 这个属性早就被浏览器广泛支持，但是直到 ES6，才将其写入了标准。
 
-
 需要注意的是，ES6 对这个属性的行为做出了一些修改。
 
 如果将一个匿名函数赋值给一个变量，ES5 的name属性，会返回空字符串，而 ES6 的name属性会返回实际的函数名。
@@ -466,8 +517,8 @@ f.name // ""
 f.name // "f"
 ```
 
-<a id="markdown-箭头函数" name="箭头函数"></a>
-### 箭头函数
+<a id="markdown-箭头函数重要" name="箭头函数重要"></a>
+### 箭头函数（重要）
 ES6 允许使用“箭头”（=>）定义函数。同lambda表达式的用法
 
 ```js
@@ -550,7 +601,6 @@ function people(name, age) {
         age: age
     };
 }
-
 ```
 
 除了属性简写，方法也可以简写。
@@ -702,218 +752,11 @@ Object.assign(target, source1, source2);
 target // {a:1, b:2, c:3}
 ```
 
-<a id="markdown-promise-对象" name="promise-对象"></a>
-## Promise 对象
-Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
-
-所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
-
-Promise对象有以下两个特点:
-1. 对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
-2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。
-
-有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
-
-此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
-
-Promise也有一些缺点。
-* 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
-* 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
-* 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
-
-<a id="markdown-基本用法" name="基本用法"></a>
-### 基本用法
-Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
-
-* resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
-* reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
-
-```js
-let p = new Promise(function (resolve, reject) {
-    // 异步操作，用setTimeOut模拟
-    setTimeout(() => {
-        console.log('执行完成');
-        resolve('数据1');
-    }, 2000);
-});
-p.then(function (data) {
-    console.log('then:' + data);
-});
-/*
-延迟2s输出结果：
-执行完成
-then:数据1
-*/
-```
-
-Promise 新建后就会立即执行。
-
-<a id="markdown-promiseprototypethen" name="promiseprototypethen"></a>
-### Promise.prototype.then()
-Promise实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。
-
-then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
-
-```js
-function runAsync1() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log('异步任务1');
-            resolve('异步获取的数据1');
-        }, 2000);
-    });
-}
-function runAsync2() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log('异步任务2');
-            resolve('异步获取的数据2');
-        }, 3000);
-    });
-}
-function runAsync3() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            console.log('异步任务3');
-            resolve('异步获取的数据3');
-        }, 2000);
-    });
-}
-
-// 设置心跳任务
-let heartClick = setInterval(() => {
-    console.log('==========心跳==========');
-}, 1000);
-
-runAsync1()
-    .then((data) => {
-        console.log('async1 then :' + data);
-        return runAsync2();
-    })
-    .then((data) => {
-        console.log('async2 then: ' + data);
-        return runAsync3();
-        //return '直接返回数据也可以！';
-    })
-    .then((data) => {
-        console.log('async3 then: ' + data);
-        clearInterval(heartClick);//清除心跳任务
-    })
-```
-
-采用链式的then，可以指定一组按照次序调用的回调函数。
-
-这时，前一个回调函数，有可能返回的还是一个Promise对象（即有异步操作），这时后一个回调函数，就会等待该Promise对象的状态发生变化，才会被调用。
-
-<a id="markdown-promiseprototypecatch" name="promiseprototypecatch"></a>
-### Promise.prototype.catch()
-reject的作用就是把Promise的状态置为rejected，这样我们在then中就能捕捉到，然后执行“失败”情况的回调。
-
-```js
-function getAsyncNumber() {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            let num = Math.ceil(Math.random() * 10);
-            if (num <= 5) {
-                resolve(num);
-            } else {
-                reject('数字太大了');
-            }
-        }, 2000);
-    });
-}
-
-getAsyncNumber()
-    .then((data) => {
-        console.log('success:' + data);
-        //cnosole.log('console写错了，故意引发异常');
-    }, (err) => {
-        console.error('fail:' + err);
-    });
-```
-
-then方法可以接受两个参数，第一个对应resolve的回调，第二个对应reject的回调。
-
-这种写法并不推荐，如果【resolve回调】中发生异常无法进行处理。
-
-Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
-
-针对上例的修改:
-```js
-getAsyncNumber()
-    .then((data) => {
-        console.log('success:' + data);
-        cnosole.log('console写错了，故意引发异常');
-    })
-    .catch((err) => {
-        console.log('fail:' + err);
-    });
-```
-
-效果和写在then的第二个参数里面一样。
-
-不过它还有另外一个作用：在执行resolve的回调（也就是上面then中的第一个参数）时，
-
-如果抛出异常了（代码出错了），那么并不会报错卡死js，而是会进到这个catch方法中。
-
-<a id="markdown-promiseprototypefinally" name="promiseprototypefinally"></a>
-### Promise.prototype.finally()
-finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。
-
-```js
-promise
-.then(result => {···})
-.catch(error => {···})
-.finally(() => {···});
-```
-
-以前面获取数字举例，不论【resolve】/【reject】，都将进入finally回调：
-
-```js
-getAsyncNumber()
-    .then((data) => {
-        console.log('success:' + data);
-        cnosole.log('console写错了，故意引发异常');
-    })
-    .catch((err) => {
-        console.log('fail:' + err);
-    })
-    .finally(() => {
-        console.log('运行完成');
-    });
-```
-
-<a id="markdown-promiseall" name="promiseall"></a>
-### Promise.all()
-Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
-
-```js
-const p = Promise.all([p1, p2, p3]);
-```
-
-Promise的all方法提供了并行执行异步操作的能力，并且在所有异步操作执行完后才执行回调。
-
-我们仍旧使用上面定义好的runAsync1、runAsync2、runAsync3这三个函数，看下面的例子：
-
-```js
-Promise
-    .all([runAsync1(), runAsync2(), runAsync3()])
-    .then((results) => {
-        console.log(results);
-    });
-```
-
-用Promise.all来执行，all接收一个数组参数，里面的值最终都算返回Promise对象。
-
-这样，三个异步操作的并行执行的，等到它们都执行完后才会进到then里面。
-
-all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
-
 <a id="markdown-class基本用法" name="class基本用法"></a>
 ## Class基本用法
 
-<a id="markdown-类的由来" name="类的由来"></a>
-### 类的由来
+<a id="markdown-类的由来重要" name="类的由来重要"></a>
+### 类的由来（重要）
 JavaScript 语言中，生成实例对象的传统方法是通过构造函数。下面是一个例子：
 
 ```js
@@ -937,7 +780,9 @@ ES6 提供了更接近传统语言的写法，引入了 Class（类）这个概�
 
 基本上，ES6 的class可以看作只是一个语法糖，它的绝大部分功能，ES5 都可以做到，
 
-新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。上面的代码用 ES6 的class改写，就是下面这样。
+新的class写法只是让对象原型的写法更加清晰、更像面向对象编程的语法而已。
+
+上面的代码用 ES6 的class改写，就是下面这样。
 
 ```js
 class Point {
@@ -1210,19 +1055,24 @@ class Widget {
 另一种方法就是索性将私有方法移出模块，因为模块内部的所有方法都是对外可见的。
 ```js
 class Widget {
-  foo (baz) {
-    bar.call(this, baz);
+  constructor(){
+    
   }
-
-  // ...
+  foo () {
+    bar.call(this);
+  }
+  
 }
 
-function bar(baz) {
-  return this.snaf = baz;
+// 通过模块化引用，除当前文档，无法访问该函数
+function bar() {
+  consolo.log('私有方法');
 }
 ```
 
-上面代码中，foo是公开方法，内部调用了bar.call(this, baz)。这使得bar实际上成为了当前模块的私有方法。
+上面代码中，foo是公开方法，内部调用了bar.call(this)。
+
+这使得bar实际上成为了当前模块的私有方法。
 
 <a id="markdown-私有属性" name="私有属性"></a>
 ### 私有属性
@@ -1272,7 +1122,9 @@ class ColorPoint extends Point {
 ```
 子类必须在constructor方法中调用super方法，否则新建实例时会报错。
 
-这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。
+这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，
+
+得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。
 
 如果不调用super方法，子类就得不到this对象。
 
@@ -1300,6 +1152,214 @@ class B extends A {
 B.hello()  // hello world
 ```
 上面代码中，hello()是A类的静态方法，B继承A，也继承了A的静态方法。
+
+<a id="markdown-promise-对象" name="promise-对象"></a>
+## Promise 对象
+Promise 是异步编程的一种解决方案，比传统的解决方案——回调函数和事件——更合理和更强大。
+
+所谓Promise，简单说就是一个容器，里面保存着某个未来才会结束的事件（通常是一个异步操作）的结果。
+
+Promise对象有以下两个特点:
+1. 对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
+2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。
+
+有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
+
+此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
+
+Promise也有一些缺点。
+* 首先，无法取消Promise，一旦新建它就会立即执行，无法中途取消。
+* 其次，如果不设置回调函数，Promise内部抛出的错误，不会反应到外部。
+* 第三，当处于pending状态时，无法得知目前进展到哪一个阶段（刚刚开始还是即将完成）。
+
+<a id="markdown-基本用法" name="基本用法"></a>
+### 基本用法
+Promise构造函数接受一个函数作为参数，该函数的两个参数分别是resolve和reject。
+
+* resolve函数的作用是，将Promise对象的状态从“未完成”变为“成功”（即从 pending 变为 resolved），在异步操作成功时调用，并将异步操作的结果，作为参数传递出去；
+* reject函数的作用是，将Promise对象的状态从“未完成”变为“失败”（即从 pending 变为 rejected），在异步操作失败时调用，并将异步操作报出的错误，作为参数传递出去。
+
+```js
+let p = new Promise(function (resolve, reject) {
+    // 异步操作，用setTimeOut模拟
+    setTimeout(() => {
+        console.log('执行完成');
+        resolve('数据1');
+    }, 2000);
+});
+p.then(function (data) {
+    console.log('then:' + data);
+});
+/*
+延迟2s输出结果：
+执行完成
+then:数据1
+*/
+```
+
+Promise 新建后就会立即执行。
+
+<a id="markdown-promiseprototypethen" name="promiseprototypethen"></a>
+### Promise.prototype.then()
+Promise实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。
+
+then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
+
+```js
+function runAsync1() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务1');
+            resolve('异步获取的数据1');
+        }, 2000);
+    });
+}
+function runAsync2() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务2');
+            resolve('异步获取的数据2');
+        }, 3000);
+    });
+}
+function runAsync3() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            console.log('异步任务3');
+            resolve('异步获取的数据3');
+        }, 2000);
+    });
+}
+
+// 设置心跳任务
+let heartClick = setInterval(() => {
+    console.log('==========心跳==========');
+}, 1000);
+
+runAsync1()
+    .then((data) => {
+        console.log('async1 then :' + data);
+        return runAsync2();
+    })
+    .then((data) => {
+        console.log('async2 then: ' + data);
+        return runAsync3();
+        //return '直接返回数据也可以！';
+    })
+    .then((data) => {
+        console.log('async3 then: ' + data);
+        clearInterval(heartClick);//清除心跳任务
+    })
+```
+
+采用链式的then，可以指定一组按照次序调用的回调函数。
+
+这时，前一个回调函数，有可能返回的还是一个Promise对象（即有异步操作），这时后一个回调函数，就会等待该Promise对象的状态发生变化，才会被调用。
+
+<a id="markdown-promiseprototypecatch" name="promiseprototypecatch"></a>
+### Promise.prototype.catch()
+reject的作用就是把Promise的状态置为rejected，这样我们在then中就能捕捉到，然后执行“失败”情况的回调。
+
+```js
+function getAsyncNumber() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            let num = Math.ceil(Math.random() * 10);
+            if (num <= 5) {
+                resolve(num);
+            } else {
+                reject('数字太大了');
+            }
+        }, 2000);
+    });
+}
+
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        //cnosole.log('console写错了，故意引发异常');
+    }, (err) => {
+        console.error('fail:' + err);
+    });
+```
+
+then方法可以接受两个参数，第一个对应resolve的回调，第二个对应reject的回调。
+
+这种写法并不推荐，如果【resolve回调】中发生异常无法进行处理。
+
+Promise.prototype.catch方法是.then(null, rejection)或.then(undefined, rejection)的别名，用于指定发生错误时的回调函数。
+
+针对上例的修改:
+```js
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        cnosole.log('console写错了，故意引发异常');
+    })
+    .catch((err) => {
+        console.log('fail:' + err);
+    });
+```
+
+效果和写在then的第二个参数里面一样。
+
+不过它还有另外一个作用：在执行resolve的回调（也就是上面then中的第一个参数）时，
+
+如果抛出异常了（代码出错了），那么并不会报错卡死js，而是会进到这个catch方法中。
+
+<a id="markdown-promiseprototypefinally" name="promiseprototypefinally"></a>
+### Promise.prototype.finally()
+finally方法用于指定不管 Promise 对象最后状态如何，都会执行的操作。
+
+```js
+promise
+.then(result => {···})
+.catch(error => {···})
+.finally(() => {···});
+```
+
+以前面获取数字举例，不论【resolve】/【reject】，都将进入finally回调：
+
+```js
+getAsyncNumber()
+    .then((data) => {
+        console.log('success:' + data);
+        cnosole.log('console写错了，故意引发异常');
+    })
+    .catch((err) => {
+        console.log('fail:' + err);
+    })
+    .finally(() => {
+        console.log('运行完成');
+    });
+```
+
+<a id="markdown-promiseall" name="promiseall"></a>
+### Promise.all()
+Promise.all()方法用于将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+```js
+const p = Promise.all([p1, p2, p3]);
+```
+
+Promise的all方法提供了并行执行异步操作的能力，并且在所有异步操作执行完后才执行回调。
+
+我们仍旧使用上面定义好的runAsync1、runAsync2、runAsync3这三个函数，看下面的例子：
+
+```js
+Promise
+    .all([runAsync1(), runAsync2(), runAsync3()])
+    .then((results) => {
+        console.log(results);
+    });
+```
+
+用Promise.all来执行，all接收一个数组参数，里面的值最终都算返回Promise对象。
+
+这样，三个异步操作的并行执行的，等到它们都执行完后才会进到then里面。
+
+all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
+
 
 <a id="markdown-module-模块" name="module-模块"></a>
 ## Module 模块
