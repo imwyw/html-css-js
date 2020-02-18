@@ -44,7 +44,7 @@
         - [静态属性](#静态属性)
         - [私有方法](#私有方法)
         - [私有属性](#私有属性)
-    - [Class的继承](#class的继承)
+        - [Class的继承](#class的继承)
     - [Promise 对象](#promise-对象)
         - [基本用法](#基本用法)
         - [Promise.prototype.then()](#promiseprototypethen)
@@ -795,28 +795,55 @@ const Person = {
 ### 属性的遍历
 ES6 一共有 5 种方法可以遍历对象的属性。
 
+```js
+let obj = { name: 'jack', age: 12 };
+let sym = Symbol('syName');
+obj[sym] = 'unique name';
+```
+
 - for...in
 
 for...in循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
 
-
+```js
+for (let pitem in obj) {
+    console.log(pitem);
+}
+// name
+// age
+```
 
 - Object.keys(obj)
 
 Object.keys返回一个数组，包括对象自身的（不含继承的）所有可枚举属性（不含 Symbol 属性）的键名。
 
+```js
+console.log(Object.keys(obj));// ["name", "age"]
+```
+
 - Object.getOwnPropertyNames(obj)
 
 Object.getOwnPropertyNames返回一个数组，包含对象自身的所有属性（不含 Symbol 属性，但是包括不可枚举属性）的键名。
+
+```js
+console.log(Object.getOwnPropertyNames(obj));// ["name", "age"]
+```
 
 - Object.getOwnPropertySymbols(obj)
 
 Object.getOwnPropertySymbols返回一个数组，包含对象自身的所有 Symbol 属性的键名。
 
+```js
+console.log(Object.getOwnPropertySymbols(obj));// [Symbol(syName)]
+```
+
 - Reflect.ownKeys(obj)
 
 Reflect.ownKeys返回一个数组，包含对象自身的所有键名，不管键名是 Symbol 或字符串，也不管是否可枚举。
 
+```js
+console.log(Reflect.ownKeys(obj));// ["name", "age", Symbol(syName)]
+```
 
 <a id="markdown-解构" name="解构"></a>
 ### 解构
@@ -1255,7 +1282,7 @@ counter.#count = 42 // 报错
 上面代码在类的外部，读取私有属性，就会报错。
 
 <a id="markdown-class的继承" name="class的继承"></a>
-## Class的继承
+### Class的继承
 Class 可以通过extends关键字实现继承，这比 ES5 的通过修改原型链实现继承，要清晰和方便很多。
 
 ```js
