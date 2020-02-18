@@ -22,6 +22,11 @@
         - [rest参数](#rest参数)
         - [函数name属性](#函数name属性)
         - [箭头函数（重要）](#箭头函数重要)
+    - [Symbol](#symbol)
+        - [JS中函数传参](#js中函数传参)
+        - [值相等](#值相等)
+        - [symbol 作为对象的属性](#symbol-作为对象的属性)
+        - [阻止对象名冲突](#阻止对象名冲突)
     - [对象新增用法](#对象新增用法)
         - [属性的简洁表示法](#属性的简洁表示法)
         - [属性的遍历](#属性的遍历)
@@ -46,6 +51,7 @@
         - [Promise.prototype.catch()](#promiseprototypecatch)
         - [Promise.prototype.finally()](#promiseprototypefinally)
         - [Promise.all()](#promiseall)
+        - [结合ajax的Promise](#结合ajax的promise)
     - [Module 模块](#module-模块)
         - [export和import](#export和import)
 
@@ -579,6 +585,153 @@ let fn = () => void doesNotReturn();
 [1,2,3].map(x => x * x);
 ```
 
+<a id="markdown-symbol" name="symbol"></a>
+## Symbol
+Symbol 是 JavaScript 最新推出的一种基本类型，它被当做对象属性时特别有用，但是有什么是它能做而 String 不能做的呢？
+
+JavaScript的一些特性：
+
+JavaScript 有两种值类型，一种是 基本类型 （primitives），一种是 对象类型 （objects，包含 function 类型），
+
+基本类型包括数字 number （包含 integer，float，Infinity，NaN）,布尔值 boolean，字符串 string，undefined，null，尽管 typeof null === 'object'，null 仍然是一个基本类型。
+
+基本类型的值是不可变的，当然了，存放基本类型值得变量是可以被重新分配的，例如：
+
+```js
+let x = 1; 
+x++;
+```
+
+变量 x 就被重新分配值了，但是你并没有改变原来的1.
+
+一些语言，例如 c 语言有引用传递和值传递的概念，JavaScript 也有类似的概念，尽管它传递的数据类型需要推断。
+
+<a id="markdown-js中函数传参" name="js中函数传参"></a>
+### JS中函数传参
+当你给一个 function 传值的时候，重新分配值并不会修改该方法调用时的参数值。
+
+然而，假如你修改一个非基本类型的值，修改值也会影响原来的值。
+
+```js
+// 参数为基本类型
+function add(val) {
+    val = val + 1;
+}
+
+let x = 1;
+add(x);
+console.log(x); // 1
+
+// 参数为非基本类型
+function modifyObj(val) {
+    val.prop = val.prop + 1;
+}
+let obj = { prop: 1 };
+modifyObj(obj);
+console.log(obj.prop); // 2
+```
+
+<a id="markdown-值相等" name="值相等"></a>
+### 值相等
+
+基本类型一样的值永远相等（除了奇怪的 NaN ），看看这里：
+
+```js
+const first = "abc" + "def";
+const second = "ab" + "cd" + "ef";
+console.log(first === second); // true
+```
+
+然而，非基本类型的值即使内容一样，但也不相等，看看这里：
+```js
+const obj1 = { name: "jack" };
+const obj2 = { name: "jack" };
+console.log(obj1 === obj2); // false
+// 但是属性name本身是基本类型，所以相等
+console.log(obj1.name === obj2.name); // true
+```
+
+<a id="markdown-symbol-作为对象的属性" name="symbol-作为对象的属性"></a>
+### symbol 作为对象的属性
+对象扮演了一个 JavaScript 语言的基本角色，它们被到处使用，它们常被用在键值对的存储。
+
+在 symbol 诞生之前，对象的键只能是字符串。
+
+假如我们试着使用一个非字符串当做对象的键，就会被转换为字符串，如下所示：
+
+```js
+const obj = {};
+obj.foo = 'foo';
+obj['bar'] = 'bar';
+obj[2] = 2;
+obj[{}] = 'someobj';
+
+console.log(obj);
+//output: { '2': 2, foo: 'foo', bar: 'bar','[object Object]': 'someobj' }
+```
+
+symbol 作为对象key值的案例：
+
+```js
+const obj = {};
+const sym = Symbol();
+obj[sym] = 'symbol property';
+obj.baseProp = 'base property';
+console.log(obj); // { norProp: 'base property' }
+console.log(sym in obj); // true
+console.log(obj[sym]); // symbol property
+// Object.keys() 并没有返回 symbol
+console.log(Object.keys(obj)); // ['baseProp']
+```
+
+<a id="markdown-阻止对象名冲突" name="阻止对象名冲突"></a>
+### 阻止对象名冲突
+在不知道对象原有属性名的情况下，扩展对象属性很有用。
+
+当两个不同的库要读取对象的一些原始属性时，或许它们都想要类似的标识符。
+
+如果只是简单的使用字符串 id 作为 key，这将会有很大的风险，因为它们的 key 完全有可能相同。
+
+```js
+function lib1tag(obj) {
+  obj.id = 42;
+}
+function lib2tag(obj) {
+  obj.id = 369;
+}
+```
+
+通过使用 symbol，不同的库在初始化的时候生成其所需的 symbol，然后就可以在对象上任意赋值。
+
+```js
+const library1property = Symbol('lib1');
+function lib1tag(obj) {
+  obj[library1property] = 42;
+}
+
+const library2property = Symbol('lib2');
+function lib2tag(obj) {
+  obj[library2property] = 369;
+}
+```
+
+假如我们使用 symbol 作为属性名，json 的输出将不会包含 symbol属性。
+
+```js
+const obj = {};
+obj[Symbol()] = 1;
+obj.zhName = '张三';
+
+console.log(Object.keys(obj)); // ["zhName"]
+console.log(Reflect.ownKeys(obj)); // ["zhName", Symbol()]
+console.log(JSON.stringify(obj)); // {"zhName":"张三"}
+```
+
+JavaScript 支持 symbol，并不意味着 json 规范也会跟着修改。
+
+json 只允许字符串作为 key，JavaScript 并没有试图让 json 输出 symbol。
+
+
 <a id="markdown-对象新增用法" name="对象新增用法"></a>
 ## 对象新增用法
 
@@ -645,6 +798,8 @@ ES6 一共有 5 种方法可以遍历对象的属性。
 - for...in
 
 for...in循环遍历对象自身的和继承的可枚举属性（不含 Symbol 属性）。
+
+
 
 - Object.keys(obj)
 
@@ -1163,6 +1318,14 @@ Promise对象有以下两个特点:
 1. 对象的状态不受外界影响。Promise对象代表一个异步操作，有三种状态：pending（进行中）、fulfilled（已成功）和rejected（已失败）。
 2. 一旦状态改变，就不会再变，任何时候都可以得到这个结果。Promise对象的状态改变，只有两种可能：从pending变为fulfilled和从pending变为rejected。
 
+```js
+new Promise((resolve, reject) => {
+  resolve('success')
+  // 无效，状态不能再次改变
+  reject('reject')
+})
+```
+
 有了Promise对象，就可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。
 
 此外，Promise对象提供统一的接口，使得控制异步操作更加容易。
@@ -1201,6 +1364,22 @@ Promise 新建后就会立即执行。
 
 <a id="markdown-promiseprototypethen" name="promiseprototypethen"></a>
 ### Promise.prototype.then()
+Promise 也很好地解决了回调地狱的问题，例如：
+
+```js
+ajax(url, () => {
+    // 处理逻辑
+    ajax(url1, () => {
+        // 处理逻辑
+        ajax(url2, () => {
+            // 处理逻辑
+        })
+    })
+})
+```
+
+ajax的请求有多层依赖关系，依赖越多，回调越复杂。
+
 Promise实例具有then方法，也就是说，then方法是定义在原型对象Promise.prototype上的。
 
 then方法的第一个参数是resolved状态的回调函数，第二个参数（可选）是rejected状态的回调函数。
@@ -1360,6 +1539,9 @@ Promise
 
 all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
 
+<a id="markdown-结合ajax的promise" name="结合ajax的promise"></a>
+### 结合ajax的Promise
+TODO 补充案例
 
 <a id="markdown-module-模块" name="module-模块"></a>
 ## Module 模块
@@ -1426,4 +1608,5 @@ export var year = 1958;
 
 [从ES6到ES10的新特性万字大总结（不得不收藏）](https://mp.weixin.qq.com/s?__biz=MzUxOTQ5ODYzOQ==&mid=2247498014&idx=6&sn=df491e34feebedc072b0ceea3f67f8ae&chksm=f9fa07fece8d8ee8e729149c66e97c25415322a3181029576186a73015d3b3936bb8203c6ad7&scene=0&xtrack=1&key=4fbe20007a5be0afb103fb1f0ba27eed1711a55b6bd0e29d4289b521790f0c2fc5a00a32ec2032fe90735bf925ec8dac002364cf8bd4f249cbc229c8bae424a3546b720604b1d6b301f990c4717d6b09&ascene=1&uin=Mjg4Njc3MzE1&devicetype=Windows+10&version=62070158&lang=zh_CN&exportkey=AZHhVlagkPNs4uE1p7gHSFk%3D&pass_ticket=yMJa9mJ%2FmOlJdthl%2BXcSF1%2FHTtNJjm7nkSSyQ29KgOPCuLNsSXHSYU8M2ME6W7aC)
 
+[Symbol 的作用](https://juejin.im/post/5ca762f3e51d4536da6c5624)
 
