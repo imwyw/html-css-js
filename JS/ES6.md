@@ -1567,7 +1567,142 @@ all会把所有异步操作的结果放进一个数组中传给then，就是上�
 
 <a id="markdown-结合ajax的promise" name="结合ajax的promise"></a>
 ### 结合ajax的Promise
-TODO 补充案例
+创建控制器【HomeController】，并添加以下【Action】：
+```cs
+public class HomeController : Controller
+{
+    // GET: Home
+    public ActionResult Index()
+    {
+        return View();
+    }
+
+    /// <summary>
+    /// 延迟sec秒返回
+    /// </summary>
+    /// <param name="sec"></param>
+    /// <returns></returns>
+    public JsonResult GetDataBySec(int sec)
+    {
+        Thread.Sleep(1000 * sec);
+        return Json(new
+        {
+            Status = true,
+            Message = DateTime.Now.ToString()
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+    /// <summary>
+    /// 随机延迟返回
+    /// </summary>
+    /// <returns></returns>
+    public JsonResult GetDataRandomSec()
+    {
+        Random rd = new Random();
+        int sec = rd.Next(1, 10);
+        Thread.Sleep(1000 * sec);
+        return Json(new
+        {
+            Status = true,
+            Message = $"延迟了{sec}秒，{DateTime.Now.ToString()}"
+        }, JsonRequestBehavior.AllowGet);
+    }
+
+}
+```
+
+前端调用如下：
+```js
+function getData1() {
+    $.get('/Home/GetDataBySec?sec=3', function (data) {
+        console.log(data);
+    });
+}
+
+function getData2() {
+    $.get('/Home/GetDataRandomSec', function (data) {
+        console.log(data);
+    });
+}
+
+// getData1和getData2异步调用，没有先后依赖关系
+getData1();
+getData2();
+```
+
+如果getData1的返回值作为getData2的参数，即有请求的依赖关系，采用回调函数方式实现：
+
+```js
+function getData1(cb) {
+    $.get('/Home/GetDataBySec?sec=3', function (data) {
+        console.log(data);
+        cb();// 数据返回后进行回调
+    });
+}
+
+function getData2() {
+    $.get('/Home/GetDataRandomSec', function (data) {
+        console.log(data);
+    });
+}
+
+getData1(getData2);
+```
+
+虽然回调方式可以解决依赖关系，如果多个依赖关系，
+
+比如getData1的响应作为getData2的参数，getData2的响应又作为getData3的参数，就会陷入回调地狱：
+
+```js
+$.get('xxx',function(data1){
+  $.get('xxx',function(data2){
+    $.get('xxx',function(data3){
+      // do something...
+    });
+  });
+})
+```
+
+```js
+function getData1() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataBySec?sec=3', function (data) {
+            console.log('getData1 response');
+            resolve(data);
+        });
+    });
+}
+
+function getData2() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataRandomSec', function (data) {
+            console.log('getData2 response');
+            resolve(data);
+        });
+    });
+}
+
+function getData3() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataRandomSec', function (data) {
+            console.log('getData3 response');
+            resolve(data);
+        });
+    });
+}
+
+// 链式调用，解决回调地狱，先后顺序清晰
+getData1().then(data=> {
+    console.log(data);
+    return getData2();
+}).then(data=> {
+    console.log(data);
+    return getData3();
+}).then(data=> {
+    console.log(data);
+});
+```
+
 
 <a id="markdown-module-模块" name="module-模块"></a>
 ## Module 模块
