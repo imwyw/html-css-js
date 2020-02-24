@@ -51,7 +51,17 @@
         - [Promise.prototype.catch()](#promiseprototypecatch)
         - [Promise.prototype.finally()](#promiseprototypefinally)
         - [Promise.all()](#promiseall)
+        - [Promise.resolve()](#promiseresolve)
+            - [参数是一个 Promise 实例](#参数是一个-promise-实例)
+            - [参数是一个thenable对象](#参数是一个thenable对象)
+            - [参数不是具有then方法的对象，或根本就不是对象](#参数不是具有then方法的对象或根本就不是对象)
+            - [不带有任何参数](#不带有任何参数)
         - [结合ajax的Promise](#结合ajax的promise)
+    - [async和await](#async和await)
+        - [async 作用](#async-作用)
+        - [await 到底在等啥](#await-到底在等啥)
+        - [async和await优势](#async和await优势)
+        - [并发执行](#并发执行)
     - [Module 模块](#module-模块)
         - [export和import](#export和import)
 
@@ -1565,6 +1575,82 @@ Promise
 
 all会把所有异步操作的结果放进一个数组中传给then，就是上面的results。
 
+<a id="markdown-promiseresolve" name="promiseresolve"></a>
+### Promise.resolve()
+有时需要将现有对象转为 Promise 对象，Promise.resolve()方法就起到这个作用。
+
+```js
+Promise.resolve('foo')
+// 等价于
+new Promise(resolve => resolve('foo'))
+```
+
+<a id="markdown-参数是一个-promise-实例" name="参数是一个-promise-实例"></a>
+#### 参数是一个 Promise 实例
+如果参数是 Promise 实例，那么Promise.resolve将不做任何修改、原封不动地返回这个实例。
+
+<a id="markdown-参数是一个thenable对象" name="参数是一个thenable对象"></a>
+#### 参数是一个thenable对象
+thenable对象指的是具有then方法的对象，比如下面这个对象。
+```js
+let thenable = {
+  then: function(resolve, reject) {
+    resolve(42);
+  }
+};
+```
+
+Promise.resolve方法会将这个对象转为 Promise 对象，然后就立即执行thenable对象的then方法。
+
+```js
+let thenable = {
+  then: function(resolve, reject) {
+    resolve(42);
+  }
+};
+
+let p1 = Promise.resolve(thenable);
+p1.then(function(value) {
+  console.log(value);  // 42
+});
+```
+
+上面代码中，thenable对象的then方法执行后，对象p1的状态就变为resolved，从而立即执行最后那个then方法指定的回调函数，输出 42。
+
+<a id="markdown-参数不是具有then方法的对象或根本就不是对象" name="参数不是具有then方法的对象或根本就不是对象"></a>
+#### 参数不是具有then方法的对象，或根本就不是对象
+如果参数是一个原始值，或者是一个不具有then方法的对象，则Promise.resolve方法返回一个新的 Promise 对象，状态为resolved。
+
+```js
+const p = Promise.resolve('Hello');
+
+p.then(function (s){
+  console.log(s)
+});
+// Hello
+```
+
+上面代码生成一个新的 Promise 对象的实例p。由于字符串Hello不属于异步操作（判断方法是字符串对象不具有 then 方法），
+
+返回 Promise 实例的状态从一生成就是resolved，所以回调函数会立即执行。
+
+Promise.resolve方法的参数，会同时传给回调函数。
+
+<a id="markdown-不带有任何参数" name="不带有任何参数"></a>
+#### 不带有任何参数
+
+Promise.resolve()方法允许调用时不带参数，直接返回一个resolved状态的 Promise 对象。
+
+所以，如果希望得到一个 Promise 对象，比较方便的方法就是直接调用Promise.resolve()方法。
+
+```js
+const p = Promise.resolve();
+
+p.then(function () {
+  // ...
+});
+```
+
 <a id="markdown-结合ajax的promise" name="结合ajax的promise"></a>
 ### 结合ajax的Promise
 创建控制器【HomeController】，并添加以下【Action】：
@@ -1704,6 +1790,184 @@ getData1().then(data=> {
 ```
 
 
+<a id="markdown-async和await" name="async和await"></a>
+## async和await
+
+<a id="markdown-async-作用" name="async-作用"></a>
+### async 作用
+ES2017 标准引入了 async 函数，使得异步操作变得更加方便。
+
+async函数的作用，关键看async函数是怎么处理它的返回值：
+```js
+async function testAsync(){
+    return 'hello async';
+}
+
+const res = testAsync();
+console.log(res);
+```
+
+输出：`Promise {<resolved>: "hello async"}`
+
+async 函数会返回一个 Promise 对象，如果在函数中 return 一个直接量，async 会把这个直接量通过 Promise.resolve() 封装成 Promise 对象。
+
+then() 链来处理这个 Promise 对象：
+
+```js
+testAsync().then(dd=>{
+    console.log(`获取数据：${dd}`);
+});
+```
+
+Promise 的特点——无等待，所以在没有 await 的情况下执行 async 函数，它会立即执行，返回一个 Promise 对象，
+
+并且，绝不会阻塞后面的语句，这和普通返回 Promise 对象的函数一样。
+
+<a id="markdown-await-到底在等啥" name="await-到底在等啥"></a>
+### await 到底在等啥
+一般来说，都认为 await 是在等待一个 async 函数完成。
+
+按语法说明，await 等待的是一个表达式，这个表达式的计算结果是 Promise 对象或者其它值（换句话说，就是没有特殊限定）。
+
+下面的案例可以说明：
+```js
+function getSomething(){
+    return 'something';
+}
+
+async function testAsync(){
+    return Promise.resolve('hello async');
+}
+
+async function test(){
+    const v1 = await getSomething();// L1 行
+    const v2 = await testAsync();// L2 行
+    console.log(v1,v2);
+}
+
+test();
+```
+
+await 是个运算符，用于组成表达式，await 表达式的运算结果取决于它等的东西。
+
+**如果它等到的不是一个 Promise 对象，那 await 表达式的运算结果就是它等到的东西。**
+
+如上面案例代码中L1行`const v1 = await getSomething();`
+
+getSomething是个普通函数，所以v1就是返回值本身，即"something"。
+
+**如果它等到的是一个 Promise 对象，await 就忙起来了，它会阻塞后面的代码，**
+
+**等着 Promise 对象 resolve，然后得到 resolve 的值，作为 await 表达式的运算结果。**
+
+如上面案例中L2行`const v2 = await testAsync();`
+
+testAsync是个async函数，返回的是Promise对象，resolve回调返回值是await的值，即"hello async"。
+
+<a id="markdown-async和await优势" name="async和await优势"></a>
+### async和await优势
+回顾前面案例[结合ajax的Promise](#结合ajax的Promise)
+
+Promise 通过 then 链来解决多层回调的问题，但then的结构仍不是很清晰，存在大量的箭头函数。
+
+现在又用 async/await 来进一步优化它，几乎和同步代码一致。
+
+```js
+function getData1() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataBySec?sec=3', function (data) {
+            console.log('getData1 response');
+            resolve(data);
+        });
+    });
+}
+
+function getData2() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataRandomSec', function (data) {
+            console.log('getData2 response');
+            resolve(data);
+        });
+    });
+}
+
+function getData3() {
+    return new Promise((resolve, reject) => {
+        $.get('/Home/GetDataRandomSec', function (data) {
+            console.log('getData3 response');
+            resolve(data);
+        });
+    });
+}
+
+async function getDataStep(){
+    // p1，p2，p3 不会异步执行，适用于每个请求之间互相依赖的场景！
+    let p1 = await getData1();
+    let p2 = await getData2();
+    let p3 = await getData3();
+    console.log(p1,p2,p3);
+}
+
+getDataStep();
+```
+
+上述依赖关系的请求还可以采用Promise.resolve进一步优化:
+
+```js
+function getData1() {
+    return Promise.resolve($.get('/Home/GetDataBySec?sec=3'));
+}
+
+function getData2() {
+    return Promise.resolve($.get('/Home/GetDataRandomSec'));
+}
+
+function getData3() {
+    return Promise.resolve($.get('/Home/GetDataRandomSec'));
+}
+
+async function getDataStep(){
+    // p1，p2，p3 不会异步执行，适用于每个请求之间互相依赖的场景！
+    let p1 = await getData1();
+    let p2 = await getData2();
+    let p3 = await getData3();
+    console.log(p1,p2,p3);
+}
+
+getDataStep();
+```
+
+<a id="markdown-并发执行" name="并发执行"></a>
+### 并发执行
+上面案例代码中，如果getData1、getData2、getData3之间没有依赖关系，采用同步做法会很耗时。
+
+因为getData1执行完成，才会执行getData2，最后才是getData3。可以结合Promise.all节约时间：
+
+```js
+function getData1() {
+    return Promise.resolve($.get('/Home/GetDataBySec?sec=3'));
+}
+
+function getData2() {
+    return Promise.resolve($.get('/Home/GetDataRandomSec'));
+}
+
+function getData3() {
+    return Promise.resolve($.get('/Home/GetDataRandomSec'));
+}
+
+async function testAsync(){
+    let [p1,p2,p3] = await Promise.all([getData1(),getData2(),getData3()]);
+    console.log(p1,p2,p3);
+}
+
+testAsync();
+```
+
+**await命令只能用在async函数之中，如果用在普通函数，就会报错。**
+
+比如上面的Promise.all等待所有Promise返回响应，如果直接await就会报错！
+
 <a id="markdown-module-模块" name="module-模块"></a>
 ## Module 模块
 ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
@@ -1771,3 +2035,4 @@ export var year = 1958;
 
 [Symbol 的作用](https://juejin.im/post/5ca762f3e51d4536da6c5624)
 
+[理解 JavaScript 的 async/await](https://segmentfault.com/a/1190000007535316)
