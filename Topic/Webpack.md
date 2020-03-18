@@ -3,6 +3,7 @@
 - [Webpack](#webpack)
     - [安装](#安装)
         - [NPM准备](#npm准备)
+        - [npm install](#npm-install)
         - [安装webpack](#安装webpack)
         - [基本安装过程](#基本安装过程)
     - [开始](#开始)
@@ -32,9 +33,9 @@
 * 自动发布
 
 前置知识点：
-* Node.js基础
-* npm使用
-* ES6基础
+* Node.js 基础
+* npm 使用
+* ES6 基础
 
 <a id="markdown-安装" name="安装"></a>
 ## 安装
@@ -44,7 +45,8 @@
 首先安装Node.js，
 
 首先需要对文件执行npm初始化项目：
-```
+
+```node
 npm init
 ```
 
@@ -62,17 +64,46 @@ package.json 文件里记录项目的描述信息：项目作者、项目描述�
 * author 作者叫啥
 * license 项目要发行的时候需要的证书，平时玩玩忽略它
 
+<a id="markdown-npm-install" name="npm-install"></a>
+### npm install
+
+npm install moduleNames：安装Node模块
+
+安装完毕后会产生一个 `node_modules` 目录，其目录下就是安装的各个node模块。
+
+node的安装分为全局模式和本地模式。
+
+一般情况下会以本地模式运行，包会被安装到和你的应用程序代码的本地 `node_modules` 目录下。
+
+在全局模式下，Node包会被安装到Node的安装目录下的 `node_modules` 下。
+
+```shell
+# 全局安装
+npm install moduleName -g
+```
+
+`-S` 或 `--save` 安装包信息将加入到 dependencies（生产阶段的依赖）
+
+`-D` 或 `--save-dev` 安装包信息将加入到 devDependencies（开发阶段的依赖），所以开发阶段一般使用它
+
+```shell
+# 当前项目中安装
+npm install webpack webpack-cli --save-dev
+# 等同于
+npm install webpack webpack-cli -D
+```
+
 <a id="markdown-安装webpack" name="安装webpack"></a>
 ### 安装webpack
 
 要安装最新版本或特定版本，请运行以下命令之一：
-```
+```shell
 npm install --save-dev webpack
 npm install --save-dev webpack@<version>
 ```
 
 如果你使用 webpack 4+ 版本，你还需要安装 CLI。（推荐！！！）
-```
+```shell
 npm install webpack webpack-cli --save-dev
 ```
 
@@ -85,7 +116,7 @@ npm install webpack webpack-cli --save-dev
 
 然后在本地安装 webpack，接着安装 webpack-cli（此工具用于在命令行中运行 webpack）
 
-```
+```shell
 mkdir webpack-demo && cd webpack-demo
 npm init -y
 npm install webpack webpack-cli --save-dev
@@ -98,7 +129,7 @@ npm install lodash --save-dev # Lodash是一个一致性、模块化、高性能
 
 --save和--save-dev可以省掉你手动修改package.json文件的步骤。
 
-```
+```shell
 npm install moduleName # 安装模块到项目目录下
 npm install moduleName --save # --save 的意思是将模块安装到项目目录下，并在package文件的dependencies节点写入依赖。
 npm install moduleName --save-dev # --save-dev 的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。
