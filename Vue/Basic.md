@@ -16,6 +16,7 @@
             - [参数](#参数)
             - [修饰符](#修饰符)
             - [缩写](#缩写)
+        - [指令小结](#指令小结)
     - [计算属性和侦听器](#计算属性和侦听器)
         - [基础例子](#基础例子)
             - [计算属性缓存vs方法](#计算属性缓存vs方法)
@@ -73,7 +74,9 @@ var vm = new Vue({
 })
 ```
 
-虽然没有完全遵循 MVVM 模型，但是 Vue 的设计也受到了它的启发。因此在文档中经常会使用 vm (ViewModel 的缩写) 这个变量名表示 Vue 实例。
+虽然没有完全遵循 MVVM 模型，但是 Vue 的设计也受到了它的启发。
+
+因此在文档中经常会使用 vm (ViewModel 的缩写) 这个变量名表示 Vue 实例。
 
 <a id="markdown-数据与方法" name="数据与方法"></a>
 ### 数据与方法
@@ -105,7 +108,9 @@ vm.a // => 3
 
 当这些数据改变时，视图会进行重渲染。
 
-值得注意的是只有当实例被创建时 data 中存在的属性才是响应式的。也就是说如果你添加一个新的属性，比如：
+值得注意的是只有当实例被创建时 data 中存在的属性才是响应式的。
+
+也就是说如果你添加一个新的属性，比如：
 
 ```js
 //对 b 的改动将不会触发任何视图的更新。
@@ -135,41 +140,43 @@ vm.b = 'hi'
 </script>
 ```
 
-除了数据属性，Vue 实例还暴露了一些有用的实例属性与方法。它们都有前缀 $，以便与用户定义的属性区分开来。例如：
+除了数据属性，Vue 实例还暴露了一些有用的实例属性与方法。
+
+它们都有前缀 $，以便与用户定义的属性区分开来。例如：
 
 ```html
-  <div id="app">
-    <fieldset><input type="text" v-model="name" /></fieldset>
-    <fieldset>
-      <span>{{ name }}</span>
-    </fieldset>
-    <fieldset><button v-on:click="show">获取数据</button></fieldset>
-  </div>
+<div id="app">
+  <fieldset><input type="text" v-model="name" /></fieldset>
+  <fieldset>
+    <span>{{ name }}</span>
+  </fieldset>
+  <fieldset><button v-on:click="show">获取数据</button></fieldset>
+</div>
 
-  <script>
-    var obj = {
-      name: "jack",
-      age: 12
-    };
-    var vm = new Vue({
-      el: "#app",
-      data: obj,
-      methods: {
-        show: function () {
-          console.info("current name:" + vm.name);
-        }
+<script>
+  var obj = {
+    name: "jack",
+    age: 12
+  };
+  var vm = new Vue({
+    el: "#app",
+    data: obj,
+    methods: {
+      show: function () {
+        console.info("current name:" + vm.name);
       }
-    });
+    }
+  });
 
-    vm.$data === obj; // => true
-    vm.$el === document.getElementById("app"); // => true
+  vm.$data === obj; // => true
+  vm.$el === document.getElementById("app"); // => true
 
-    // $watch 是一个实例方法
-    vm.$watch("name", function (newValue, oldValue) {
-      // 这个回调将在 `vm.name` 改变后调用
-      console.info("old:" + oldValue + ",new:" + newValue);
-    });
-  </script>
+  // $watch 是一个实例方法
+  vm.$watch("name", function (newValue, oldValue) {
+    // 这个回调将在 `vm.name` 改变后调用
+    console.info("old:" + oldValue + ",new:" + newValue);
+  });
+</script>
 ```
 
 <a id="markdown-实例生命周期钩子" name="实例生命周期钩子"></a>
@@ -181,6 +188,7 @@ vm.b = 'hi'
 同时在这个过程中也会运行一些叫做生命周期钩子的函数，这给了用户在不同阶段添加自己的代码的机会。
 
 比如 created 钩子可以用来在一个实例被创建之后执行代码：
+
 ```js
 new Vue({
   data: {
@@ -220,11 +228,16 @@ Vue.js 使用了基于 HTML 的模板语法，允许开发者声明式地将 DOM
 ```html
 <span>Message: {{ msg }}</span>
 ```
-Mustache 标签将会被替代为对应数据对象上 msg 属性的值。无论何时，绑定的数据对象上 msg 属性发生了改变，插值处的内容都会更新。
+
+Mustache 标签将会被替代为对应数据对象上 msg 属性的值。
+
+无论何时，绑定的数据对象上 msg 属性发生了改变，插值处的内容都会更新。
 
 <a id="markdown-原始html" name="原始html"></a>
 #### 原始HTML
-双大括号会将数据解释为普通文本，而非 HTML 代码。为了输出真正的 HTML，你需要使用 v-html 指令：
+双大括号会将数据解释为普通文本，而非 HTML 代码。
+
+为了输出真正的 HTML，你需要使用 v-html 指令：
 
 ```html
 <div id="app">
@@ -247,7 +260,9 @@ Mustache 标签将会被替代为对应数据对象上 msg 属性的值。无论
 
 <a id="markdown-属性" name="属性"></a>
 #### 属性
+
 Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v-bind 指令：
+
 ```html
 <div v-bind:id="dynamicId"></div>
 ```
@@ -268,7 +283,10 @@ Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v
 <div v-bind:id="'list-' + id"></div>
 ```
 
-这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效。
+这些表达式会在所属 Vue 实例的数据作用域下作为 JavaScript 被解析。
+
+有个限制就是，每个绑定都只能包含单个表达式，所以下面的例子都不会生效。
+
 ```html
 <!-- 这是语句，不是表达式 -->
 {{ var a = 1 }}
@@ -288,6 +306,7 @@ Mustache 语法不能作用在 HTML 属性上，遇到这种情况应该使用 v
 指令的职责是，当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM。
 
 回顾我们在介绍中看到的例子：
+
 ```html
 <div id="app">
     <fieldset><button v-on:click="change">切换显示</button></fieldset>
@@ -354,7 +373,20 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 <a @click="doSomething">...</a>
 ```
 
-它们看起来可能与普通的 HTML 略有不同，但` : 与 @ `对于特性名来说都是合法字符，在所有支持 Vue.js 的浏览器都能被正确地解析。
+它们看起来可能与普通的 HTML 略有不同，但 ` : 与 @ ` 对于特性名来说都是合法字符，在所有支持 Vue.js 的浏览器都能被正确地解析。
+
+<a id="markdown-指令小结" name="指令小结"></a>
+### 指令小结
+
+* `{{}}` 双大括号，模板语法对应数据属性
+* `v-text` innerText，eg: `<label v-text="message"></label>`
+* `v-html` innerHTML， `<div v-html="content"></div>`
+* `v-if` 数据属性对应的布尔值，真则显示，假则移除，`appendChild()/removeChild()`
+* `v-show` 控制dom元素的显示，`display:block/none`
+* `v-on:` 绑定事件，简写：@,eg: `<a href="#" v-on:click="show">点击</a>` 或者 `<a href="#" @click="show">点击</a>`
+* `v-bind` 绑定元素属性简写，ge：`<input type="text" v-bind:id="prod_id">`
+* `v-model` 双向绑定，
+* `v-for` 遍历数组或对象
 
 <a id="markdown-计算属性和侦听器" name="计算属性和侦听器"></a>
 ## 计算属性和侦听器
@@ -399,22 +431,30 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 </script>
 ```
 
-这里我们声明了一个计算属性 reversedMessage。我们提供的函数将用作属性 vm.reversedMessage 的 getter 函数：
+这里我们声明了一个计算属性 reversedMessage。
+
+我们提供的函数将用作属性 vm.reversedMessage 的 getter 函数：
+
 ```js
 console.log(vm.reversedMessage) // => 'olleH'
 vm.message = 'Goodbye'
 console.log(vm.reversedMessage) // => 'eybdooG'
 ```
-你可以打开浏览器的控制台，自行修改例子中的 vm。vm.reversedMessage 的值始终取决于 vm.message 的值。
+
+你可以打开浏览器的控制台，自行修改例子中的 vm。
+
+vm.reversedMessage 的值始终取决于 vm.message 的值。
 
 你可以像绑定普通属性一样在模板中绑定计算属性。
 
-Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。
+Vue 知道 vm.reversedMessage 依赖于 vm.message，
 
-而且最妙的是我们已经以声明的方式创建了这种依赖关系：计算属性的 getter 函数是没有副作用 (side effect) 的，这使它更易于测试和理解。
+因此当 vm.message 发生改变时，所有依赖 vm.reversedMessage 的绑定也会更新。
+
 
 <a id="markdown-计算属性缓存vs方法" name="计算属性缓存vs方法"></a>
 #### 计算属性缓存vs方法
+
 你可能已经注意到我们可以通过在表达式中调用方法来达到同样的效果：
 
 ```html
@@ -593,12 +633,15 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 
 ```html
 <div id="app">
-    <fieldset><input type="text" placeholder="search.." v-model="condition" /></fieldset>
+    <fieldset>
+      <input type="text" placeholder="search.." v-model="condition" />
+    </fieldset>
     <fieldset>
         <span>{{areaResult}}</span>
     </fieldset>
 </div>
 
+<!-- 此处为了方便，采用cdn方式引用 -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
 <!-- 开发环境版本，包含了有帮助的命令行警告 -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -679,25 +722,38 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 <div v-bind:class="{ active: isActive }"></div>
 ```
 
-你可以在对象中传入更多属性来动态切换多个 class。此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:
+你可以在对象中传入更多属性来动态切换多个 class。
+
+此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:
 
 ```html
-<div id="app">
-<!-- 注意：类名 【text-danger】 中包含横杆所以需要引号包含 -->
-<div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
-    <h1>bind class</h1>
-</div>
-</div>
+<body>
+    <style>
+        .active {
+            background-color: lightgray;
+        }
 
-<script>
-var vm = new Vue({
-    el: '#app',
-    data: {
-    isActive: true,
-    hasError: false
-    }
-});
-</script>
+        .text-danger {
+            background-color: red;
+        }
+    </style>
+    <div id="app">
+        <!-- 注意：类名 【text-danger】 中包含'-'所以需要引号包含 -->
+        <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+            <h1>bind class</h1>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                isActive: true,
+                hasError: false
+            }
+        });
+    </script>
+</body>
 ```
 
 结果渲染为：
@@ -809,6 +865,7 @@ CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记
 
 <a id="markdown-v-if" name="v-if"></a>
 ### v-if
+
 ```html
   <div id="app">
     <input type="text" v-model="number" />
@@ -856,54 +913,58 @@ v-for 指令需要使用 item in items 形式的特殊语法，items 是源数�
 v-for 还支持一个可选的第二个参数为当前项的索引。
 
 ```html
-  <div id="app">
-    <ul id="example-2">
-      <li v-for="(item, index) in items">
-        {{ parentMessage }} - {{ index }} - {{ item.message }}
-      </li>
-    </ul>
-  </div>
+<body>
+    <div id="app">
+        <ul id="example-2">
+            <li v-for="(item, index) in items">
+                {{ parentMessage }} - {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+    </div>
 
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        parentMessage: 'Parent',
-        items: [{
-            message: 'Foo'
-          },
-          {
-            message: 'Bar'
-          }
-        ]
-      }
-    });
-  </script>
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                parentMessage: 'Parent',
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        });
+    </script>
+</body>
 ```
 
 <a id="markdown-对象v-for" name="对象v-for"></a>
 #### 对象v-for
-```html
-  <div id="app">
-    <ul id="v-for-object" class="demo">
-      <li v-for="value in object">
-        {{ value }}
-      </li>
-    </ul>
-  </div>
 
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        object: {
-          firstName: 'John',
-          lastName: 'Doe',
-          age: 30
-        }
-      }
-    });
-  </script>
+```html
+<body>
+    <div id="app">
+        <ul id="v-for-object" class="demo">
+            <li v-for="value in object">
+                {{ value }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                object: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    age: 30
+                }
+            }
+        });
+    </script>
+</body>
 ```
 
 第二个的参数为键名：
@@ -936,6 +997,7 @@ Vue 包含一组观察数组的变异方法，所以它们也将会触发视图�
 * reverse()
 
 打开控制台，然后用前面例子的 items 数组调用变异方法：
+
 `vm.items.push({ message: 'Baz' }) `
 
 变异方法 (mutation method)，顾名思义，会改变被这些方法调用的原始数组。
@@ -1192,3 +1254,4 @@ methods: {
 ## 表单输入绑定
 
 > https://cn.vuejs.org/v2/guide/forms.html
+
