@@ -1,6 +1,7 @@
 <!-- TOC -->
 
 - [基本使用](#基本使用)
+    - [安装初体验](#安装初体验)
     - [实例](#实例)
         - [数据与方法](#数据与方法)
         - [实例生命周期钩子](#实例生命周期钩子)
@@ -46,6 +47,21 @@
 
 <a id="markdown-基本使用" name="基本使用"></a>
 # 基本使用
+
+<a id="markdown-安装初体验" name="安装初体验"></a>
+## 安装初体验
+使用 npm 命令初始化，然后安装 vue 框架：
+
+```shell
+# 初始化项目，生成 package.json 文件
+npm init
+# 以开发模式安装 Vue 框架
+npm install vue -D
+```
+
+创建 html 页面，项目结构及代码如下所示：
+
+![](../assets/Vue/npm_vue_install.png)
 
 <a id="markdown-实例" name="实例"></a>
 ## 实例
@@ -186,7 +202,7 @@ new Vue({
 ### 生命周期图示
 下图展示了实例的生命周期。你不需要立马弄明白所有的东西，不过随着你的不断学习和使用，它的参考价值会越来越高。
 
-![](..\assets\Vue\lifecycle.png)
+![](../assets/Vue/lifecycle.png)
 
 <a id="markdown-模板语法" name="模板语法"></a>
 ## 模板语法
@@ -460,7 +476,7 @@ Vue 知道 vm.reversedMessage 依赖于 vm.message，因此当 vm.message 发生
 
 在浏览器js控制台进行多次调用计算属性和方法发现，计算属性每次显示的为缓存，调用方法则会每次执行函数内容。
 
-![](..\assets\Vue\computed-function.png)
+![](../assets/Vue/computed-function.png)
 
 <a id="markdown-计算属性和侦听属性" name="计算属性和侦听属性"></a>
 #### 计算属性和侦听属性
