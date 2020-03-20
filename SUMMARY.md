@@ -24,6 +24,7 @@
 
 * [Vue](./Vue/README.md)
     * [Basic](./Vue/Basic.md)
+    * [Component](./Vue/VueComponent.md)
 
 * [专题]()
     * [Regex](./Topic/Regex.md)
