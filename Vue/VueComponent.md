@@ -10,6 +10,7 @@
         - [单个根元素](#单个根元素)
         - [监听子组件事件](#监听子组件事件)
         - [组件上 v-model](#组件上-v-model)
+        - [插槽替换内容](#插槽替换内容)
 
 <!-- /TOC -->
 
@@ -381,6 +382,37 @@ show(arg) {
 
 并且可以移除vue对象methods中定义的 `getValue` 方法，仍然可以实现和子组件视图的双向绑定。
 
+<a id="markdown-插槽替换内容" name="插槽替换内容"></a>
+### 插槽替换内容
+
+向子组件中传递内容，将 `alert-box` 标签中内容替换到组件模板的 `slot` 标签处
+
+```html
+<body>
+    <div id="app">
+        <alert-box>
+            something bad happened.
+        </alert-box>
+    </div>
+
+    <script>
+        // 组件的创建，需要在 创建vm对象前
+        Vue.component('alert-box', {
+            template: `
+            <div>
+                <strong>Error!</strong>
+                <slot></slot>
+            </div>
+            `
+        })
+        var vm = new Vue({
+            el: '#app',
+        });
+    </script>
+</body>
+```
+
+`slot` 标签相当于插槽，将父级调用的内容替换至插槽位置，目前我们只需要了解这些即可。
 
 
 
