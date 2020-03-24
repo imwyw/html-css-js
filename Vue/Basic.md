@@ -16,33 +16,37 @@
             - [参数](#参数)
             - [修饰符](#修饰符)
             - [缩写](#缩写)
-        - [指令小结](#指令小结)
-    - [计算属性和侦听器](#计算属性和侦听器)
-        - [基础例子](#基础例子)
-            - [计算属性缓存vs方法](#计算属性缓存vs方法)
-            - [计算属性和侦听属性](#计算属性和侦听属性)
-            - [计算属性的setter](#计算属性的setter)
-        - [侦听器](#侦听器)
-    - [Class 与 Style 绑定](#class-与-style-绑定)
-        - [绑定Class和Style](#绑定class和style)
-            - [对象绑定class](#对象绑定class)
-            - [数组绑定class](#数组绑定class)
-            - [绑定内联样式](#绑定内联样式)
     - [条件渲染](#条件渲染)
         - [v-if](#v-if)
         - [v-show](#v-show)
+        - [v-if vs v-show](#v-if-vs-v-show)
     - [列表渲染](#列表渲染)
         - [v-for](#v-for)
             - [数组v-for](#数组v-for)
             - [对象v-for](#对象v-for)
         - [数组更新检测](#数组更新检测)
         - [对象更新注意](#对象更新注意)
+    - [Class 与 Style 绑定](#class-与-style-绑定)
+        - [绑定Class和Style](#绑定class和style)
+            - [对象绑定class](#对象绑定class)
+            - [数组绑定class](#数组绑定class)
+            - [绑定内联样式](#绑定内联样式)
     - [事件处理](#事件处理)
         - [事件处理方法](#事件处理方法)
         - [内联处理器](#内联处理器)
         - [事件修饰符](#事件修饰符)
         - [按键修饰符](#按键修饰符)
+    - [指令小结](#指令小结)
     - [表单输入绑定](#表单输入绑定)
+    - [计算属性和侦听器](#计算属性和侦听器)
+        - [基础例子](#基础例子)
+            - [计算属性缓存vs方法](#计算属性缓存vs方法)
+            - [计算属性和侦听属性](#计算属性和侦听属性)
+            - [计算属性的setter](#计算属性的setter)
+        - [侦听器](#侦听器)
+    - [综合案例](#综合案例)
+        - [音乐播放器](#音乐播放器)
+        - [省份筛选](#省份筛选)
 
 <!-- /TOC -->
 
@@ -375,8 +379,578 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 
 它们看起来可能与普通的 HTML 略有不同，但 ` : 与 @ ` 对于特性名来说都是合法字符，在所有支持 Vue.js 的浏览器都能被正确地解析。
 
+
+
+
+
+<a id="markdown-条件渲染" name="条件渲染"></a>
+## 条件渲染
+
+<a id="markdown-v-if" name="v-if"></a>
+### v-if
+
+```html
+  <div id="app">
+    <input type="text" v-model="number" />
+    <hr />
+    <div v-if="number > 0">
+      大于0
+    </div>
+    <div v-else-if="number < 0">
+      小于0
+    </div>
+    <div v-else>
+      等于0
+    </div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        number: 0
+      }
+    });
+  </script>
+```
+
+<a id="markdown-v-show" name="v-show"></a>
+### v-show
+
+```html
+<div v-show="true">v-show</div>
+```
+
+不同的是带有 v-show 的元素始终会被渲染并保留在 DOM 中。
+
+v-show 只是简单地切换元素的 CSS 属性 display。
+
+<a id="markdown-v-if-vs-v-show" name="v-if-vs-v-show"></a>
+### v-if vs v-show
+`v-if` 是“真正”的条件渲染，因为它会确保在切换过程中条件块内的事件监听器和子组件适当地被销毁和重建。
+
+`v-if` 也是惰性的：如果在初始渲染时条件为假，则什么也不做——直到条件第一次变为真时，才会开始渲染条件块。
+
+相比之下，`v-show` 就简单得多——不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+
+一般来说，`v-if` 有更高的切换开销，而 `v-show` 有更高的初始渲染开销。
+
+因此，如果需要非常频繁地切换，则使用 `v-show` 较好；如果在运行时条件很少改变，则使用 `v-if` 较好。
+
+<a id="markdown-列表渲染" name="列表渲染"></a>
+## 列表渲染
+
+<a id="markdown-v-for" name="v-for"></a>
+### v-for
+
+<a id="markdown-数组v-for" name="数组v-for"></a>
+#### 数组v-for
+我们用 v-for 指令根据一组数组的选项列表进行渲染。
+
+v-for 指令需要使用 item in items 形式的特殊语法，items 是源数据数组并且 item 是数组元素迭代的别名。
+
+v-for 还支持一个可选的第二个参数为当前项的索引。
+
+```html
+<body>
+    <div id="app">
+        <ul id="example-2">
+            <li v-for="(item, index) in items">
+                {{ parentMessage }} - {{ index }} - {{ item.message }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                parentMessage: 'Parent',
+                items: [
+                    { message: 'Foo' },
+                    { message: 'Bar' }
+                ]
+            }
+        });
+    </script>
+</body>
+```
+
+<a id="markdown-对象v-for" name="对象v-for"></a>
+#### 对象v-for
+
+```html
+<body>
+    <div id="app">
+        <ul id="v-for-object" class="demo">
+            <li v-for="value in object">
+                {{ value }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                object: {
+                    firstName: 'John',
+                    lastName: 'Doe',
+                    age: 30
+                }
+            }
+        });
+    </script>
+</body>
+```
+
+第二个的参数为键名：
+
+```html
+<div v-for="(value, key) in object">
+  {{ key }}: {{ value }}
+</div>
+```
+
+第三个参数为索引：
+
+```html
+<div v-for="(value, key, index) in object">
+  {{ index }}. {{ key }}: {{ value }}
+</div>
+```
+
+<a id="markdown-数组更新检测" name="数组更新检测"></a>
+### 数组更新检测
+
+Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：
+
+* push()
+* pop()
+* shift()
+* unshift()
+* splice()
+* sort()
+* reverse()
+
+打开控制台，然后用前面例子的 items 数组调用变异方法：
+
+`vm.items.push({ message: 'Baz' }) `
+
+变异方法 (mutation method)，顾名思义，会改变被这些方法调用的原始数组。
+
+相比之下，也有非变异 (non-mutating method) 方法，例如：filter(), concat() 和 slice() 。
+
+这些不会改变原始数组，但总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
+
+```js
+vm.items = vm.items.filter(function (item) {
+  return item.message.match(/Foo/)
+})
+```
+
+**特别注意**
+
+由于 JavaScript 的限制，Vue 不能检测以下变动的数组：
+1. 当你利用索引直接设置一个项时，例如：`vm.items[indexOfItem] = newValue`
+2. 当你修改数组的长度时，例如：`vm.items.length = newLength`
+
+```js
+var vm = new Vue({
+  data: {
+    items: ['a', 'b', 'c']
+  }
+})
+vm.items[1] = 'x' // 不是响应性的
+vm.items.length = 2 // 不是响应性的
+```
+
+```js
+// Vue.set 使用set方法可以实现双向同步更新
+Vue.set(vm.items, indexOfItem, newValue)
+
+// Array.prototype.splice
+vm.items.splice(indexOfItem, 1, newValue)
+```
+
+你也可以使用 vm.$set 实例方法，该方法是全局方法 Vue.set 的一个别名：
+
+```js
+vm.$set(vm.items, indexOfItem, newValue)
+```
+
+<a id="markdown-对象更新注意" name="对象更新注意"></a>
+### 对象更新注意
+还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
+
+```js
+var vm = new Vue({
+  data: {
+    a: 1
+  }
+})
+// `vm.a` 现在是响应式的
+
+vm.b = 2
+// `vm.b` 不是响应式的
+```
+
+对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。
+
+但是，可以使用 Vue.set(object, key, value) 方法向嵌套对象添加响应式属性。
+
+例如，对于：
+
+```html
+var vm = new Vue({
+  data: {
+    userProfile: {
+      name: 'Anika'
+    }
+  }
+})
+```
+
+你可以添加一个新的 age 属性到嵌套的 userProfile 对象：
+
+```js
+Vue.set(vm.userProfile, 'age', 27)
+// 或者用下面的实例方法
+vm.$set(vm.userProfile, 'age', 27)
+```
+
+<a id="markdown-class-与-style-绑定" name="class-与-style-绑定"></a>
+## Class 与 Style 绑定
+操作元素的 class 列表和内联样式是数据绑定的一个常见需求。
+
+因为它们都是属性，所以我们可以用 v-bind 处理它们：只需要通过表达式计算出字符串结果即可。
+
+不过，字符串拼接麻烦且易错。因此，在将 v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。
+
+表达式结果的类型除了字符串之外，还可以是对象或数组。
+
+<a id="markdown-绑定class和style" name="绑定class和style"></a>
+### 绑定Class和Style
+
+<a id="markdown-对象绑定class" name="对象绑定class"></a>
+#### 对象绑定class
+
+我们可以传给 v-bind:class 一个对象，以动态地切换 class：
+
+```html
+<div v-bind:class="{ active: isActive }"></div>
+```
+
+你可以在对象中传入更多属性来动态切换多个 class。
+
+此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:
+
+```html
+<body>
+    <style>
+        .active {
+            background-color: lightgray;
+        }
+
+        .text-danger {
+            background-color: red;
+        }
+    </style>
+    <div id="app">
+        <!-- 注意：类名 【text-danger】 中包含'-'所以需要引号包含 -->
+        <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
+            <h1>bind class</h1>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                isActive: true,
+                hasError: false
+            }
+        });
+    </script>
+</body>
+```
+
+结果渲染为：
+
+```html
+<div class="static active"></div>
+```
+
+绑定的数据对象不必内联定义在模板里：
+
+```html
+  <div id="app">
+    <div v-bind:class="classObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        classObject: {
+          active: true,
+          'text-danger': false
+        }
+      }
+    });
+  </script>
+```
+
+渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式：
+
+```html
+  <div id="app">
+    <div v-bind:class="classObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        isActive: true,
+        error: null
+      },
+      computed: {
+        classObject: function () {
+          return {
+            active: this.isActive && !this.error,
+            'text-danger': this.error && this.error.type === 'fatal'
+          }
+        }
+      }
+    });
+  </script>
+```
+
+<a id="markdown-数组绑定class" name="数组绑定class"></a>
+#### 数组绑定class
+我们可以把一个数组传给 v-bind:class，以应用一个 class 列表：
+
+```html
+  <div id="app">
+    <div v-bind:class="[activeClass, errorClass]"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        activeClass: 'active',
+        errorClass: 'text-danger'
+      }
+    });
+  </script>
+```
+
+渲染为：
+
+```html
+<div class="active text-danger"></div>
+```
+
+<a id="markdown-绑定内联样式" name="绑定内联样式"></a>
+#### 绑定内联样式
+`v-bind:style` 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
+
+CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来) 来命名：
+
+```html
+  <div id="app">
+    <div v-bind:style="styleObject"></div>
+  </div>
+
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        styleObject: {
+          color: 'red',
+          fontSize: '13px'
+        }
+      }
+    });
+  </script>
+```
+
+同样也支持数组语法绑定，暂略。
+
+<a id="markdown-事件处理" name="事件处理"></a>
+## 事件处理
+
+可以用 v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。
+
+```html
+<div id="example-1">
+  <button v-on:click="counter += 1">Add 1</button>
+  <p>The button above has been clicked {{ counter }} times.</p>
+</div>
+```
+
+```js
+var example1 = new Vue({
+  el: '#example-1',
+  data: {
+    counter: 0
+  }
+})
+```
+
+<a id="markdown-事件处理方法" name="事件处理方法"></a>
+### 事件处理方法
+`v-on`绑定事件对象的传递：
+
+```html
+<div id="example-2">
+  <!-- `greet` 是在下面定义的方法名 -->
+  <button v-on:click="greet">Greet</button>
+</div>
+```
+
+```js
+var example2 = new Vue({
+  el: '#example-2',
+  data: {
+    name: 'Vue.js'
+  },
+  // 在 `methods` 对象中定义方法
+  methods: {
+    greet: function (event) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert('Hello ' + this.name + '!')
+      // `event` 是原生 DOM 事件
+      if (event) {
+        alert(event.target.tagName)
+      }
+    }
+  }
+})
+
+// 也可以用 JavaScript 直接调用方法
+example2.greet() // => 'Hello Vue.js!'
+```
+
+<a id="markdown-内联处理器" name="内联处理器"></a>
+### 内联处理器
+```html
+<div id="example-3">
+  <button v-on:click="say('hi')">Say hi</button>
+  <button v-on:click="say('what')">Say what</button>
+</div>
+```
+
+```js
+new Vue({
+  el: '#example-3',
+  methods: {
+    say: function (message) {
+      alert(message)
+    }
+  }
+})
+```
+
+有时也需要在内联语句处理器中访问原始的 DOM 事件。可以用特殊变量 $event 把它传入方法：
+
+```html
+<button v-on:click="warn('Form cannot be submitted yet.', $event)">
+  Submit
+</button>
+```
+
+```js
+// ...
+methods: {
+  warn: function (message, event) {
+    // 现在我们可以访问原生事件对象
+    if (event) event.preventDefault()
+    alert(message)
+  }
+}
+```
+
+<a id="markdown-事件修饰符" name="事件修饰符"></a>
+### 事件修饰符
+
+在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。
+
+尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
+
+为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
+
+* .stop
+* .prevent
+* .capture
+* .self
+* .once
+* .passive
+
+```html
+<!-- 阻止单击事件继续传播 -->
+<a v-on:click.stop="doThis"></a>
+
+<!-- 提交事件不再重载页面 -->
+<form v-on:submit.prevent="onSubmit"></form>
+
+<!-- 修饰符可以串联 -->
+<a v-on:click.stop.prevent="doThat"></a>
+
+<!-- 只有修饰符 -->
+<form v-on:submit.prevent></form>
+
+<!-- 添加事件监听器时使用事件捕获模式 -->
+<!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
+<div v-on:click.capture="doThis">...</div>
+
+<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+<!-- 即事件不是从内部元素触发的 -->
+<div v-on:click.self="doThat">...</div>
+```
+
+使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 
+
+`v-on:click.prevent.self` 会阻止所有的点击，而 
+
+`v-on:click.self.prevent` 只会阻止对元素自身的点击。
+
+<a id="markdown-按键修饰符" name="按键修饰符"></a>
+### 按键修饰符
+在监听键盘事件时，我们经常需要检查常见的键值。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符：
+```html
+<!-- 只有在 `keyCode` 是 13 时调用 `vm.submit()` -->
+<input v-on:keyup.13="submit">
+```
+
+记住所有的 keyCode 比较困难，所以 Vue 为最常用的按键提供了别名：
+
+```html
+<!-- 同上 -->
+<input v-on:keyup.enter="submit">
+
+<!-- 缩写语法 -->
+<input @keyup.enter="submit">
+```
+
+全部的按键别名：
+
+* .enter
+* .tab
+* .delete (捕获“删除”和“退格”键)
+* .esc
+* .space
+* .up
+* .down
+* .left
+* .right
+
 <a id="markdown-指令小结" name="指令小结"></a>
-### 指令小结
+## 指令小结
 
 * `{{}}` 双大括号，模板语法对应数据属性
 * `v-text` innerText，eg: `<label v-text="message"></label>`
@@ -387,6 +961,11 @@ Vue.js 为 v-bind 和 v-on 这两个最常用的指令，提供了特定简写�
 * `v-bind` 绑定元素属性简写，ge：`<input type="text" v-bind:id="prod_id">`
 * `v-model` 双向绑定，
 * `v-for` 遍历数组或对象
+
+<a id="markdown-表单输入绑定" name="表单输入绑定"></a>
+## 表单输入绑定
+
+> https://cn.vuejs.org/v2/guide/forms.html
 
 <a id="markdown-计算属性和侦听器" name="计算属性和侦听器"></a>
 ## 计算属性和侦听器
@@ -627,9 +1206,49 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 
 虽然计算属性在大多数情况下更合适，但有时也需要一个自定义的侦听器。
 
-这就是为什么 Vue 通过 watch 选项提供了一个更通用的方法，来响应数据的变化。
+这就是为什么 Vue 通过 `watch` 选项提供了一个更通用的方法，来响应数据的变化。
 
 当需要在数据变化时执行异步或开销较大的操作时，这个方式是最有用的。
+
+```html
+<body>
+    <div id="app">
+        <input type="text" v-model="searchText">
+        <h4>{{output}}</h4>
+    </div>
+
+    <script>
+
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    searchText: '',
+                    output: ''
+                };
+            },
+            watch: {
+                searchText(newInput, oldInput) {
+                    vm.output = `new value is : ${newInput},old value is :${oldInput}`;
+                }
+            }
+        });
+    </script>
+</body>
+```
+
+虽然上面的案例很没有必要，完全可以使用 `计算属性` 代替掉，但是可以很好的说明侦听器的语法。
+
+下面案例 [省份列表筛选案例](#城市筛选) 可以更好的说明侦听器的应用。
+
+<a id="markdown-综合案例" name="综合案例"></a>
+## 综合案例
+
+<a id="markdown-音乐播放器" name="音乐播放器"></a>
+### 音乐播放器
+
+<a id="markdown-省份筛选" name="省份筛选"></a>
+### 省份筛选
 
 ```html
 <div id="app">
@@ -699,559 +1318,3 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
     })
 </script>
 ```
-
-<a id="markdown-class-与-style-绑定" name="class-与-style-绑定"></a>
-## Class 与 Style 绑定
-操作元素的 class 列表和内联样式是数据绑定的一个常见需求。
-
-因为它们都是属性，所以我们可以用 v-bind 处理它们：只需要通过表达式计算出字符串结果即可。
-
-不过，字符串拼接麻烦且易错。因此，在将 v-bind 用于 class 和 style 时，Vue.js 做了专门的增强。
-
-表达式结果的类型除了字符串之外，还可以是对象或数组。
-
-<a id="markdown-绑定class和style" name="绑定class和style"></a>
-### 绑定Class和Style
-
-<a id="markdown-对象绑定class" name="对象绑定class"></a>
-#### 对象绑定class
-
-我们可以传给 v-bind:class 一个对象，以动态地切换 class：
-
-```html
-<div v-bind:class="{ active: isActive }"></div>
-```
-
-你可以在对象中传入更多属性来动态切换多个 class。
-
-此外，v-bind:class 指令也可以与普通的 class 属性共存。当有如下模板:
-
-```html
-<body>
-    <style>
-        .active {
-            background-color: lightgray;
-        }
-
-        .text-danger {
-            background-color: red;
-        }
-    </style>
-    <div id="app">
-        <!-- 注意：类名 【text-danger】 中包含'-'所以需要引号包含 -->
-        <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }">
-            <h1>bind class</h1>
-        </div>
-    </div>
-
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                isActive: true,
-                hasError: false
-            }
-        });
-    </script>
-</body>
-```
-
-结果渲染为：
-
-```html
-<div class="static active"></div>
-```
-
-绑定的数据对象不必内联定义在模板里：
-
-```html
-  <div id="app">
-    <div v-bind:class="classObject"></div>
-  </div>
-
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        classObject: {
-          active: true,
-          'text-danger': false
-        }
-      }
-    });
-  </script>
-```
-
-渲染的结果和上面一样。我们也可以在这里绑定一个返回对象的计算属性。这是一个常用且强大的模式：
-
-```html
-  <div id="app">
-    <div v-bind:class="classObject"></div>
-  </div>
-
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        isActive: true,
-        error: null
-      },
-      computed: {
-        classObject: function () {
-          return {
-            active: this.isActive && !this.error,
-            'text-danger': this.error && this.error.type === 'fatal'
-          }
-        }
-      }
-    });
-  </script>
-```
-
-<a id="markdown-数组绑定class" name="数组绑定class"></a>
-#### 数组绑定class
-我们可以把一个数组传给 v-bind:class，以应用一个 class 列表：
-
-```html
-  <div id="app">
-    <div v-bind:class="[activeClass, errorClass]"></div>
-  </div>
-
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        activeClass: 'active',
-        errorClass: 'text-danger'
-      }
-    });
-  </script>
-```
-
-渲染为：
-
-```html
-<div class="active text-danger"></div>
-```
-
-<a id="markdown-绑定内联样式" name="绑定内联样式"></a>
-#### 绑定内联样式
-`v-bind:style` 的对象语法十分直观——看着非常像 CSS，但其实是一个 JavaScript 对象。
-
-CSS 属性名可以用驼峰式 (camelCase) 或短横线分隔 (kebab-case，记得用单引号括起来) 来命名：
-
-```html
-  <div id="app">
-    <div v-bind:style="styleObject"></div>
-  </div>
-
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        styleObject: {
-          color: 'red',
-          fontSize: '13px'
-        }
-      }
-    });
-  </script>
-```
-
-同样也支持数组语法绑定，暂略。
-
-<a id="markdown-条件渲染" name="条件渲染"></a>
-## 条件渲染
-
-<a id="markdown-v-if" name="v-if"></a>
-### v-if
-
-```html
-  <div id="app">
-    <input type="text" v-model="number" />
-    <hr />
-    <div v-if="number > 0">
-      大于0
-    </div>
-    <div v-else-if="number < 0">
-      小于0
-    </div>
-    <div v-else>
-      等于0
-    </div>
-  </div>
-
-  <script>
-    var vm = new Vue({
-      el: '#app',
-      data: {
-        number: 0
-      }
-    });
-  </script>
-```
-
-<a id="markdown-v-show" name="v-show"></a>
-### v-show
-
-```html
-<div v-show="true">v-show</div>
-```
-
-<a id="markdown-列表渲染" name="列表渲染"></a>
-## 列表渲染
-
-<a id="markdown-v-for" name="v-for"></a>
-### v-for
-
-<a id="markdown-数组v-for" name="数组v-for"></a>
-#### 数组v-for
-我们用 v-for 指令根据一组数组的选项列表进行渲染。
-
-v-for 指令需要使用 item in items 形式的特殊语法，items 是源数据数组并且 item 是数组元素迭代的别名。
-
-v-for 还支持一个可选的第二个参数为当前项的索引。
-
-```html
-<body>
-    <div id="app">
-        <ul id="example-2">
-            <li v-for="(item, index) in items">
-                {{ parentMessage }} - {{ index }} - {{ item.message }}
-            </li>
-        </ul>
-    </div>
-
-    <script src="../node_modules/vue/dist/vue.js"></script>
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                parentMessage: 'Parent',
-                items: [
-                    { message: 'Foo' },
-                    { message: 'Bar' }
-                ]
-            }
-        });
-    </script>
-</body>
-```
-
-<a id="markdown-对象v-for" name="对象v-for"></a>
-#### 对象v-for
-
-```html
-<body>
-    <div id="app">
-        <ul id="v-for-object" class="demo">
-            <li v-for="value in object">
-                {{ value }}
-            </li>
-        </ul>
-    </div>
-
-    <script src="../node_modules/vue/dist/vue.js"></script>
-    <script>
-        var vm = new Vue({
-            el: '#app',
-            data: {
-                object: {
-                    firstName: 'John',
-                    lastName: 'Doe',
-                    age: 30
-                }
-            }
-        });
-    </script>
-</body>
-```
-
-第二个的参数为键名：
-
-```html
-<div v-for="(value, key) in object">
-  {{ key }}: {{ value }}
-</div>
-```
-
-第三个参数为索引：
-
-```html
-<div v-for="(value, key, index) in object">
-  {{ index }}. {{ key }}: {{ value }}
-</div>
-```
-
-<a id="markdown-数组更新检测" name="数组更新检测"></a>
-### 数组更新检测
-
-Vue 包含一组观察数组的变异方法，所以它们也将会触发视图更新。这些方法如下：
-
-* push()
-* pop()
-* shift()
-* unshift()
-* splice()
-* sort()
-* reverse()
-
-打开控制台，然后用前面例子的 items 数组调用变异方法：
-
-`vm.items.push({ message: 'Baz' }) `
-
-变异方法 (mutation method)，顾名思义，会改变被这些方法调用的原始数组。
-
-相比之下，也有非变异 (non-mutating method) 方法，例如：filter(), concat() 和 slice() 。
-
-这些不会改变原始数组，但总是返回一个新数组。当使用非变异方法时，可以用新数组替换旧数组：
-
-```js
-vm.items = vm.items.filter(function (item) {
-  return item.message.match(/Foo/)
-})
-```
-
-**特别注意**
-
-由于 JavaScript 的限制，Vue 不能检测以下变动的数组：
-1. 当你利用索引直接设置一个项时，例如：`vm.items[indexOfItem] = newValue`
-2. 当你修改数组的长度时，例如：`vm.items.length = newLength`
-
-```js
-var vm = new Vue({
-  data: {
-    items: ['a', 'b', 'c']
-  }
-})
-vm.items[1] = 'x' // 不是响应性的
-vm.items.length = 2 // 不是响应性的
-```
-
-```js
-// Vue.set 使用set方法可以实现双向同步更新
-Vue.set(vm.items, indexOfItem, newValue)
-
-// Array.prototype.splice
-vm.items.splice(indexOfItem, 1, newValue)
-```
-
-你也可以使用 vm.$set 实例方法，该方法是全局方法 Vue.set 的一个别名：
-
-```js
-vm.$set(vm.items, indexOfItem, newValue)
-```
-
-<a id="markdown-对象更新注意" name="对象更新注意"></a>
-### 对象更新注意
-还是由于 JavaScript 的限制，Vue 不能检测对象属性的添加或删除：
-
-```js
-var vm = new Vue({
-  data: {
-    a: 1
-  }
-})
-// `vm.a` 现在是响应式的
-
-vm.b = 2
-// `vm.b` 不是响应式的
-```
-
-对于已经创建的实例，Vue 不能动态添加根级别的响应式属性。
-
-但是，可以使用 Vue.set(object, key, value) 方法向嵌套对象添加响应式属性。
-
-例如，对于：
-
-```html
-var vm = new Vue({
-  data: {
-    userProfile: {
-      name: 'Anika'
-    }
-  }
-})
-```
-
-你可以添加一个新的 age 属性到嵌套的 userProfile 对象：
-
-```js
-Vue.set(vm.userProfile, 'age', 27)
-// 或者用下面的实例方法
-vm.$set(vm.userProfile, 'age', 27)
-```
-
-<a id="markdown-事件处理" name="事件处理"></a>
-## 事件处理
-
-可以用 v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。
-
-```html
-<div id="example-1">
-  <button v-on:click="counter += 1">Add 1</button>
-  <p>The button above has been clicked {{ counter }} times.</p>
-</div>
-```
-
-```js
-var example1 = new Vue({
-  el: '#example-1',
-  data: {
-    counter: 0
-  }
-})
-```
-
-<a id="markdown-事件处理方法" name="事件处理方法"></a>
-### 事件处理方法
-`v-on`绑定事件对象的传递：
-
-```html
-<div id="example-2">
-  <!-- `greet` 是在下面定义的方法名 -->
-  <button v-on:click="greet">Greet</button>
-</div>
-```
-
-```js
-var example2 = new Vue({
-  el: '#example-2',
-  data: {
-    name: 'Vue.js'
-  },
-  // 在 `methods` 对象中定义方法
-  methods: {
-    greet: function (event) {
-      // `this` 在方法里指向当前 Vue 实例
-      alert('Hello ' + this.name + '!')
-      // `event` 是原生 DOM 事件
-      if (event) {
-        alert(event.target.tagName)
-      }
-    }
-  }
-})
-
-// 也可以用 JavaScript 直接调用方法
-example2.greet() // => 'Hello Vue.js!'
-```
-
-<a id="markdown-内联处理器" name="内联处理器"></a>
-### 内联处理器
-```html
-<div id="example-3">
-  <button v-on:click="say('hi')">Say hi</button>
-  <button v-on:click="say('what')">Say what</button>
-</div>
-```
-
-```js
-new Vue({
-  el: '#example-3',
-  methods: {
-    say: function (message) {
-      alert(message)
-    }
-  }
-})
-```
-
-有时也需要在内联语句处理器中访问原始的 DOM 事件。可以用特殊变量 $event 把它传入方法：
-
-```html
-<button v-on:click="warn('Form cannot be submitted yet.', $event)">
-  Submit
-</button>
-```
-
-```js
-// ...
-methods: {
-  warn: function (message, event) {
-    // 现在我们可以访问原生事件对象
-    if (event) event.preventDefault()
-    alert(message)
-  }
-}
-```
-
-<a id="markdown-事件修饰符" name="事件修饰符"></a>
-### 事件修饰符
-
-在事件处理程序中调用 event.preventDefault() 或 event.stopPropagation() 是非常常见的需求。
-
-尽管我们可以在方法中轻松实现这点，但更好的方式是：方法只有纯粹的数据逻辑，而不是去处理 DOM 事件细节。
-
-为了解决这个问题，Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。
-
-* .stop
-* .prevent
-* .capture
-* .self
-* .once
-* .passive
-
-```html
-<!-- 阻止单击事件继续传播 -->
-<a v-on:click.stop="doThis"></a>
-
-<!-- 提交事件不再重载页面 -->
-<form v-on:submit.prevent="onSubmit"></form>
-
-<!-- 修饰符可以串联 -->
-<a v-on:click.stop.prevent="doThat"></a>
-
-<!-- 只有修饰符 -->
-<form v-on:submit.prevent></form>
-
-<!-- 添加事件监听器时使用事件捕获模式 -->
-<!-- 即元素自身触发的事件先在此处理，然后才交由内部元素进行处理 -->
-<div v-on:click.capture="doThis">...</div>
-
-<!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
-<!-- 即事件不是从内部元素触发的 -->
-<div v-on:click.self="doThat">...</div>
-```
-
-使用修饰符时，顺序很重要；相应的代码会以同样的顺序产生。因此，用 
-
-`v-on:click.prevent.self` 会阻止所有的点击，而 
-
-`v-on:click.self.prevent` 只会阻止对元素自身的点击。
-
-<a id="markdown-按键修饰符" name="按键修饰符"></a>
-### 按键修饰符
-在监听键盘事件时，我们经常需要检查常见的键值。Vue 允许为 v-on 在监听键盘事件时添加按键修饰符：
-```html
-<!-- 只有在 `keyCode` 是 13 时调用 `vm.submit()` -->
-<input v-on:keyup.13="submit">
-```
-
-记住所有的 keyCode 比较困难，所以 Vue 为最常用的按键提供了别名：
-
-```html
-<!-- 同上 -->
-<input v-on:keyup.enter="submit">
-
-<!-- 缩写语法 -->
-<input @keyup.enter="submit">
-```
-
-全部的按键别名：
-
-* .enter
-* .tab
-* .delete (捕获“删除”和“退格”键)
-* .esc
-* .space
-* .up
-* .down
-* .left
-* .right
-
-<a id="markdown-表单输入绑定" name="表单输入绑定"></a>
-## 表单输入绑定
-
-> https://cn.vuejs.org/v2/guide/forms.html
-
