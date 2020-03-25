@@ -1306,7 +1306,7 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 
 省份数据： http://map.baidu.com/?qt=sub_area_list&areacode=1&level=1
 
-省份包含地市数据； http://map.baidu.com/?qt=sub_area_list&areacode=1&level=2
+省份包含地市数据： http://map.baidu.com/?qt=sub_area_list&areacode=1&level=2
 
 实现省份名称的筛选：
 
