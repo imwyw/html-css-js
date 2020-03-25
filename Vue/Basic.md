@@ -46,7 +46,7 @@
         - [侦听器](#侦听器)
     - [综合案例](#综合案例)
         - [音乐播放器](#音乐播放器)
-        - [省份筛选](#省份筛选)
+        - [行政区域筛选](#行政区域筛选)
 
 <!-- /TOC -->
 
@@ -1246,75 +1246,145 @@ Vue 提供了一种更通用的方式来观察和响应 Vue 实例上的数据�
 
 <a id="markdown-音乐播放器" name="音乐播放器"></a>
 ### 音乐播放器
-
-<a id="markdown-省份筛选" name="省份筛选"></a>
-### 省份筛选
+以下综合案例演示了一个非常简单的音乐播放器，使用到了以下知识点：
+* `{{}}` 模板语法
+* `:src` 属性绑定
+* `v-for` 遍历数组
+* `:class` 样式绑定
+* `@click` 事件注册处理
 
 ```html
-<div id="app">
-    <fieldset>
-      <input type="text" placeholder="search.." v-model="condition" />
-    </fieldset>
-    <fieldset>
-        <span>{{areaResult}}</span>
-    </fieldset>
-</div>
+<body>
+    <style>
+        ul li {
+            line-height: 30px;
+            cursor: pointer;
+        }
 
-<!-- 此处为了方便，采用cdn方式引用 -->
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<!-- 开发环境版本，包含了有帮助的命令行警告 -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        ul li:hover {
+            background-color: aliceblue;
+        }
 
-<script>
-    var vm = new Vue({
-        el: '#app',
-        data: {
-            condition: '',
-            areaResult: '',
-        },
-        // 实例已经创建完成之后被调用
-        created: function () {
-            // 通过ajax获取区域数据
-            this.getBaiduAreas();
-        },
-        methods: {
-            getBaiduAreas: function () {
-                // 跨域问题，无法直接请求，使用jsonp方式进行请求获取全国省份数据
-                $.ajax({
-                    url: 'http://map.baidu.com/?qt=sub_area_list&areacode=1&level=1',
-                    method: 'get',
-                    dataType: 'jsonp',
-                    jsonpCallback: 'vm.areaBack',
-                });
-            },
-            // 回调设置全国省份数据
-            areaBack: function (data) {
-                // 设置属性，以便后续的侦听筛选
-                vm.areas = data.content.sub;
-                // 设置默认的结果值
-                vm.areaResult = $.map(vm.areas, function (v) {
-                    return v.area_name;
-                });
+        .music-playing {
+            background-color: lightblue;
+        }
+    </style>
+    <div id="app">
+        <audio :src="musicList[currentIndex].songsrc" style="width: 100%" controls autoplay></audio>
+        <hr>
+        <ul>
+            <li v-for="(item,index) in musicList" :class="{'music-playing':currentIndex==index}"
+                @click="currentIndex=index">
+                歌曲名称：{{item.name}}，歌手：{{item.author}}
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    currentIndex: 0,
+                    // 此处指定相对路径的音乐资源
+                    musicList: [
+                        { name: '可能否', author: '腾格尔', songsrc: '../static/可能否-腾格尔.mp3' },
+                        { name: '可惜没如果', author: '林俊杰', songsrc: '../static/可惜没如果 - 林俊杰.mp3' },
+                        { name: '空空如也', author: '胡66', songsrc: '../static/空空如也 - 胡66.mp3' },
+                    ]
+                };
             }
-        },
-        // 侦听属性
-        watch: {
-            // 侦听条件变化
-            condition: function () {
-                if (vm.condition.length > 0) {
-                    // 按照条件筛选对象，map构造新的数组
-                    vm.areaResult = $.map(vm.areas, function (v) {
-                        if (v.area_name.indexOf(vm.condition) > -1) {
-                            return v.area_name;
-                        }
+        })
+    </script>
+</body>
+```
+
+<a id="markdown-行政区域筛选" name="行政区域筛选"></a>
+### 行政区域筛选
+百度获取行政区域：
+
+省份数据： http://map.baidu.com/?qt=sub_area_list&areacode=1&level=1
+
+省份包含地市数据； http://map.baidu.com/?qt=sub_area_list&areacode=1&level=2
+
+实现省份名称的筛选：
+
+```html
+<body>
+    <div id="app">
+        <fieldset>
+            <input type="text" placeholder="search.." v-model="condition" />
+        </fieldset>
+        <fieldset>
+            <ul>
+                <li v-for="(item,index) in areaResult">{{item}}</li>
+            </ul>
+        </fieldset>
+    </div>
+
+    <!-- 此处为了方便，采用cdn方式引用 -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                condition: '',
+                // areas为api返回的数据：[{area_code:xxx,area_name:'',area_type:xxx}...]
+                areas: [],
+                // 仅包含所有省份名称的数组
+                areaResult: '',
+            },
+            // 实例已经创建完成之后被调用
+            created: function () {
+                // 通过ajax获取区域数据
+                this.getBaiduAreas();
+            },
+            methods: {
+                getBaiduAreas() {
+                    // 跨域问题，无法直接请求，使用jsonp方式进行请求获取全国省份数据
+                    $.ajax({
+                        url: 'http://map.baidu.com/?qt=sub_area_list&areacode=1&level=1',
+                        method: 'get',
+                        dataType: 'jsonp',
+                        jsonpCallback: 'vm.areaBack',
                     });
-                } else {
+                },
+                // 回调设置全国省份数据
+                areaBack(data) {
+                    // 设置属性，以便后续的筛选
+                    vm.areas = data.content.sub;
+                    // 设置默认的结果值
                     vm.areaResult = $.map(vm.areas, function (v) {
                         return v.area_name;
                     });
                 }
+            },
+            // 侦听属性
+            watch: {
+                // 侦听条件变化
+                condition() {
+                    if (vm.condition.length > 0) {
+                        // 按照条件筛选对象，map构造新的数组
+                        vm.areaResult = $.map(vm.areas, function (v) {
+                            if (v.area_name.indexOf(vm.condition) > -1) {
+                                return v.area_name;
+                            }
+                        });
+                    } else {
+                        vm.areaResult = $.map(vm.areas, function (v) {
+                            return v.area_name;
+                        });
+                    }
+                }
             }
-        }
-    })
-</script>
+        })
+    </script>
+</body>
 ```
+
+
+
