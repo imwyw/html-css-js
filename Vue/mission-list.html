@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>任务列表</title>
+</head>
+
+<body>
+    <style>
+        ul {
+            width: 400px;
+        }
+
+        ul li {
+            line-height: 35px;
+            list-style: none;
+            padding-left: 5px;
+            border: 1px solid;
+        }
+
+        .current-show {
+            color: red;
+            background-color: lightpink;
+        }
+    </style>
+
+    <div id="app">
+        <h4>新增任务：</h4>
+        任务名称：
+        <input type="text" v-model="inputTaskName" @keyup.enter="saveTask">
+        <button @click="saveTask">添加</button>
+        <hr>
+
+        <h2>=====================任务清单=====================</h2>
+        <button stype="all" :class="{'current-show':'all'==currentShowType}"
+            @click="switchShow">显示所有任务【{{allCount}}】</button>
+        <button stype="done" :class="{'current-show':'done'==currentShowType}"
+            @click="switchShow">显示已完成任务【{{doneCount}}】</button>
+        <button stype="undone" :class="{'current-show':'undone'==currentShowType}"
+            @click="switchShow">显示未完成任务【{{unDoneCount}}】</button>
+
+        <hr>
+        <ul>
+            <!-- 此处巨坑呐！！！在使用vfor遍历的时候key还是要必须加上的，否则会产生渲染不同步的问题 -->
+            <li v-for="(item,index) in showList" :key="item.rid">
+                <input type="checkbox" v-model="item.completed" :id="item.rid">
+                <label :for="item.rid">【{{item.name}}】</label>
+                <button @click="removeTask($event,item)">移除</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        /*
+        需求：
+        1、可以通过按钮【添加】和按键【回车】实现任务的快速添加，默认为未完成状态；
+        2、任务有三种显示状态：显示所有、显示已完成、显示未完成，当前显示的状态需要有样式标记（如图）；
+        3、列表中展示任务信息，checkbox表示是否已完成，每个任务后的【移除】按钮可以删除任务；
+        4、不同任务状态的统计数目需要同步显示至三个按钮中；
+        5、界面样式不做任务显示，功能实现即可；
+        
+        提示：
+        1、需要使用vue中data、computed、methods
+        2、统计数目需要借助计算属性实现
+        3、任务数组需要保存data属性中，通过filter来筛选展示，通过splice进行删除
+        4、需要有标记值来区分当前显示的状态
+        */
+
+        /**
+        Task类
+        name 任务名称
+        completed 是否完成
+        rid 唯一编号，用于区分
+        */
+        class Task {
+
+            constructor(name, completed) {
+                this.name = name;
+                this.completed = completed;
+                this.rid = Math.random();
+            }
+        }
+
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    // 任务列表
+                    taskList: [
+                        new Task('学习', true),
+                        new Task('LOL', false)
+                    ],
+                    // 新增任务时的任务名称
+                    inputTaskName: '',
+                    // 当前任务显示类型，默认为显示所有
+                    currentShowType: 'all',
+                };
+            },
+            computed: {
+                // 所有任务数目
+                allCount() {
+                    return this.taskList.length;
+                },
+                // 已完成任务数目
+                doneCount() {
+                    let count = 0;
+                    this.taskList.forEach(t => {
+                        if (t.completed) {
+                            count++;
+                        }
+                    });
+                    return count;
+                },
+                // 未完成任务数目
+                unDoneCount() {
+                    return this.allCount - this.doneCount;
+                },
+                // 此处很重要，实现不同状态的显示，通过计算属性来实现，避免复杂的判断逻辑
+                showList() {
+                    if (this.currentShowType == 'all') {
+                        return this.taskList;
+                    } else {
+                        if (this.currentShowType == 'done') {
+                            return this.taskList.filter(t => t.completed);
+                        } else {
+                            return this.taskList.filter(t => !t.completed);
+                        }
+                    }
+                },
+            },
+            methods: {
+                // 移除任务
+                removeTask(e, task) {
+                    this.taskList.forEach((t, i) => {
+                        if (t.rid == task.rid) {
+                            this.taskList.splice(i, 1);
+                            return false;//删除后跳出循环
+                        }
+                    });
+                },
+                // 新增任务
+                saveTask(e) {
+                    if (this.inputTaskName.trim().length == 0) {
+                        return;
+                    }
+                    // 添加至任务数组中，默认为未完成
+                    this.taskList.push(new Task(this.inputTaskName, false));
+                    this.inputTaskName = '';
+                },
+                switchShow(e) {
+                    this.currentShowType = e.target.getAttribute('stype');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
