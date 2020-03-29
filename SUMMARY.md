@@ -26,10 +26,10 @@
     * [Basic](./Vue/Basic.md)
     * [Component](./Vue/VueComponent.md)
     * [Router](./Vue/Router.md)
+    * [Axios](./Vue/Axios.md)
 
 * [专题]()
     * [Regex](./Topic/Regex.md)
-    * [Axios](./Topic/Axios.md)
     * [Webpack](./Topic/Webpack.md)
 
     
