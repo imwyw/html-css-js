@@ -8,6 +8,12 @@
         - [axios API](#axios-api)
         - [请求配置](#请求配置)
         - [响应结构](#响应结构)
+    - [全局配置](#全局配置)
+    - [拦截器](#拦截器)
+    - [综合案例](#综合案例)
+        - [全局跨域设置](#全局跨域设置)
+        - [后端API控制器](#后端api控制器)
+        - [基于Vue的前端Axios交互](#基于vue的前端axios交互)
 
 <!-- /TOC -->
 
@@ -277,6 +283,316 @@ axios.get('/user/12345')
     console.log(response.config);
   });
 ```
+
+<a id="markdown-全局配置" name="全局配置"></a>
+## 全局配置
+你可以指定将被用在各个请求的配置默认值
+
+```js
+// 全局的 axios 默认值
+axios.defaults.baseURL = 'https://api.example.com';
+axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+```
+
+<a id="markdown-拦截器" name="拦截器"></a>
+## 拦截器
+
+在请求或响应被 then 或 catch 处理前拦截它们。
+
+```js
+// 添加请求拦截器
+axios.interceptors.request.use(function (config) {
+    // 在发送请求之前做些什么
+    return config;
+  }, function (error) {
+    // 对请求错误做些什么
+    return Promise.reject(error);
+  });
+
+// 添加响应拦截器
+axios.interceptors.response.use(function (response) {
+    // 对响应数据做点什么
+    return response;
+  }, function (error) {
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
+```
+
+<a id="markdown-综合案例" name="综合案例"></a>
+## 综合案例
+结合 ASP.NET Core WebAPI，实现产品的基本 CRUD 操作。
+
+<a id="markdown-全局跨域设置" name="全局跨域设置"></a>
+### 全局跨域设置
+新增的 WebAPI 项目需要支持跨域，修改 【Startup】类中 `ConfigureServices()` 和 `Configure()`
+
+```cs
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddControllers();
+
+    // 注入跨域设置
+    services.AddCors(opt =>
+    {
+        // 增加全局跨域规则，global_cors 是规则名称，UseCors需要使用到
+        opt.AddPolicy("global_cors", cor =>
+        {
+            // 允许所有来源的 CORS 请求和任何方案（http 或 https）
+            cor.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod();
+        });
+    });
+}
+
+public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+{
+    if (env.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+
+    // 按照规则名称应用跨域规则
+    app.UseCors("global_cors");
+
+    app.UseRouting();
+
+    app.UseAuthorization();
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+    });
+}
+```
+
+<a id="markdown-后端api控制器" name="后端api控制器"></a>
+### 后端API控制器
+基于微软官网的 Product 案例，新增对应的 CRUD 接口
+
+```cs
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Category { get; set; }
+    public decimal Price { get; set; }
+}
+
+[Route("api/[controller]/[action]")]
+[ApiController]
+public class ProductController : ControllerBase
+{
+    static IList<Product> products = new List<Product>()
+    {
+        new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = 1 },
+        new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = 3.75M },
+        new Product { Id = 3, Name = "Hammer", Category = "Hardware", Price = 16.99M }
+    };
+
+    [HttpGet]
+    public IList<Product> GetProducts(int? id)
+    {
+        if (id.HasValue)
+        {
+            return products.Where(t => t.Id == id.Value).ToList();
+        }
+        else
+        {
+            return products;
+        }
+    }
+
+    /// <summary>
+    /// [FromBody] 需要 content-type:application/json
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public bool AddProduct(Product entity)
+    {
+        // Id 值不允许重复
+        if (products.Count(t => t.Id == entity.Id) > 0)
+        {
+            return false;
+        }
+        products.Add(entity);
+        return true;
+    }
+
+    /// <summary>
+    /// [FromBody] 需要 content-type:application/json
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public bool UpdateProduct([FromBody]Product entity)
+    {
+        var updateEntity = products.FirstOrDefault(t => t.Id == entity.Id);
+        if (null != updateEntity)
+        {
+            updateEntity.Name = entity.Name;
+            updateEntity.Category = entity.Category;
+            updateEntity.Price = entity.Price;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    [HttpGet]
+    public bool RemoveProduct(int? id)
+    {
+        if (id.HasValue)
+        {
+            var prod = products.FirstOrDefault(t => t.Id == id.Value);
+            if (null == prod)
+            {
+                return false;
+            }
+            products.Remove(prod);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+```
+
+<a id="markdown-基于vue的前端axios交互" name="基于vue的前端axios交互"></a>
+### 基于Vue的前端Axios交互
+
+```html
+<body>
+    <div id="app">
+        <div>
+            <label>产品编号：</label>
+            <input type="text" v-model="newProduct.id" :disabled="isEdit">
+        </div>
+        <div>
+            <label>产品名称：</label>
+            <input type="text" v-model="newProduct.name">
+        </div>
+        <div>
+            <label>产品分类：</label>
+            <input type="text" v-model="newProduct.category">
+        </div>
+        <div>
+            <label>产品价格：</label>
+            <input type="number" v-model="newProduct.price">
+        </div>
+        <button @click="addProduct">新增</button>
+        <button @click="saveProduct">保存</button>
+        <hr>
+        <button @click="getProductList">显示产品</button>
+        <hr>
+        <ul>
+            <li v-for="(item,index) in products">
+                类别： {{item.category}}，名称：{{item.name}}
+                <button @click="bindProduct2View($event,item)">修改</button>
+                <button @click="removeProduct($event,item.id)">移除</button>
+            </li>
+        </ul>
+    </div>
+
+    <script src="../node_modules/vue/dist/vue.js"></script>
+    <script src="../node_modules/vue-router/dist/vue-router.js"></script>
+    <script src="../node_modules/axios/dist/axios.js"></script>
+
+    <script>
+        // 全局配置，设置基础 url
+        axios.defaults.baseURL = 'http://localhost:5000/api';
+
+        var vm = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    // 当前新增的产品信息
+                    newProduct: {
+                        id: null,
+                        name: '',
+                        category: '',
+                        price: null
+                    },
+                    products: [],
+                    isEdit: false
+                };
+            },
+            computed: {
+                // 经过处理的 product 对象，与后端类型统一，应该可以通过后端统一处理 TODO！
+                postProduct() {
+                    this.newProduct.id = parseInt(this.newProduct.id);
+                    this.newProduct.price = parseFloat(this.newProduct.price);
+                    return this.newProduct;
+                }
+            },
+            created() {
+                this.getProductList();
+            },
+            methods: {
+                addProduct() {
+                    this.isEdit = false;
+                    this.newProduct.id = null;
+                    this.newProduct.name = '';
+                    this.newProduct.category = '';
+                    this.newProduct.price = null;
+                },
+                getProductList(e) {
+                    axios.get('/product/GetProducts')
+                        .then(res => {
+                            this.products = res.data;
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                },
+                saveProduct() {
+                    let url = this.isEdit ? '/product/UpdateProduct' : '/product/AddProduct';
+
+                    if (this.newProduct.id) {
+                        axios.post(url, this.postProduct)
+                            .then(res => {
+                                this.getProductList();
+                                this.isEdit = true;
+                            })
+                            .catch(err => {
+                                console.error(err);
+                            })
+                    }
+                },
+                bindProduct2View(e, prod) {
+                    this.isEdit = true;
+                    this.newProduct = prod;
+                },
+                removeProduct(e, id) {
+                    axios.get(`/product/RemoveProduct?id=${id}`, null)
+                        .then(res => {
+                            this.getProductList();
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                }
+            }
+        })
+    </script>
+</body>
+```
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
