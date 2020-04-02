@@ -63,7 +63,10 @@
         - [async和await优势](#async和await优势)
         - [并发执行](#并发执行)
     - [Module 模块](#module-模块)
-        - [export和import](#export和import)
+        - [export](#export)
+        - [import](#import)
+        - [模块整体加载](#模块整体加载)
+        - [export default](#export-default)
 
 <!-- /TOC -->
 
@@ -2000,8 +2003,8 @@ import { stat, exists, readFile } from 'fs';
 
 这种加载称为“编译时加载”或者静态加载，即 ES6 可以在编译时就完成模块加载，效率要比 CommonJS 模块的加载方式高。
 
-<a id="markdown-export和import" name="export和import"></a>
-### export和import
+<a id="markdown-export" name="export"></a>
+### export
 `export` 命令用于规定模块的对外接口， `import` 命令用于输入其他模块提供的功能。
 
 一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。
@@ -2011,7 +2014,7 @@ import { stat, exists, readFile } from 'fs';
 下面是一个 【profile.js】 文件，里面使用 `export` 命令输出变量。
 
 ```js
-// profile.js
+// 
 export var firstName = 'Michael';
 export var lastName = 'Jackson';
 export var year = 1958;
@@ -2031,13 +2034,117 @@ export { firstName, lastName, year };
 
 优先推荐这种方式进行输出，在脚本底部一目了然。
 
-还可以导出函数
+还可以导出函数、对象等等
 
 ```js
 export function multiply(x, y) {
   return x * y;
 };
 ```
+
+ `export` 命令可以出现在模块的任何位置，只要处于模块顶层就可以。
+
+如果处于块级作用域内，就会报错，下一节的 `import` 命令也是如此。
+
+<a id="markdown-import" name="import"></a>
+### import
+使用export命令定义了模块的对外接口以后，其他 JS 文件就可以通过import命令加载这个模块。
+
+在 【main.js】中通过 `import` 命令导入【profile.js】文件中的变量。
+
+```js
+// main.js
+import { firstName, lastName, year } from './profile.js';
+```
+
+上面代码的 `import` 命令，用于加载 【profile.js】 文件，并从中输入变量。
+
+ `import` 命令接受一对大括号，里面指定要从其他模块导入的变量名。
+
+大括号里面的变量名，必须与被导入模块（profile.js）对外接口的名称相同。
+
+如果想为输入的变量重新取一个名字，import命令要使用as关键字，将输入的变量重命名。
+
+```js
+import { lastName as surname } from './profile.js';
+```
+
+<a id="markdown-模块整体加载" name="模块整体加载"></a>
+### 模块整体加载
+除了指定加载某个输出值，还可以使用整体加载，即用星号（*）指定一个对象，所有输出值都加载在这个对象上面。
+
+下面是一个circle.js文件，它输出两个方法area和circumference。
+
+```js
+export function area(radius) {
+  return Math.PI * radius * radius;
+}
+
+export function circumference(radius) {
+  return 2 * Math.PI * radius;
+}
+```
+
+现在，在【main.js】中加载这个模块。
+
+```js
+import { area, circumference } from './circle';
+
+console.log('圆面积：' + area(4));
+console.log('圆周长：' + circumference(14));
+```
+
+可以通过 `*` 加载模块中所有输出变量，如下：
+
+```js
+import * as circle from './circle';
+
+console.log('圆面积：' + circle.area(4));
+console.log('圆周长：' + circle.circumference(14));
+```
+
+<a id="markdown-export-default" name="export-default"></a>
+### export default
+从前面的例子可以看出，使用import命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载。
+
+但是，用户肯定希望快速上手，未必愿意阅读文档，去了解模块有哪些属性和方法。
+
+`export default` 命令用于指定模块的默认输出。
+
+显然，一个模块只能有一个默认输出，因此 `export default` 命令只能使用一次。
+
+所以，import命令后面才不用加大括号，因为只可能唯一对应 `export default` 命令。
+
+本质上，export default就是输出一个叫做default的变量或方法，然后系统允许你为它取任意名字。
+
+```js
+// modules.js
+function add(x, y) {
+  return x * y;
+}
+export {add as default};
+// 等同于
+// export default add;
+
+// app.js
+import { default as foo } from 'modules';
+// 等同于
+// import foo from 'modules';
+```
+
+有了export default命令，输入模块时就非常直观了，以输入 lodash 模块为例。
+
+```js
+import _ from 'lodash';
+```
+
+
+
+
+
+
+
+
 
 
 ---
