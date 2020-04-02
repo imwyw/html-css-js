@@ -106,13 +106,9 @@
                 },
                 // 已完成任务数目
                 doneCount() {
-                    let count = 0;
-                    this.taskList.forEach(t => {
-                        if (t.completed) {
-                            count++;
-                        }
-                    });
-                    return count;
+                    return this.taskList.filter(t => {
+                        return t.completed;
+                    }).length;
                 },
                 // 未完成任务数目
                 unDoneCount() {
@@ -123,6 +119,7 @@
                     if (this.currentShowType == 'all') {
                         return this.taskList;
                     } else {
+                        // 对数组的 filter 筛选仍然返回的是数组的引用，并非深度拷贝
                         if (this.currentShowType == 'done') {
                             return this.taskList.filter(t => t.completed);
                         } else {
