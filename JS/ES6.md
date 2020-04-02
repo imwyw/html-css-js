@@ -62,7 +62,7 @@
         - [await 到底在等啥](#await-到底在等啥)
         - [async和await优势](#async和await优势)
         - [并发执行](#并发执行)
-    - [Module 模块](#module-模块)
+    - [Module模块](#module模块)
         - [export](#export)
         - [import](#import)
         - [模块整体加载](#模块整体加载)
@@ -1971,8 +1971,8 @@ testAsync();
 
 比如上面的Promise.all等待所有Promise返回响应，如果直接await就会报错！
 
-<a id="markdown-module-模块" name="module-模块"></a>
-## Module 模块
+<a id="markdown-module模块" name="module模块"></a>
+## Module模块
 ES6 在语言标准的层面上，实现了模块功能，而且实现得相当简单，完全可以取代 CommonJS 和 AMD 规范，成为浏览器和服务器通用的模块解决方案。
 
 ES6 模块的设计思想是尽量的静态化，使得编译时就能确定模块的依赖关系，以及输入和输出的变量。

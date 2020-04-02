@@ -98,6 +98,47 @@ Entrypoint main = bundle.js
 
 <a id="markdown-module-模块使用" name="module-模块使用"></a>
 ### module 模块使用
+参见 ES6 章节 [Module](../JS/ES6.md#module模块) 部分描述
+
+利用模块化思想，将【main.js】文件中 `students` 数组转移至单独的JS文件中。
+
+项目根路径下新建文件 【test_data.js】，内容如下：
+
+```js
+var students = [
+    { name: 'jack', age: 12 },
+    { name: 'lucy', age: 22 },
+    { name: 'tony', age: 32 },
+];
+
+// 导出变量 students，可以直接使用 import xxx from './test_data.js' 命令导入
+export default students;
+```
+
+修改【main.js】文件内容如下：
+
+```js
+// 模块引入的用法
+import Vue from './node_modules/vue/dist/vue.js'
+
+// 使用 import 命令导入
+import students from './test_data'
+
+var vm = new Vue({
+    el: '#app',
+    data() {
+        return {
+            // 修改数据源来自 其他 js 文件
+            students
+        }
+    }
+})
+```
+
+重新执行打包命令 `npx webpack main.js -o bundle.js`
+
+以上，简单实现了模块化应用及打包的操作。
+
 
 
 
