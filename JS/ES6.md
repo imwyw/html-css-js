@@ -2002,13 +2002,13 @@ import { stat, exists, readFile } from 'fs';
 
 <a id="markdown-export和import" name="export和import"></a>
 ### export和import
-export命令用于规定模块的对外接口，import命令用于输入其他模块提供的功能。
+`export` 命令用于规定模块的对外接口， `import` 命令用于输入其他模块提供的功能。
 
 一个模块就是一个独立的文件。该文件内部的所有变量，外部无法获取。
 
-如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。
+如果你希望外部能够读取模块内部的某个变量，就必须使用 `export` 关键字输出该变量。
 
-下面是一个 JS 文件，里面使用export命令输出变量。
+下面是一个 【profile.js】 文件，里面使用 `export` 命令输出变量。
 
 ```js
 // profile.js
@@ -2017,8 +2017,27 @@ export var lastName = 'Jackson';
 export var year = 1958;
 ```
 
+ES6 将其视为一个模块，里面用 `export` 命令对外部输出了三个变量。
 
+上面导出的方式也可以改写为：
 
+```js
+var firstName = 'Michael';
+var lastName = 'Jackson';
+var year = 1958;
+
+export { firstName, lastName, year };
+```
+
+优先推荐这种方式进行输出，在脚本底部一目了然。
+
+还可以导出函数
+
+```js
+export function multiply(x, y) {
+  return x * y;
+};
+```
 
 
 ---

@@ -583,17 +583,6 @@ public class ProductController : ControllerBase
 </body>
 ```
 
-
-
-
-
-
-
-
-
-
-
-
 ---
 
 以上为常见配置，其余配置详见中文文档
