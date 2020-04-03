@@ -5,6 +5,8 @@
         - [项目初始化](#项目初始化)
         - [命令打包](#命令打包)
         - [module 模块使用](#module-模块使用)
+        - [build脚本](#build脚本)
+        - [webpack.config](#webpackconfig)
 
 <!-- /TOC -->
 
@@ -138,6 +140,67 @@ var vm = new Vue({
 重新执行打包命令 `npx webpack main.js -o bundle.js`
 
 以上，简单实现了模块化应用及打包的操作。
+
+<a id="markdown-build脚本" name="build脚本"></a>
+### build脚本
+考虑到用 CLI 这种方式来运行本地的 webpack 不是特别方便，我们可以设置一个快捷方式。
+
+在【package.json】配置中新增 `scripts` 配置 `"build":"npx webpack main.js -o bundle.js"` ，如下：
+
+```js
+{
+  "name": "04.VueWebpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build":"npx webpack main.js -o bundle.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "vue": "^2.6.11",
+    "vue-router": "^3.1.6",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
+  }
+}
+```
+
+现在，我们在cmd命令窗口中可以使用命令 `npm run build` 来执行上面的 `build` 配置。
+
+注意，此处的 `build` 名称可以修改，和 `npm run build` 保持一致即可。
+
+<a id="markdown-webpackconfig" name="webpackconfig"></a>
+### webpack.config
+
+在实际应用中，关于打包会有很多配置，我们创建一个默认的配置文件 【webpack.config.js】，内容如下：
+
+```js
+// 可以理解成 webpack 实现的 export 模块
+module.exports = {
+    // 入口文件
+    entry: './main.js',
+    output: {
+        // 默认在 根路径下【dist】文件夹为基准
+        filename: './bundle.js'
+    },
+    // 自动监听文件变化，并打包 bundle.js
+    watch: true,
+}
+```
+
+并修改配置文件【package.json】中的【scripts/build】配置: `"build": "webpack"` 
+
+等同于配置： `npx webpack --config webpack.config.js` ，意思是应用配置文件进行打包。
+
+
+
+
+
 
 
 
