@@ -57,7 +57,7 @@
 ## 安装初体验
 使用 npm 命令初始化，然后安装 vue 框架：
 
-```shell
+```bash
 # 初始化项目，生成 package.json 文件
 npm init
 # 以开发模式安装 Vue 框架

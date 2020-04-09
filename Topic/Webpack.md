@@ -77,7 +77,7 @@ node的安装分为全局模式和本地模式。
 
 在全局模式下，Node包会被安装到Node的安装目录下的 `node_modules` 下。
 
-```shell
+```bash
 # 全局安装
 npm install moduleName -g
 ```
@@ -86,7 +86,7 @@ npm install moduleName -g
 
 `-D` 或 `--save-dev` 安装包信息将加入到 devDependencies（开发阶段的依赖），所以开发阶段一般使用它
 
-```shell
+```bash
 # 当前项目中安装
 npm install webpack webpack-cli --save-dev
 # 等同于
@@ -97,13 +97,13 @@ npm install webpack webpack-cli -D
 ### 安装webpack
 
 要安装最新版本或特定版本，请运行以下命令之一：
-```shell
+```bash
 npm install --save-dev webpack
 npm install --save-dev webpack@<version>
 ```
 
 如果你使用 webpack 4+ 版本，你还需要安装 CLI。（推荐！！！）
-```shell
+```bash
 npm install webpack webpack-cli --save-dev
 ```
 
@@ -116,7 +116,7 @@ npm install webpack webpack-cli --save-dev
 
 然后在本地安装 webpack，接着安装 webpack-cli（此工具用于在命令行中运行 webpack）
 
-```shell
+```bash
 mkdir webpack-demo && cd webpack-demo
 npm init -y
 npm install webpack webpack-cli --save-dev
@@ -129,7 +129,7 @@ npm install lodash --save-dev # Lodash是一个一致性、模块化、高性能
 
 --save和--save-dev可以省掉你手动修改package.json文件的步骤。
 
-```shell
+```bash
 npm install moduleName # 安装模块到项目目录下
 npm install moduleName --save # --save 的意思是将模块安装到项目目录下，并在package文件的dependencies节点写入依赖。
 npm install moduleName --save-dev # --save-dev 的意思是将模块安装到项目目录下，并在package文件的devDependencies节点写入依赖。
@@ -345,7 +345,7 @@ module.exports = {
 ### 加载CSS
 为了从 JavaScript 模块中 import 一个 CSS 文件，你需要在 module 配置中 安装并添加 style-loader 和 css-loader：
 
-```shell
+```bash
 npm install --save-dev style-loader css-loader
 ```
 

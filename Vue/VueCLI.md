@@ -7,6 +7,8 @@
         - [module 模块使用](#module-模块使用)
         - [build脚本](#build脚本)
         - [webpack.config](#webpackconfig)
+    - [VueCLI环境](#vuecli环境)
+        - [安装](#安装)
 
 <!-- /TOC -->
 
@@ -21,7 +23,7 @@
 <a id="markdown-项目初始化" name="项目初始化"></a>
 ### 项目初始化
 
-```shell
+```bash
 # 默认配置项目
 npm init -y
 # 安装 Webpack 
@@ -196,6 +198,99 @@ module.exports = {
 并修改配置文件【package.json】中的【scripts/build】配置: `"build": "webpack"` 
 
 等同于配置： `npx webpack --config webpack.config.js` ，意思是应用配置文件进行打包。
+
+<a id="markdown-vuecli环境" name="vuecli环境"></a>
+## VueCLI环境
+
+介绍见官网：
+
+> https://cli.vuejs.org/zh/guide/
+
+首先需要进行全局安装，否则后面初始化项目步骤会有问题。
+
+```bash
+npm i -g @vue/cli
+```
+
+<a id="markdown-安装" name="安装"></a>
+### 安装
+ `VueCLI` 工具准备和 `vue-init` 命令桥接工具
+
+```bash
+# 全局安装 vue cli 脚手架
+npm i -g @vue/cli -D
+
+# 查看版本，显示版本号：@vue/cli 4.x.x
+vue --version
+
+# 为了兼容 低版本的vue init 功能，全局安装一个桥接工具
+npm i -g @vue/cli-init
+
+```
+
+使用 `VueCLI` 进行项目创建，此处用的是低版本的初始化方式。
+
+在上一级目录中执行以下命令，会以 `webpack` 作为模板生成一个【vuecli_demo】名称的项目。
+
+```bash
+# 初始化项目
+vue init webpack vuecli_demo
+```
+
+关于项目的配置如下：
+
+```bash
+? Project name vuecli_demo
+? Project description A Vue.js project
+? Author
+? Vue build standalone      
+? Install vue-router? Yes
+? Use ESLint to lint your code? No
+? Set up unit tests No
+? Setup e2e tests with Nightwatch? No
+? Should we run `npm install` for you after the project has been created? (recommended) npm
+
+   vue-cli · Generated "vuecli_demo".
+
+
+# Installing project dependencies ...
+# ========================
+```
+
+等待安装完成即可。
+
+此处有坑，项目名称【Project name】，可以自己指定，也可直接回车，但必须小写。
+
+按照括号中默认名字（注意这里的名字不能有大写字母，如果有会报错Sorry, name can no longer contain capital letters）
+
+【VueCLI】初始化项目的目录结构如下所示：
+
+目录/文件 | 说明
+------|---
+build | 项目构建(webpack)相关代码
+config | 配置目录，包括端口号等。我们初学可以使用默认的。
+node_modules | npm 加载的项目依赖模块
+static | 静态资源目录，如图片、字体等。
+test | 初始测试目录，可删除
+.xxxx文件 | 这些是一些配置文件，包括语法配置，git配置等。
+index.html | 首页入口文件，你可以添加一些 meta 信息或统计代码啥的。
+package.json | 项目配置文件。
+README.md | 项目的说明文档，markdown 格式
+
+其中 src 是开发代码部分：
+* assets: 放置一些图片，如logo等。
+* components: 目录里面放了一个组件文件，可以不用。
+* App.vue: 项目入口文件，我们也可以直接将组件写这里，而不使用 components 目录。
+* main.js: 项目的核心文件。
+
+在本地主机上启动web服务，默认端口号是8080，在【config/index.js】的 `port` 配置可以修改端口号
+
+```bash
+npm run dev
+```
+
+在浏览器中即可通过 `http://localhost:8080` 访问默认主页
+
 
 
 
