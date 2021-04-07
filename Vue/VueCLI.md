@@ -1,14 +1,17 @@
 <!-- TOC -->
 
 - [Vue CLI](#vue-cli)
-    - [Webpack环境初体验](#webpack环境初体验)
-        - [项目初始化](#项目初始化)
-        - [命令打包](#命令打包)
-        - [module 模块使用](#module-模块使用)
-        - [build脚本](#build脚本)
-        - [webpack.config](#webpackconfig)
-    - [VueCLI环境](#vuecli环境)
-        - [安装](#安装)
+  - [Webpack环境初体验](#webpack环境初体验)
+    - [项目初始化](#项目初始化)
+    - [命令打包](#命令打包)
+    - [module 模块使用](#module-模块使用)
+    - [build脚本](#build脚本)
+    - [webpack.config](#webpackconfig)
+  - [VueCLI环境](#vuecli环境)
+    - [安装](#安装)
+    - [vue-ui](#vue-ui)
+    - [vue-cli-service](#vue-cli-service)
+    - [nginx部署](#nginx部署)
 
 <!-- /TOC -->
 
@@ -291,12 +294,52 @@ npm run dev
 
 在浏览器中即可通过 `http://localhost:8080` 访问默认主页
 
+<a id="markdown-vue-ui" name="vue-ui"></a>
+### vue-ui
+你也可以通过 vue ui 命令以图形化界面创建和管理项目：
 
+```
+vue ui
+```
 
+<a id="markdown-vue-cli-service" name="vue-cli-service"></a>
+### vue-cli-service
 
+```
+# 构建
+npm vue-cli-service build
+# 热加载应用
+npm vue-cli-service serve
+# 审查
+npm vue-cli-service inspect
+```
 
+<a id="markdown-nginx部署" name="nginx部署"></a>
+### nginx部署
 
+`npm run build`生成打包文件，将dist拷贝至服务器：【/opt/kg-ui/】目录
 
+修改【/etc/nginx/nginx.conf】，在http节点中新增配置如下：
+
+```
+http  {
+    server {
+      listen  9000; # 配置端口
+      server_name  localhost; # 配置访问地址
+      location / {
+        root  /opt/kg-ui/dist;
+        index  index.html  index.html;
+        charset  utf-8;
+      }
+    }
+}
+```
+
+执行nginx命令重新加载配置文件
+
+```shell
+nginx -s reload
+```
 
 
 
