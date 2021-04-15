@@ -21,6 +21,8 @@
     - [内联框架iframe](#内联框架iframe)
   - [其他](#其他)
     - [相对路径](#相对路径)
+  - [练习](#练习)
+    - [表格](#表格)
 
 <!-- /TOC -->
 <a id="markdown-html标签和语义化" name="html标签和语义化"></a>
@@ -441,3 +443,12 @@ iframe 元素会创建包含另外一个文档的内联框架（即行内框架�
 
 ![](../assets/HTML/relative_path.png)
 
+<a id="markdown-练习" name="练习"></a>
+## 练习
+
+<a id="markdown-表格" name="表格"></a>
+### 表格
+
+表格跨行和跨列的应用，及单元格中嵌套其他标签。完成下图样式的表格设计：
+
+![](./task/table-demo.png)
