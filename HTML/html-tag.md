@@ -1,10 +1,9 @@
 <!-- TOC -->
 
-- [语义化](#语义化)
-    - [什么是语义化](#什么是语义化)
-    - [好处](#好处)
-- [HTML TAG（标签）](#html-tag标签)
-    - [标签tag](#标签tag)
+- [HTML标签和语义化](#html标签和语义化)
+  - [什么是语义化](#什么是语义化)
+  - [好处](#好处)
+  - [HTML TAG（标签）](#html-tag标签)
     - [元素element](#元素element)
     - [标题h1-h6](#标题h1-h6)
     - [段落p/换行br/空格nbsp](#段落p换行br空格nbsp)
@@ -16,16 +15,17 @@
     - [超链接a](#超链接a)
     - [图像img](#图像img)
     - [表格table](#表格table)
-        - [跨行跨列的表格](#跨行跨列的表格)
+      - [跨行跨列的表格](#跨行跨列的表格)
     - [表单form](#表单form)
     - [input标签](#input标签)
     - [内联框架iframe](#内联框架iframe)
-- [其他](#其他)
+  - [其他](#其他)
     - [相对路径](#相对路径)
 
 <!-- /TOC -->
-<a id="markdown-语义化" name="语义化"></a>
-# 语义化
+<a id="markdown-html标签和语义化" name="html标签和语义化"></a>
+# HTML标签和语义化
+
 <a id="markdown-什么是语义化" name="什么是语义化"></a>
 ## 什么是语义化
 在HTML5出现前，满屏的div，不利于结构化。
@@ -40,20 +40,18 @@
 - 便于团队开发和维护
 
 <a id="markdown-html-tag标签" name="html-tag标签"></a>
-# HTML TAG（标签）
-<a id="markdown-标签tag" name="标签tag"></a>
-## 标签tag
+## HTML TAG（标签）
 - HTML 标签是由尖括号包围的关键词，比如 `<html>`
 - HTML 标签通常是成对出现的，比如 `<body> 和 </body>`
 - 标签对中的第一个标签是开始标签，第二个标签是结束标签
 - 开始和结束标签也被称为开放标签和闭合标签
 
 <a id="markdown-元素element" name="元素element"></a>
-## 元素element
+### 元素element
 从开始标签到结束标签的所有代码。
 
 <a id="markdown-标题h1-h6" name="标题h1-h6"></a>
-## 标题h1-h6
+### 标题h1-h6
 ``` html
 <h1>大娃</h1>
 <h2>二娃</h2>
@@ -64,7 +62,7 @@
 ```
 
 <a id="markdown-段落p换行br空格nbsp" name="段落p换行br空格nbsp"></a>
-## 段落p/换行br/空格nbsp
+### 段落p/换行br/空格nbsp
 ``` html
 <p>我是段落一，段落前后会自动添加"空行"</p>
 <p>我是段落二</p>
@@ -87,7 +85,7 @@
 HTML 代码中的所有连续的空行（换行）也被显示为一个空格。
 
 <a id="markdown-元素标注label输入控件input" name="元素标注label输入控件input"></a>
-## 元素标注label/输入控件input
+### 元素标注label/输入控件input
 `<label>` 标签为 input 元素定义标注（标记）。
 
 label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用户改进了可用性。
@@ -110,7 +108,7 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-多行文本textarea" name="多行文本textarea"></a>
-## 多行文本textarea
+### 多行文本textarea
 `<textarea>` 标签定义多行的文本输入控件。
 
 文本区中可容纳无限数量的文本，其中的文本的默认字体是等宽字体（通常是 Courier）。
@@ -125,7 +123,8 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-无序ul有序ol列表" name="无序ul有序ol列表"></a>
-## 无序ul/有序ol列表
+### 无序ul/有序ol列表
+
 ``` html
 <p>你爱吃什么水果？</p>
 <ul>
@@ -142,7 +141,8 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-选择列表select" name="选择列表select"></a>
-## 选择列表select
+### 选择列表select
+
 ``` html
 <p>你爱吃什么水果？</p>
 <select name="Fruit" id="selFruit">
@@ -155,7 +155,7 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-div" name="div"></a>
-## div
+### div
 可定义文档中的分区或节（division/section）。
 
 标签可以把文档分割为独立的、不同的部分。它可以用作严格的组织工具，并且不使用任何格式与其关联。
@@ -189,7 +189,7 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-超链接a" name="超链接a"></a>
-## 超链接a
+### 超链接a
 标签定义超链接，用于从一张页面链接到另一张页面。
 
 属性href：链接的目标。
@@ -227,7 +227,7 @@ label 元素不会向用户呈现任何特殊效果。不过，它为鼠标用�
 ```
 
 <a id="markdown-图像img" name="图像img"></a>
-## 图像img
+### 图像img
 两个必要属性：src和alt
 
 属性|值|描述
@@ -236,7 +236,7 @@ src|url|规定显示图像的 URL。
 alt|text|规定图像的替代文本。
 
 <a id="markdown-表格table" name="表格table"></a>
-## 表格table
+### 表格table
 - table 表格以`<table>`开始，`</table>`结束
 - tr 表格行，几对tr代表有几行
 - th 表格表头
@@ -349,7 +349,7 @@ table tr td,th{
 ```
 
 <a id="markdown-跨行跨列的表格" name="跨行跨列的表格"></a>
-### 跨行跨列的表格
+#### 跨行跨列的表格
 ```html
 <h4>横跨两列的单元格：</h4>
 <table border="1">
@@ -383,7 +383,7 @@ table tr td,th{
 ```
 
 <a id="markdown-表单form" name="表单form"></a>
-## 表单form
+### 表单form
 当我们在网页上进行登录、注册、查询、保存等操作的时候，需要将用户填入的数据传到服务器端，
 
 这时候需要用到html表单form，借助form我们可以把浏览器端数据传到服务器端并实现页面的刷新。
@@ -407,7 +407,7 @@ table tr td,th{
 ```
 
 <a id="markdown-input标签" name="input标签"></a>
-## input标签
+### input标签
 
 属性 | 值 | 描述
 ---|---|---
@@ -425,7 +425,7 @@ value  |  value | 元素的值
 
 
 <a id="markdown-内联框架iframe" name="内联框架iframe"></a>
-## 内联框架iframe
+### 内联框架iframe
 iframe 元素会创建包含另外一个文档的内联框架（即行内框架）。
 
 常用属性：
@@ -435,9 +435,9 @@ iframe 元素会创建包含另外一个文档的内联框架（即行内框架�
 
 
 <a id="markdown-其他" name="其他"></a>
-# 其他
+## 其他
 <a id="markdown-相对路径" name="相对路径"></a>
-## 相对路径
+### 相对路径
 
 ![](../assets/HTML/relative_path.png)
 
