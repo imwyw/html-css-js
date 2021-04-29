@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS布局</title>
+
+    <style>
+        header {
+            background-color: #FFFFCC;
+            height: 100px;
+            text-align: center;
+        }
+
+        h1 {
+            padding: 20px;
+            margin: 0;
+        }
+
+        aside {
+            background-color: #CCCCFF;
+            float: left;
+            width: 15%;
+            height: 400px;
+        }
+
+        aside ul>li {
+            list-style: none;
+        }
+
+        aside ul>li a:hover {
+            background-color: aquamarine;
+        }
+
+        main {
+            background-color: #CCCCCC;
+            float: left;
+            width: 85%;
+            height: 400px;
+        }
+
+        footer {
+            text-align: center;
+            clear: both;
+            height: 50px;
+            background-color: #CCFFFF;
+        }
+
+        h5 {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>====这里是header标题====</h1>
+    </header>
+    <aside>
+        <ul>
+            <li><a href="http://www.baidu.com">baidu</a></li>
+            <li><a href="http://www.bing.com">bing </a></li>
+            <li><a href="http://www.sougou.com">sougou</a></li>
+        </ul>
+    </aside>
+    <main>
+        <div>
+            头条新闻：
+            <ul>
+                <li><a href="">新闻1</a></li>
+                <li><a href="">新闻2</a></li>
+                <li><a href="">新闻3</a></li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <h5>
+            cheryholding copyright
+        </h5>
+    </footer>
+</body>
+
+</html>
