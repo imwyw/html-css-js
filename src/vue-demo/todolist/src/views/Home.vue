@@ -14,9 +14,9 @@ import NavFooter from '@/components/footer/NavFooter'
 export default {
   name: 'Home',
   components: { NavHeader, NavMain, NavFooter },
-  setup() {}
+  setup(props, ctx) {
+  }
 }
-NavFooter
 </script>
 
 <style lang="scss" scoped></style>
