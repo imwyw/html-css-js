@@ -1,7 +1,9 @@
 <template>
-  <div>
+  <div class="container">
     <div>已完成 {{ completed }} / 全部 {{ all }}</div>
-    <div v-if="completed > 0">清除已完成</div>
+    <div v-if="completed > 0" class="btn">
+      <button @click="clear">清除已完成</button>
+    </div>
   </div>
 </template>
 
@@ -13,9 +15,17 @@ export default {
   setup() {
     let completed = ref(1)
     let all = ref(3)
-    return { completed, all }
+    let clear = () => {
+      console.log('clear')
+    }
+    return { completed, all, clear }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.container {
+  display: flex;
+  align-items: center;
+}
+</style>
